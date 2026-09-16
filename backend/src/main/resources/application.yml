@@ -1,0 +1,25 @@
+spring:
+
+  application:
+    name: medtheg-prod
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/medtheg_prod
+    username: medtheg
+    password: medtheg_dev_password
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
