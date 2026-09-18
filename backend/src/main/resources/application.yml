@@ -1,7 +1,6 @@
 spring:
-
   application:
-    name: medtheg-prod
+    name: backend
 
   datasource:
     url: jdbc:postgresql://localhost:5432/medtheg_prod
@@ -12,6 +11,9 @@ spring:
     hibernate:
       ddl-auto: validate
     open-in-view: false
+
+  flyway:
+    baseline-on-migrate: true
 
   data:
     redis:
