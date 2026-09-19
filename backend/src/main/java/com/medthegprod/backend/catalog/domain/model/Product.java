@@ -38,6 +38,11 @@ public class Product {
                     "Only draft products can be published");
         }
 
+        if (categories.isEmpty()) {
+            throw new IllegalStateException(
+                    "Product must have at least one category before publishing");
+        }
+
         status = ProductStatus.PUBLISHED;
     }
 

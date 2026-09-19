@@ -382,7 +382,7 @@ class ProductControllerIntegrationTest {
                                                 .content(requestBody))
                                 .andExpect(status().isCreated());
         }
-        
+
         @Test
         void shouldSearchProductsByTitle() throws Exception {
                 createProduct(
@@ -404,7 +404,7 @@ class ProductControllerIntegrationTest {
                                 .andExpect(jsonPath("$.content[0].title")
                                                 .value("Dark Trap Beat"));
         }
-        
+
         @Test
         void shouldSearchProductsByDescription() throws Exception {
                 String firstProduct = """
@@ -446,7 +446,7 @@ class ProductControllerIntegrationTest {
                                 .andExpect(jsonPath("$.content[0].title")
                                                 .value("Trap Beat"));
         }
-        
+
         @Test
         void shouldSearchWithTypeAndCategoryFilters() throws Exception {
                 createProduct(
@@ -474,7 +474,7 @@ class ProductControllerIntegrationTest {
                                 .andExpect(jsonPath("$.content[0].title")
                                                 .value("Dark Trap Beat"));
         }
-        
+
         @Test
         void shouldSearchCaseInsensitively() throws Exception {
                 createProduct(
@@ -539,7 +539,7 @@ class ProductControllerIntegrationTest {
                                 .andExpect(jsonPath("$.price").value(29.99))
                                 .andExpect(jsonPath("$.status").value("DRAFT"));
         }
-        
+
         @Test
         void shouldReturn404WhenUpdatingUnknownProduct() throws Exception {
                 String requestBody = """
@@ -560,4 +560,128 @@ class ProductControllerIntegrationTest {
                                 .andExpect(jsonPath("$.error")
                                                 .value("PRODUCT_NOT_FOUND"));
         }
+
+        @Test
+        void shouldPublishProduct() throws Exception {
+                String createRequest = """
+                                {
+                                    "title": "Dark Trap Beat",
+                                    "description": "Dark trap instrumental",
+                                    "type": "BEAT",
+                                    "price": 19.99,
+                                    "categories": ["BEATS"]
+                                }
+                                """;
+
+                String response = mockMvc.perform(
+                                post("/api/products")
+                                                .contentType(MediaType.APPLICATION_JSON)
+                                                .content(createRequest))
+                                .andExpect(status().isCreated())
+                                .andReturn()
+                                .getResponse()
+                                .getContentAsString();
+
+                ObjectMapper objectMapper = new ObjectMapper();
+
+                String productId = objectMapper
+                                .readTree(response)
+                                .get("id")
+                                .asText();
+
+                mockMvc.perform(
+                                post("/api/products/" + productId + "/publish"))
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$.id").value(productId))
+                                .andExpect(jsonPath("$.title").value("Dark Trap Beat"))
+                                .andExpect(jsonPath("$.type").value("BEAT"))
+                                .andExpect(jsonPath("$.price").value(19.99))
+                                .andExpect(jsonPath("$.status").value("PUBLISHED"));
+        }
+
+        @Test
+        void shouldRejectPublishingProductWithoutCategory() throws Exception {
+                String createRequest = """
+                                {
+                                    "title": "Dark Trap Beat",
+                                    "description": "Dark trap instrumental",
+                                    "type": "BEAT",
+                                    "price": 19.99
+                                }
+                                """;
+
+                String response = mockMvc.perform(
+                                post("/api/products")
+                                                .contentType(MediaType.APPLICATION_JSON)
+                                                .content(createRequest))
+                                .andExpect(status().isCreated())
+                                .andReturn()
+                                .getResponse()
+                                .getContentAsString();
+
+                ObjectMapper objectMapper = new ObjectMapper();
+
+                String productId = objectMapper
+                                .readTree(response)
+                                .get("id")
+                                .asText();
+
+                mockMvc.perform(
+                                post("/api/products/" + productId + "/publish"))
+                                .andExpect(status().isBadRequest())
+                                .andExpect(jsonPath("$.error").value("INVALID_PRODUCT_STATE"));
+        }
+
+        @Test
+        void shouldRejectPublishingAlreadyPublishedProduct() throws Exception {
+                String createRequest = """
+                                {
+                                    "title": "Dark Trap Beat",
+                                    "description": "Dark trap instrumental",
+                                    "type": "BEAT",
+                                    "price": 19.99,
+                                    "categories": ["BEATS"]
+                                }
+                                """;
+
+                String response = mockMvc.perform(
+                                post("/api/products")
+                                                .contentType(MediaType.APPLICATION_JSON)
+                                                .content(createRequest))
+                                .andExpect(status().isCreated())
+                                .andReturn()
+                                .getResponse()
+                                .getContentAsString();
+
+                ObjectMapper objectMapper = new ObjectMapper();
+
+                String productId = objectMapper
+                                .readTree(response)
+                                .get("id")
+                                .asText();
+
+                // First publication succeeds
+                mockMvc.perform(
+                                post("/api/products/" + productId + "/publish"))
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$.status").value("PUBLISHED"));
+
+                // Second publication is rejected
+                mockMvc.perform(
+                                post("/api/products/" + productId + "/publish"))
+                                .andExpect(status().isBadRequest())
+                                .andExpect(jsonPath("$.error").value("INVALID_PRODUCT_STATE"));
+        }
+
+        @Test
+        void shouldReturn404WhenPublishingUnknownProduct() throws Exception {
+                UUID unknownProductId = UUID.randomUUID();
+
+                mockMvc.perform(
+                                post("/api/products/" + unknownProductId + "/publish"))
+                                .andExpect(status().isNotFound())
+                                .andExpect(jsonPath("$.error")
+                                                .value("PRODUCT_NOT_FOUND"));
+        }
+
 }

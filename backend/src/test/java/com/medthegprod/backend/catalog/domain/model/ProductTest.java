@@ -20,6 +20,7 @@ class ProductTest {
     @Test
     void draftProductCanBePublished() {
         Product product = createProduct();
+        product.addCategory(ProductCategory.BEATS);
 
         product.publish();
 
@@ -29,6 +30,7 @@ class ProductTest {
     @Test
     void publishedProductCanBeArchived() {
         Product product = createProduct();
+        product.addCategory(ProductCategory.BEATS);
 
         product.publish();
         product.archive();

@@ -144,6 +144,7 @@ class UpdateProductServiceTest {
                 ProductType.BEAT,
                 Money.eur(new BigDecimal("19.99")));
 
+        product.addCategory(ProductCategory.BEATS);
         product.publish();
 
         when(productRepository.findById(productId))

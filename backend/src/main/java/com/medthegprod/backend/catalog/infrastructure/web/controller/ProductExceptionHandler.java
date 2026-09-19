@@ -26,4 +26,13 @@ public class ProductExceptionHandler {
                 "error", "INVALID_REQUEST",
                 "message", exception.getMessage());
     }
+
+    @ExceptionHandler(IllegalStateException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public Map<String, String> handleIllegalState(
+            IllegalStateException exception) {
+        return Map.of(
+                "error", "INVALID_PRODUCT_STATE",
+                "message", exception.getMessage());
+    }
 }

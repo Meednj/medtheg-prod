@@ -3,6 +3,7 @@ package com.medthegprod.backend.catalog.infrastructure.web.controller;
 import com.medthegprod.backend.catalog.application.usecase.CreateProductUseCase;
 import com.medthegprod.backend.catalog.application.usecase.GetProductUseCase;
 import com.medthegprod.backend.catalog.application.usecase.ListProductsUseCase;
+import com.medthegprod.backend.catalog.application.usecase.PublishProductUseCase;
 import com.medthegprod.backend.catalog.application.usecase.UpdateProductUseCase;
 import com.medthegprod.backend.catalog.domain.model.Product;
 import com.medthegprod.backend.catalog.domain.model.ProductId;
@@ -28,16 +29,19 @@ public class ProductController {
         private final GetProductUseCase getProductUseCase;
         private final ListProductsUseCase listProductsUseCase;
         private final UpdateProductUseCase updateProductUseCase;
+        private final PublishProductUseCase publishProductUseCase;
 
         public ProductController(
                         CreateProductUseCase createProductUseCase,
                         GetProductUseCase getProductUseCase,
                         ListProductsUseCase listProductsUseCase,
-                        UpdateProductUseCase updateProductUseCase) {
+                        UpdateProductUseCase updateProductUseCase,
+                        PublishProductUseCase publishProductUseCase) {
                 this.createProductUseCase = createProductUseCase;
                 this.getProductUseCase = getProductUseCase;
                 this.listProductsUseCase = listProductsUseCase;
                 this.updateProductUseCase = updateProductUseCase;
+                this.publishProductUseCase = publishProductUseCase;
         }
 
         @PostMapping
@@ -112,6 +116,15 @@ public class ProductController {
                                 request.type(),
                                 request.price(),
                                 request.categories());
+
+                return ProductWebMapper.toResponse(product);
+        }
+
+        @PostMapping("/{id}/publish")
+        public ProductResponse publishProduct(
+                        @PathVariable UUID id) {
+                Product product = publishProductUseCase.execute(
+                                new ProductId(id));
 
                 return ProductWebMapper.toResponse(product);
         }
