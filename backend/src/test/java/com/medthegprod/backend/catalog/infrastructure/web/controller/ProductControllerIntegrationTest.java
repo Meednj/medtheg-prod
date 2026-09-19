@@ -381,4 +381,110 @@ class ProductControllerIntegrationTest {
                                                 .content(requestBody))
                                 .andExpect(status().isCreated());
         }
+        
+        @Test
+        void shouldSearchProductsByTitle() throws Exception {
+                createProduct(
+                                "Dark Trap Beat",
+                                "BEAT",
+                                19.99,
+                                "BEATS");
+
+                createProduct(
+                                "Melodic Piano Beat",
+                                "BEAT",
+                                24.99,
+                                "BEATS");
+
+                mockMvc.perform(
+                                get("/api/products?search=dark"))
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$.content.length()").value(1))
+                                .andExpect(jsonPath("$.content[0].title")
+                                                .value("Dark Trap Beat"));
+        }
+        
+        @Test
+        void shouldSearchProductsByDescription() throws Exception {
+                String firstProduct = """
+                                {
+                                    "title": "Trap Beat",
+                                    "description": "Dark cinematic atmosphere",
+                                    "type": "BEAT",
+                                    "price": 19.99,
+                                    "categories": ["BEATS"]
+                                }
+                                """;
+
+                String secondProduct = """
+                                {
+                                    "title": "Piano Beat",
+                                    "description": "Smooth melodic atmosphere",
+                                    "type": "BEAT",
+                                    "price": 24.99,
+                                    "categories": ["BEATS"]
+                                }
+                                """;
+
+                mockMvc.perform(
+                                post("/api/products")
+                                                .contentType(MediaType.APPLICATION_JSON)
+                                                .content(firstProduct))
+                                .andExpect(status().isCreated());
+
+                mockMvc.perform(
+                                post("/api/products")
+                                                .contentType(MediaType.APPLICATION_JSON)
+                                                .content(secondProduct))
+                                .andExpect(status().isCreated());
+
+                mockMvc.perform(
+                                get("/api/products?search=cinematic"))
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$.content.length()").value(1))
+                                .andExpect(jsonPath("$.content[0].title")
+                                                .value("Trap Beat"));
+        }
+        
+        @Test
+        void shouldSearchWithTypeAndCategoryFilters() throws Exception {
+                createProduct(
+                                "Dark Trap Beat",
+                                "BEAT",
+                                19.99,
+                                "BEATS");
+
+                createProduct(
+                                "Dark Java Course",
+                                "COURSE",
+                                49.99,
+                                "COURSES");
+
+                createProduct(
+                                "Melodic Beat",
+                                "BEAT",
+                                24.99,
+                                "BEATS");
+
+                mockMvc.perform(
+                                get("/api/products?search=dark&type=BEAT&category=BEATS"))
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$.content.length()").value(1))
+                                .andExpect(jsonPath("$.content[0].title")
+                                                .value("Dark Trap Beat"));
+        }
+        
+        @Test
+        void shouldSearchCaseInsensitively() throws Exception {
+                createProduct(
+                                "Dark Trap Beat",
+                                "BEAT",
+                                19.99,
+                                "BEATS");
+
+                mockMvc.perform(
+                                get("/api/products?search=DARK"))
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$.content.length()").value(1));
+        }
 }

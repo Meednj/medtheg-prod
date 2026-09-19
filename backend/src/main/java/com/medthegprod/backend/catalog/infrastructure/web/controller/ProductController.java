@@ -18,79 +18,81 @@ import com.medthegprod.backend.catalog.application.query.ProductSearchQuery;
 import com.medthegprod.backend.catalog.domain.model.ProductCategory;
 import com.medthegprod.backend.catalog.domain.model.ProductType;
 
-
 @RestController
 @RequestMapping("/api/products")
 public class ProductController {
 
-    private final CreateProductUseCase createProductUseCase;
-    private final GetProductUseCase getProductUseCase;
-    private final ListProductsUseCase listProductsUseCase;
+        private final CreateProductUseCase createProductUseCase;
+        private final GetProductUseCase getProductUseCase;
+        private final ListProductsUseCase listProductsUseCase;
 
-    public ProductController(
-            CreateProductUseCase createProductUseCase,
-            GetProductUseCase getProductUseCase,
-            ListProductsUseCase listProductsUseCase) {
-        this.createProductUseCase = createProductUseCase;
-        this.getProductUseCase = getProductUseCase;
-        this.listProductsUseCase = listProductsUseCase;
-    }
+        public ProductController(
+                        CreateProductUseCase createProductUseCase,
+                        GetProductUseCase getProductUseCase,
+                        ListProductsUseCase listProductsUseCase) {
+                this.createProductUseCase = createProductUseCase;
+                this.getProductUseCase = getProductUseCase;
+                this.listProductsUseCase = listProductsUseCase;
+        }
 
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public ProductResponse createProduct(
-            @Valid @RequestBody CreateProductRequest request) {
-        Product product = createProductUseCase.execute(
-                request.title(),
-                request.description(),
-                request.type(),
-                request.price(),
-                request.categories());
+        @PostMapping
+        @ResponseStatus(HttpStatus.CREATED)
+        public ProductResponse createProduct(
+                        @Valid @RequestBody CreateProductRequest request) {
+                Product product = createProductUseCase.execute(
+                                request.title(),
+                                request.description(),
+                                request.type(),
+                                request.price(),
+                                request.categories());
 
-        return ProductWebMapper.toResponse(product);
-    }
+                return ProductWebMapper.toResponse(product);
+        }
 
-    @GetMapping("/{id}")
-    public ProductResponse getProduct(
-            @PathVariable UUID id) {
-        Product product = getProductUseCase.execute(
-                new ProductId(id));
+        @GetMapping("/{id}")
+        public ProductResponse getProduct(
+                        @PathVariable UUID id) {
+                Product product = getProductUseCase.execute(
+                                new ProductId(id));
 
-        return ProductWebMapper.toResponse(product);
-    }
+                return ProductWebMapper.toResponse(product);
+        }
 
-    @GetMapping
-    public ProductPageResponse getProducts(
+        @GetMapping
+        public ProductPageResponse getProducts(
 
-            @RequestParam(defaultValue = "0") int page,
+                        @RequestParam(defaultValue = "0") int page,
 
-            @RequestParam(defaultValue = "12") int size,
+                        @RequestParam(defaultValue = "12") int size,
 
-            @RequestParam(required = false) ProductType type,
+                        @RequestParam(required = false) ProductType type,
 
-            @RequestParam(required = false) ProductCategory category,
+                        @RequestParam(required = false) ProductCategory category,
 
-            @RequestParam(defaultValue = "createdAt") String sortBy,
+                        @RequestParam(required = false) String search,
 
-            @RequestParam(defaultValue = "desc") String direction) {
+                        @RequestParam(defaultValue = "createdAt") String sortBy,
 
-        ProductPage result = listProductsUseCase.execute(
-                new ProductSearchQuery(
-                        page,
-                        size,
-                        type,
-                        category,
-                        sortBy,
-                        direction));
+                        @RequestParam(defaultValue = "desc") String direction) {
 
-        return new ProductPageResponse(
-                result.content()
-                        .stream()
-                        .map(ProductWebMapper::toResponse)
-                        .toList(),
-                result.page(),
-                result.size(),
-                result.totalElements(),
-                result.totalPages());
-    }
+                ProductPage result = listProductsUseCase.execute(
+                                new ProductSearchQuery(
+                                                page,
+                                                size,
+                                                type,
+                                                category,
+                                                search,
+                                                sortBy,
+                                                direction));
+
+                return new ProductPageResponse(
+                                result.content()
+                                                .stream()
+                                                .map(ProductWebMapper::toResponse)
+                                                .toList(),
+                                result.page(),
+                                result.size(),
+                                result.totalElements(),
+                                result.totalPages());
+        }
 }

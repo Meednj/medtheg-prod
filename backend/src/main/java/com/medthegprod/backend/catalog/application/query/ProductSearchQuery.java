@@ -8,6 +8,7 @@ public record ProductSearchQuery(
         int size,
         ProductType type,
         ProductCategory category,
+        String search,
         String sortBy,
         String direction) {
 }

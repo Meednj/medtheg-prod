@@ -26,6 +26,10 @@ public class ListProductsService implements ListProductsUseCase {
             throw new IllegalArgumentException(
                     "Page size must be between 1 and 100");
         }
+        if (query.search() != null && query.search().length() > 100) {
+            throw new IllegalArgumentException(
+                    "Search query cannot exceed 100 characters");
+        }
 
         return productRepository.findAll(query);
     }

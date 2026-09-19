@@ -21,4 +21,19 @@ public final class ProductSpecifications {
                 category,
                 root.get("categories"));
     }
+
+    public static Specification<ProductEntity> containsText(
+            String search) {
+        return (root, query, criteriaBuilder) -> {
+            String pattern = "%" + search.trim().toLowerCase() + "%";
+
+            return criteriaBuilder.or(
+                    criteriaBuilder.like(
+                            criteriaBuilder.lower(root.get("title")),
+                            pattern),
+                    criteriaBuilder.like(
+                            criteriaBuilder.lower(root.get("description")),
+                            pattern));
+        };
+    }
 }

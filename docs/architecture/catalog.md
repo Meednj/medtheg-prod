@@ -6,11 +6,11 @@ The Catalog module manages the products available in the MedTheG production plat
 
 The current catalog supports:
 
-* Beats
-* Sample packs
-* Drum kits
-* Courses
-* Bundles
+- Beats
+- Sample packs
+- Drum kits
+- Courses
+- Bundles
 
 The module is implemented inside the modular monolith using a Hexagonal Architecture approach.
 
@@ -20,14 +20,14 @@ The main aggregate root is `Product`.
 
 A product contains:
 
-* `ProductId`
-* title
-* description
-* `ProductType`
-* price represented by the `Money` value object
-* `ProductStatus`
-* digital assets
-* product categories
+- `ProductId`
+- title
+- description
+- `ProductType`
+- price represented by the `Money` value object
+- `ProductStatus`
+- digital assets
+- product categories
 
 ### Product Types
 
@@ -107,8 +107,8 @@ The application layer exposes use cases through interfaces.
 
 Current use cases:
 
-* `CreateProductUseCase`
-* `GetProductUseCase`
+- `CreateProductUseCase`
+- `GetProductUseCase`
 
 Application services coordinate domain objects and repository ports without depending directly on PostgreSQL or Spring Data.
 
@@ -148,15 +148,15 @@ V1__create_products_table.sql
 
 The `products` table contains:
 
-* id
-* title
-* description
-* type
-* price
-* currency
-* status
-* created_at
-* updated_at
+- id
+- title
+- description
+- type
+- price
+- currency
+- status
+- created_at
+- updated_at
 
 Hibernate is configured with:
 
@@ -218,15 +218,15 @@ The catalog is tested at multiple levels.
 
 The `ProductTest` suite verifies:
 
-* product creation
-* lifecycle transitions
-* invalid lifecycle transitions
-* price validation
-* title validation
-* digital asset management
-* duplicate asset prevention
-* category management
-* domain reconstitution
+- product creation
+- lifecycle transitions
+- invalid lifecycle transitions
+- price validation
+- title validation
+- digital asset management
+- duplicate asset prevention
+- category management
+- domain reconstitution
 
 ### Application tests
 
@@ -240,16 +240,16 @@ The `ProductTest` suite verifies:
 
 `ProductControllerIntegrationTest` uses:
 
-* Spring Boot
-* MockMvc
-* Testcontainers PostgreSQL
+- Spring Boot
+- MockMvc
+- Testcontainers PostgreSQL
 
 It verifies:
 
-* product creation
-* validation failures
-* product retrieval
-* missing-product handling
+- product creation
+- validation failures
+- product retrieval
+- missing-product handling
 
 ## Architectural Rules
 
@@ -261,3 +261,12 @@ The Catalog module follows these rules:
 4. Domain models are mapped to persistence entities.
 5. Database schema changes are managed with Flyway.
 6. External infrastructure such as PostgreSQL, object storage, payment providers and Redis must remain behind adapters or ports where appropriate.
+
+## Catalog querying supports:
+
+- Pagination
+- Sorting
+- Product type filtering
+- Product category filtering
+- Text search across title and description
+- Composable filters using JPA Specifications

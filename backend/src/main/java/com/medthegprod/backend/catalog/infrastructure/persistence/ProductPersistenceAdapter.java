@@ -78,6 +78,14 @@ public class ProductPersistenceAdapter implements ProductRepository {
                     : specification.and(categorySpecification);
         }
 
+        if (query.search() != null && !query.search().isBlank()) {
+            Specification<ProductEntity> searchSpecification = ProductSpecifications.containsText(query.search());
+
+            specification = specification == null
+                    ? searchSpecification
+                    : specification.and(searchSpecification);
+        }
+
         Page<ProductEntity> result = productJpaRepository.findAll(
                 specification,
                 pageable);
