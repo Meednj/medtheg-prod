@@ -1,6 +1,8 @@
 package com.medthegprod.backend.catalog.infrastructure.web.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.medthegprod.backend.catalog.infrastructure.persistence.repository.ProductJpaRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -33,6 +35,7 @@ class ProductControllerIntegrationTest {
         @DynamicPropertySource
         static void configureDatabase(
                         DynamicPropertyRegistry registry) {
+
                 registry.add(
                                 "spring.datasource.url",
                                 postgres::getJdbcUrl);
@@ -49,7 +52,13 @@ class ProductControllerIntegrationTest {
         @Autowired
         private MockMvc mockMvc;
 
+        @Autowired
+        private ProductJpaRepository productJpaRepository;
 
+        @BeforeEach
+        void cleanDatabase() {
+                productJpaRepository.deleteAll();
+        }
 
         @Test
         void shouldCreateProduct() throws Exception {
@@ -69,12 +78,18 @@ class ProductControllerIntegrationTest {
                                                 .content(requestBody))
                                 .andExpect(status().isCreated())
                                 .andExpect(jsonPath("$.id").exists())
-                                .andExpect(jsonPath("$.title").value("Dark Trap Beat"))
-                                .andExpect(jsonPath("$.description").value("Dark trap instrumental"))
-                                .andExpect(jsonPath("$.type").value("BEAT"))
-                                .andExpect(jsonPath("$.price").value(19.99))
-                                .andExpect(jsonPath("$.currency").value("EUR"))
-                                .andExpect(jsonPath("$.status").value("DRAFT"));
+                                .andExpect(jsonPath("$.title")
+                                                .value("Dark Trap Beat"))
+                                .andExpect(jsonPath("$.description")
+                                                .value("Dark trap instrumental"))
+                                .andExpect(jsonPath("$.type")
+                                                .value("BEAT"))
+                                .andExpect(jsonPath("$.price")
+                                                .value(19.99))
+                                .andExpect(jsonPath("$.currency")
+                                                .value("EUR"))
+                                .andExpect(jsonPath("$.status")
+                                                .value("DRAFT"));
         }
 
         @Test
@@ -147,10 +162,14 @@ class ProductControllerIntegrationTest {
                                 get("/api/products/" + productId))
                                 .andExpect(status().isOk())
                                 .andExpect(jsonPath("$.id").value(productId))
-                                .andExpect(jsonPath("$.title").value("Dark Trap Beat"))
-                                .andExpect(jsonPath("$.type").value("BEAT"))
-                                .andExpect(jsonPath("$.price").value(19.99))
-                                .andExpect(jsonPath("$.status").value("DRAFT"));
+                                .andExpect(jsonPath("$.title")
+                                                .value("Dark Trap Beat"))
+                                .andExpect(jsonPath("$.type")
+                                                .value("BEAT"))
+                                .andExpect(jsonPath("$.price")
+                                                .value(19.99))
+                                .andExpect(jsonPath("$.status")
+                                                .value("DRAFT"));
         }
 
         @Test
@@ -161,6 +180,205 @@ class ProductControllerIntegrationTest {
                 mockMvc.perform(
                                 get("/api/products/" + unknownProductId))
                                 .andExpect(status().isNotFound())
-                                .andExpect(jsonPath("$.error").value("PRODUCT_NOT_FOUND"));
+                                .andExpect(jsonPath("$.error")
+                                                .value("PRODUCT_NOT_FOUND"));
+        }
+
+        @Test
+        void shouldListProductsWithPagination() throws Exception {
+
+                String firstProduct = """
+                                {
+                                    "title": "Beat One",
+                                    "description": "First beat",
+                                    "type": "BEAT",
+                                    "price": 19.99
+                                }
+                                """;
+
+                String secondProduct = """
+                                {
+                                    "title": "Beat Two",
+                                    "description": "Second beat",
+                                    "type": "BEAT",
+                                    "price": 24.99
+                                }
+                                """;
+
+                mockMvc.perform(
+                                post("/api/products")
+                                                .contentType(MediaType.APPLICATION_JSON)
+                                                .content(firstProduct))
+                                .andExpect(status().isCreated());
+
+                mockMvc.perform(
+                                post("/api/products")
+                                                .contentType(MediaType.APPLICATION_JSON)
+                                                .content(secondProduct))
+                                .andExpect(status().isCreated());
+
+                mockMvc.perform(
+                                get("/api/products?page=0&size=1"))
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$.content").isArray())
+                                .andExpect(jsonPath("$.content.length()").value(1))
+                                .andExpect(jsonPath("$.page").value(0))
+                                .andExpect(jsonPath("$.size").value(1))
+                                .andExpect(jsonPath("$.totalElements").value(2))
+                                .andExpect(jsonPath("$.totalPages").value(2));
+        }
+
+        @Test
+        void shouldRejectNegativePage() throws Exception {
+
+                mockMvc.perform(
+                                get("/api/products?page=-1&size=12"))
+                                .andExpect(status().isBadRequest())
+                                .andExpect(jsonPath("$.error")
+                                                .value("INVALID_REQUEST"));
+        }
+
+        @Test
+        void shouldRejectInvalidPageSize() throws Exception {
+
+                mockMvc.perform(
+                                get("/api/products?page=0&size=0"))
+                                .andExpect(status().isBadRequest())
+                                .andExpect(jsonPath("$.error")
+                                                .value("INVALID_REQUEST"));
+        }
+
+        @Test
+        void shouldSortProductsByPriceAscending() throws Exception {
+
+                createProduct(
+                                "Expensive Beat",
+                                "BEAT",
+                                30.00,
+                                "BEATS");
+
+                createProduct(
+                                "Cheap Beat",
+                                "BEAT",
+                                10.00,
+                                "BEATS");
+
+                mockMvc.perform(
+                                get("/api/products?sortBy=price&direction=asc"))
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$.content.length()").value(2))
+                                .andExpect(jsonPath("$.content[0].title")
+                                                .value("Cheap Beat"))
+                                .andExpect(jsonPath("$.content[1].title")
+                                                .value("Expensive Beat"));
+        }
+
+        @Test
+        void shouldCreateProductWithCategory() throws Exception {
+
+                String requestBody = """
+                                {
+                                    "title": "Dark Trap Beat",
+                                    "description": "Dark trap instrumental",
+                                    "type": "BEAT",
+                                    "price": 19.99,
+                                    "categories": ["BEATS"]
+                                }
+                                """;
+
+                mockMvc.perform(
+                                post("/api/products")
+                                                .contentType(MediaType.APPLICATION_JSON)
+                                                .content(requestBody))
+                                .andExpect(status().isCreated());
+        }
+
+        @Test
+        void shouldFilterProductsByCategory() throws Exception {
+
+                createProduct(
+                                "Dark Trap Beat",
+                                "BEAT",
+                                19.99,
+                                "BEATS");
+
+                createProduct(
+                                "Melodic Beat",
+                                "BEAT",
+                                24.99,
+                                "BEATS");
+
+                createProduct(
+                                "Java Course",
+                                "COURSE",
+                                49.99,
+                                "COURSES");
+
+                mockMvc.perform(
+                                get("/api/products?category=BEATS"))
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$.content.length()").value(2))
+                                .andExpect(jsonPath("$.content[0].title")
+                                                .value("Melodic Beat"))
+                                .andExpect(jsonPath("$.content[1].title")
+                                                .value("Dark Trap Beat"));
+        }
+
+        @Test
+        void shouldFilterProductsByTypeAndCategory() throws Exception {
+
+                createProduct(
+                                "Dark Trap Beat",
+                                "BEAT",
+                                19.99,
+                                "BEATS");
+
+                createProduct(
+                                "Java Course",
+                                "COURSE",
+                                49.99,
+                                "COURSES");
+
+                createProduct(
+                                "Trap Kit",
+                                "DRUM_KIT",
+                                29.99,
+                                "KITS");
+
+                mockMvc.perform(
+                                get("/api/products?type=BEAT&category=BEATS"))
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$.content.length()").value(1))
+                                .andExpect(jsonPath("$.content[0].title")
+                                                .value("Dark Trap Beat"))
+                                .andExpect(jsonPath("$.content[0].type")
+                                                .value("BEAT"));
+        }
+
+        private void createProduct(
+                        String title,
+                        String type,
+                        double price,
+                        String category) throws Exception {
+
+                String requestBody = """
+                                {
+                                    "title": "%s",
+                                    "description": "Test product",
+                                    "type": "%s",
+                                    "price": %s,
+                                    "categories": ["%s"]
+                                }
+                                """.formatted(
+                                title,
+                                type,
+                                price,
+                                category);
+
+                mockMvc.perform(
+                                post("/api/products")
+                                                .contentType(MediaType.APPLICATION_JSON)
+                                                .content(requestBody))
+                                .andExpect(status().isCreated());
         }
 }

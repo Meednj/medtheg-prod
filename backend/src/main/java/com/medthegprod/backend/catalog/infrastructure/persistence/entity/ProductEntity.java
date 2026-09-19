@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -33,6 +35,12 @@ public class ProductEntity {
     @Column(nullable = false)
     private ProductStatusEntity status;
 
+    @ElementCollection(targetClass = ProductCategoryEntity.class)
+    @CollectionTable(name = "product_categories", joinColumns = @JoinColumn(name = "product_id"))
+    @Enumerated(EnumType.STRING)
+    @Column(name = "category", nullable = false)
+    private Set<ProductCategoryEntity> categories = new HashSet<>();
+
     @Column(name = "created_at", nullable = false)
     private OffsetDateTime createdAt;
 
@@ -40,7 +48,7 @@ public class ProductEntity {
     private OffsetDateTime updatedAt;
 
     protected ProductEntity() {
-        // Required by JPA
+
     }
 
     public ProductEntity(
@@ -98,5 +106,9 @@ public class ProductEntity {
 
     public OffsetDateTime getUpdatedAt() {
         return updatedAt;
+    }
+
+    public Set<ProductCategoryEntity> getCategories() {
+        return categories;
     }
 }

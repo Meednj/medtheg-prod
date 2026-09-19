@@ -17,4 +17,13 @@ public class ProductExceptionHandler {
                 "error", "PRODUCT_NOT_FOUND",
                 "message", exception.getMessage());
     }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public Map<String, String> handleIllegalArgument(
+            IllegalArgumentException exception) {
+        return Map.of(
+                "error", "INVALID_REQUEST",
+                "message", exception.getMessage());
+    }
 }

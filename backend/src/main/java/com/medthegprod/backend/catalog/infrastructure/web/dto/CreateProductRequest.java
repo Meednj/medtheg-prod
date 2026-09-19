@@ -4,16 +4,19 @@ import com.medthegprod.backend.catalog.domain.model.ProductType;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import com.medthegprod.backend.catalog.domain.model.ProductCategory;
 
+import java.util.Set;
 import java.math.BigDecimal;
 
 public record CreateProductRequest(
+                @NotBlank String title,
 
-        @NotBlank String title,
+                String description,
 
-        String description,
+                @NotNull ProductType type,
 
-        @NotNull ProductType type,
+                @NotNull @DecimalMin(value = "0.00") BigDecimal price,
 
-        @NotNull @DecimalMin(value = "0.00") BigDecimal price) {
+                Set<ProductCategory> categories) {
 }

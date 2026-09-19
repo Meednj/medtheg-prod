@@ -7,8 +7,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 class CreateProductServiceTest {
@@ -33,7 +35,8 @@ class CreateProductServiceTest {
                 "Dark Trap Beat",
                 "Dark trap instrumental",
                 ProductType.BEAT,
-                new BigDecimal("19.99"));
+                new BigDecimal("19.99"),
+                Set.of());
 
         assertNotNull(result);
         assertEquals("Dark Trap Beat", result.getTitle());
