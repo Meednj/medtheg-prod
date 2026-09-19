@@ -3,12 +3,14 @@ package com.medthegprod.backend.catalog.infrastructure.web.controller;
 import com.medthegprod.backend.catalog.application.usecase.CreateProductUseCase;
 import com.medthegprod.backend.catalog.application.usecase.GetProductUseCase;
 import com.medthegprod.backend.catalog.application.usecase.ListProductsUseCase;
+import com.medthegprod.backend.catalog.application.usecase.UpdateProductUseCase;
 import com.medthegprod.backend.catalog.domain.model.Product;
 import com.medthegprod.backend.catalog.domain.model.ProductId;
 import com.medthegprod.backend.catalog.domain.repository.ProductPage;
 import com.medthegprod.backend.catalog.infrastructure.web.dto.CreateProductRequest;
 import com.medthegprod.backend.catalog.infrastructure.web.dto.ProductPageResponse;
 import com.medthegprod.backend.catalog.infrastructure.web.dto.ProductResponse;
+import com.medthegprod.backend.catalog.infrastructure.web.dto.UpdateProductRequest;
 import com.medthegprod.backend.catalog.infrastructure.web.mapper.ProductWebMapper;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -25,14 +27,17 @@ public class ProductController {
         private final CreateProductUseCase createProductUseCase;
         private final GetProductUseCase getProductUseCase;
         private final ListProductsUseCase listProductsUseCase;
+        private final UpdateProductUseCase updateProductUseCase;
 
         public ProductController(
                         CreateProductUseCase createProductUseCase,
                         GetProductUseCase getProductUseCase,
-                        ListProductsUseCase listProductsUseCase) {
+                        ListProductsUseCase listProductsUseCase,
+                        UpdateProductUseCase updateProductUseCase) {
                 this.createProductUseCase = createProductUseCase;
                 this.getProductUseCase = getProductUseCase;
                 this.listProductsUseCase = listProductsUseCase;
+                this.updateProductUseCase = updateProductUseCase;
         }
 
         @PostMapping
@@ -94,5 +99,20 @@ public class ProductController {
                                 result.size(),
                                 result.totalElements(),
                                 result.totalPages());
+        }
+
+        @PutMapping("/{id}")
+        public ProductResponse updateProduct(
+                        @PathVariable UUID id,
+                        @Valid @RequestBody UpdateProductRequest request) {
+                Product product = updateProductUseCase.execute(
+                                new ProductId(id),
+                                request.title(),
+                                request.description(),
+                                request.type(),
+                                request.price(),
+                                request.categories());
+
+                return ProductWebMapper.toResponse(product);
         }
 }

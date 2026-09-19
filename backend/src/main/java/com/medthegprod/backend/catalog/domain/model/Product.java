@@ -127,6 +127,10 @@ public class Product {
         return product;
     }
 
+    public void clearCategories() {
+        categories.clear();
+    }
+
     public Set<ProductCategory> getCategories() {
         return Collections.unmodifiableSet(categories);
     }

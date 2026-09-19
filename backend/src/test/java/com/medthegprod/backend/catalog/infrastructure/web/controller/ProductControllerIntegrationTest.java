@@ -20,6 +20,7 @@ import java.util.UUID;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 
 @Testcontainers
 @SpringBootTest
@@ -486,5 +487,77 @@ class ProductControllerIntegrationTest {
                                 get("/api/products?search=DARK"))
                                 .andExpect(status().isOk())
                                 .andExpect(jsonPath("$.content.length()").value(1));
+        }
+
+        @Test
+        void shouldUpdateProduct() throws Exception {
+                String createRequest = """
+                                {
+                                    "title": "Old Beat",
+                                    "description": "Old description",
+                                    "type": "BEAT",
+                                    "price": 19.99,
+                                    "categories": ["BEATS"]
+                                }
+                                """;
+
+                String response = mockMvc.perform(
+                                post("/api/products")
+                                                .contentType(MediaType.APPLICATION_JSON)
+                                                .content(createRequest))
+                                .andExpect(status().isCreated())
+                                .andReturn()
+                                .getResponse()
+                                .getContentAsString();
+
+                ObjectMapper objectMapper = new ObjectMapper();
+
+                String productId = objectMapper
+                                .readTree(response)
+                                .get("id")
+                                .asText();
+
+                String updateRequest = """
+                                {
+                                    "title": "New Beat",
+                                    "description": "Updated description",
+                                    "type": "BEAT",
+                                    "price": 29.99,
+                                    "categories": ["BEATS"]
+                                }
+                                """;
+
+                mockMvc.perform(
+                                put("/api/products/" + productId)
+                                                .contentType(MediaType.APPLICATION_JSON)
+                                                .content(updateRequest))
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$.id").value(productId))
+                                .andExpect(jsonPath("$.title").value("New Beat"))
+                                .andExpect(jsonPath("$.description")
+                                                .value("Updated description"))
+                                .andExpect(jsonPath("$.price").value(29.99))
+                                .andExpect(jsonPath("$.status").value("DRAFT"));
+        }
+        
+        @Test
+        void shouldReturn404WhenUpdatingUnknownProduct() throws Exception {
+                String requestBody = """
+                                {
+                                    "title": "Updated Beat",
+                                    "description": "Updated",
+                                    "type": "BEAT",
+                                    "price": 29.99,
+                                    "categories": ["BEATS"]
+                                }
+                                """;
+
+                mockMvc.perform(
+                                put("/api/products/" + UUID.randomUUID())
+                                                .contentType(MediaType.APPLICATION_JSON)
+                                                .content(requestBody))
+                                .andExpect(status().isNotFound())
+                                .andExpect(jsonPath("$.error")
+                                                .value("PRODUCT_NOT_FOUND"));
         }
 }
