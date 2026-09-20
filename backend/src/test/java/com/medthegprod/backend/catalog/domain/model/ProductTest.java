@@ -176,4 +176,56 @@ class ProductTest {
                 ProductType.BEAT,
                 Money.eur(new BigDecimal("19.99")));
     }
+
+    @Test
+    void shouldAddAsset() {
+
+        Product product = createProduct();
+
+        DigitalAsset asset = new DigitalAsset(
+                AssetId.generate(),
+                DigitalAssetType.AUDIO_WAV,
+                "products/test/full.wav");
+
+        product.addAsset(asset);
+
+        assertEquals(1, product.getAssets().size());
+        assertEquals(
+                asset.getId(),
+                product.getAssets().getFirst().getId());
+    }
+
+    @Test
+    void shouldRejectDuplicateAsset() {
+
+        Product product = createProduct();
+
+        AssetId assetId = AssetId.generate();
+
+        DigitalAsset asset = new DigitalAsset(
+                assetId,
+                DigitalAssetType.AUDIO_WAV,
+                "products/test/full.wav");
+
+        product.addAsset(asset);
+
+        DigitalAsset duplicate = new DigitalAsset(
+                assetId,
+                DigitalAssetType.AUDIO_MP3,
+                "products/test/full.mp3");
+
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> product.addAsset(duplicate));
+    }
+
+    @Test
+    void shouldRejectRemovingUnknownAsset() {
+
+        Product product = createProduct();
+
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> product.removeAsset(AssetId.generate()));
+    }
 }
