@@ -98,7 +98,7 @@ public class Product {
 
         if (!removed) {
             throw new IllegalArgumentException(
-                    "Asset does not belong to this product");
+                    "Asset not found");
         }
     }
 

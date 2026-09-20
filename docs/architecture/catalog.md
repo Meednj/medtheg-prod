@@ -270,3 +270,203 @@ The Catalog module follows these rules:
 - Product category filtering
 - Text search across title and description
 - Composable filters using JPA Specifications
+
+## Digital Asset Management
+
+Products can contain one or more digital assets.
+
+A digital asset represents metadata about a file associated with a product. The
+Catalog domain does not store the actual file bytes.
+
+Each asset contains:
+
+- `AssetId`
+- `DigitalAssetType`
+- `storageKey`
+
+Supported asset types include:
+
+- `AUDIO_PREVIEW`
+- `AUDIO_MP3`
+- `AUDIO_WAV`
+- `STEMS`
+- `MIDI`
+- `PDF`
+- `VIDEO`
+- `OTHER`
+
+### Storage responsibility
+
+The Catalog module only stores the asset metadata and storage key.
+
+The actual file storage will be implemented later using an S3-compatible
+object-storage solution such as MinIO.
+
+The intended separation is:
+
+```text
+Product
+   |
+   └── DigitalAsset
+          |
+          ├── id
+          ├── type
+          └── storageKey
+
+
+```
+
+## 2. Add the REST API section
+
+Continue with:
+
+```markdown
+## REST API
+
+The Catalog module exposes the following endpoints.
+
+### Products
+
+| Method | Endpoint | Purpose |
+|---|---|---|
+| POST | `/api/products` | Create a product |
+| GET | `/api/products/{id}` | Get a product |
+| GET | `/api/products` | List/search products |
+| PUT | `/api/products/{id}` | Update a product |
+| POST | `/api/products/{id}/publish` | Publish a product |
+
+### Product assets
+
+| Method | Endpoint | Purpose |
+|---|---|---|
+| POST | `/api/products/{productId}/assets` | Add a digital asset |
+| DELETE | `/api/products/{productId}/assets/{assetId}` | Remove a digital asset |
+
+Asset creation currently accepts:
+
+```json
+{
+  "type": "AUDIO_WAV",
+  "storageKey": "products/{productId}/full.wav"
+}
+```
+
+
+---
+
+## 3. Add the testing section
+
+If you don't already have a complete testing section, add:
+
+```markdown
+## Testing
+
+The Catalog module is covered at multiple architectural levels.
+
+### Domain tests
+
+Domain tests verify business invariants such as:
+
+- Product lifecycle transitions
+- Publishing restrictions
+- Category requirements
+- Digital asset management
+- Duplicate asset prevention
+- Unknown asset removal
+
+### Application tests
+
+Application services are tested independently from the web layer and database.
+
+Covered use cases include:
+
+- Product creation
+- Product update
+- Product publishing
+- Product retrieval
+- Product listing
+- Digital asset addition
+- Digital asset removal
+
+### Persistence integration tests
+
+Persistence tests use PostgreSQL through Testcontainers.
+
+They verify:
+
+- Product persistence
+- Product retrieval
+- Categories
+- Digital assets
+- Search
+- Filtering
+- Sorting
+- Pagination
+- Asset removal
+
+### REST integration tests
+
+The REST API is tested using Spring Boot integration tests with MockMvc and
+Testcontainers PostgreSQL.
+
+The tests cover:
+
+- Request validation
+- Product CRUD operations
+- Pagination
+- Sorting
+- Search
+- Category filtering
+- Product publishing
+- Digital asset addition
+- Digital asset removal
+- Not-found scenarios
+- Invalid business-state scenarios
+
+The Catalog test suite currently passes with:
+
+```text
+61 tests
+0 failures
+```
+
+---
+
+# 4. Add the architecture rules
+
+This is useful for your portfolio because it explains **why** the code is structured this way.
+
+Add:
+
+```markdown
+## Architectural Rules
+
+The Catalog module follows these rules:
+
+1. Domain logic must not depend on Spring, JPA, PostgreSQL, or external
+   infrastructure.
+
+2. Application services orchestrate use cases but do not contain persistence
+   implementation details.
+
+3. Repository interfaces are defined as ports and implemented by infrastructure
+   adapters.
+
+4. REST DTOs are kept separate from domain models.
+
+5. JPA entities are kept separate from domain models.
+
+6. Domain objects enforce business invariants.
+
+7. Lazy relationships are preserved instead of using eager loading as a
+   workaround.
+
+8. Open Session in View is disabled.
+
+9. Database schema changes are managed through Flyway migrations.
+
+10. Digital asset metadata is stored in PostgreSQL while actual file bytes will
+    be handled by object storage.
+
+11. Catalog remains part of a modular monolith rather than being deployed as
+    an independent microservice.

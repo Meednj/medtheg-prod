@@ -1,13 +1,17 @@
 package com.medthegprod.backend.catalog.infrastructure.web.controller;
 
+import com.medthegprod.backend.catalog.application.usecase.AddProductAssetUseCase;
 import com.medthegprod.backend.catalog.application.usecase.CreateProductUseCase;
 import com.medthegprod.backend.catalog.application.usecase.GetProductUseCase;
 import com.medthegprod.backend.catalog.application.usecase.ListProductsUseCase;
 import com.medthegprod.backend.catalog.application.usecase.PublishProductUseCase;
+import com.medthegprod.backend.catalog.application.usecase.RemoveProductAssetUseCase;
 import com.medthegprod.backend.catalog.application.usecase.UpdateProductUseCase;
+import com.medthegprod.backend.catalog.domain.model.AssetId;
 import com.medthegprod.backend.catalog.domain.model.Product;
 import com.medthegprod.backend.catalog.domain.model.ProductId;
 import com.medthegprod.backend.catalog.domain.repository.ProductPage;
+import com.medthegprod.backend.catalog.infrastructure.web.dto.AddProductAssetRequest;
 import com.medthegprod.backend.catalog.infrastructure.web.dto.CreateProductRequest;
 import com.medthegprod.backend.catalog.infrastructure.web.dto.ProductPageResponse;
 import com.medthegprod.backend.catalog.infrastructure.web.dto.ProductResponse;
@@ -30,18 +34,24 @@ public class ProductController {
         private final ListProductsUseCase listProductsUseCase;
         private final UpdateProductUseCase updateProductUseCase;
         private final PublishProductUseCase publishProductUseCase;
+        private final AddProductAssetUseCase addProductAssetUseCase;
+        private final RemoveProductAssetUseCase removeProductAssetUseCase;
 
         public ProductController(
                         CreateProductUseCase createProductUseCase,
                         GetProductUseCase getProductUseCase,
                         ListProductsUseCase listProductsUseCase,
                         UpdateProductUseCase updateProductUseCase,
-                        PublishProductUseCase publishProductUseCase) {
+                        PublishProductUseCase publishProductUseCase,
+                        AddProductAssetUseCase addProductAssetUseCase,
+                        RemoveProductAssetUseCase removeProductAssetUseCase) {
                 this.createProductUseCase = createProductUseCase;
                 this.getProductUseCase = getProductUseCase;
                 this.listProductsUseCase = listProductsUseCase;
                 this.updateProductUseCase = updateProductUseCase;
                 this.publishProductUseCase = publishProductUseCase;
+                this.addProductAssetUseCase = addProductAssetUseCase;
+                this.removeProductAssetUseCase = removeProductAssetUseCase;
         }
 
         @PostMapping
@@ -125,6 +135,29 @@ public class ProductController {
                         @PathVariable UUID id) {
                 Product product = publishProductUseCase.execute(
                                 new ProductId(id));
+
+                return ProductWebMapper.toResponse(product);
+        }
+
+        @PostMapping("/{productId}/assets")
+        public ProductResponse addAsset(
+                        @PathVariable UUID productId,
+                        @Valid @RequestBody AddProductAssetRequest request) {
+                Product product = addProductAssetUseCase.execute(
+                                new ProductId(productId),
+                                request.type(),
+                                request.storageKey());
+
+                return ProductWebMapper.toResponse(product);
+        }
+
+        @DeleteMapping("/{productId}/assets/{assetId}")
+        public ProductResponse removeAsset(
+                        @PathVariable UUID productId,
+                        @PathVariable UUID assetId) {
+                Product product = removeProductAssetUseCase.execute(
+                                new ProductId(productId),
+                                new AssetId(assetId));
 
                 return ProductWebMapper.toResponse(product);
         }

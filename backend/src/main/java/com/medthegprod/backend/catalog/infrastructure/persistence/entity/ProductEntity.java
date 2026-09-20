@@ -1,5 +1,9 @@
 package com.medthegprod.backend.catalog.infrastructure.persistence.entity;
 
+import com.medthegprod.backend.catalog.infrastructure.persistence.entity.enums.ProductCategoryEntity;
+import com.medthegprod.backend.catalog.infrastructure.persistence.entity.enums.ProductStatusEntity;
+import com.medthegprod.backend.catalog.infrastructure.persistence.entity.enums.ProductTypeEntity;
+
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -35,20 +39,22 @@ public class ProductEntity {
     @Column(nullable = false)
     private ProductStatusEntity status;
 
-    @ElementCollection(targetClass = ProductCategoryEntity.class)
-    @CollectionTable(name = "product_categories", joinColumns = @JoinColumn(name = "product_id"))
-    @Enumerated(EnumType.STRING)
-    @Column(name = "category", nullable = false)
-    private Set<ProductCategoryEntity> categories = new HashSet<>();
-
     @Column(name = "created_at", nullable = false)
     private OffsetDateTime createdAt;
 
     @Column(name = "updated_at", nullable = false)
     private OffsetDateTime updatedAt;
 
-    protected ProductEntity() {
+    @ElementCollection(targetClass = ProductCategoryEntity.class)
+    @CollectionTable(name = "product_categories", joinColumns = @JoinColumn(name = "product_id"))
+    @Enumerated(EnumType.STRING)
+    @Column(name = "category", nullable = false)
+    private Set<ProductCategoryEntity> categories = new HashSet<>();
 
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<DigitalAssetEntity> assets = new HashSet<>();
+
+    protected ProductEntity() {
     }
 
     public ProductEntity(
@@ -110,5 +116,9 @@ public class ProductEntity {
 
     public Set<ProductCategoryEntity> getCategories() {
         return categories;
+    }
+
+    public Set<DigitalAssetEntity> getAssets() {
+        return assets;
     }
 }
