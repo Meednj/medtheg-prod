@@ -1,4 +1,4 @@
-package com.medthegprod.backend.sales.infrastructure.payment;
+package com.medthegprod.backend.sales.infrastructure.payment.stripe;
 
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;

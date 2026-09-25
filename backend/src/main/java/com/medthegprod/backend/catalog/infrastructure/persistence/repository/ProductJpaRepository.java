@@ -23,5 +23,7 @@ public interface ProductJpaRepository
     Optional<ProductEntity> findByIdWithCategories(
             @Param("id") UUID id
     );
+
+    Optional<ProductEntity> findByAssets_Id(UUID assetId);
     
 }

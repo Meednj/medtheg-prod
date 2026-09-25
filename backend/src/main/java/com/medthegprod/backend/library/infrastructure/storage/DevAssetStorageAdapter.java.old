@@ -1,0 +1,30 @@
+package com.medthegprod.backend.library.infrastructure.storage;
+
+import com.medthegprod.backend.library.application.port.AssetStorage;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Component;
+
+import java.io.InputStream;
+import java.time.Duration;
+
+@Component
+@Profile("dev")
+public class DevAssetStorageAdapter implements AssetStorage {
+
+    @Override
+    public void upload(
+            String storageKey,
+            InputStream inputStream,
+            long contentLength,
+            String contentType) {
+        // Development-only implementation.
+        // The real MinIO adapter handles persistent storage.
+    }
+
+    @Override
+    public String generateDownloadUrl(
+            String storageKey,
+            Duration expiration) {
+        return "http://localhost:9000/dev/" + storageKey;
+    }
+}

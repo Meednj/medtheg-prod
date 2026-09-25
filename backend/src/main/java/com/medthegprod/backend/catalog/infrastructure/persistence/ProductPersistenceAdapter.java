@@ -20,6 +20,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
 @Transactional(readOnly = true)
@@ -103,17 +104,23 @@ public class ProductPersistenceAdapter implements ProductRepository {
 
     private Sort buildSort(ProductSearchQuery query) {
 
-        String property = switch (query.sortBy()) {
-            case "price" -> "price";
-            case "title" -> "title";
-            case "createdAt" -> "createdAt";
-            default -> "createdAt";
-        };
+            String property = switch (query.sortBy()) {
+                    case "price" -> "price";
+                    case "title" -> "title";
+                    case "createdAt" -> "createdAt";
+                    default -> "createdAt";
+            };
 
-        Sort.Direction direction = "desc".equalsIgnoreCase(query.direction())
-                ? Sort.Direction.DESC
-                : Sort.Direction.ASC;
+            Sort.Direction direction = "desc".equalsIgnoreCase(query.direction())
+                            ? Sort.Direction.DESC
+                            : Sort.Direction.ASC;
 
-        return Sort.by(direction, property);
+            return Sort.by(direction, property);
+    }
+    
+    @Override
+    public Optional<Product> findByAssetId(UUID assetId) {
+            return productJpaRepository.findByAssets_Id(assetId)
+                            .map(ProductMapper::toDomain);
     }
 }

@@ -1,4 +1,4 @@
-package com.medthegprod.backend.sales.infrastructure.payment;
+package com.medthegprod.backend.sales.infrastructure.payment.stripe;
 
 import com.medthegprod.backend.sales.application.usecase.MarkOrderAsPaidUseCase;
 import com.medthegprod.backend.sales.domain.model.OrderId;
@@ -8,12 +8,16 @@ import com.stripe.model.checkout.Session;
 import com.stripe.net.Webhook;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/webhooks/stripe")
 public class StripeWebhookController {
+
+    private static final Logger logger = LoggerFactory.getLogger(StripeWebhookController.class);
 
     private final StripeProperties properties;
     private final MarkOrderAsPaidUseCase markOrderAsPaidUseCase;
@@ -40,8 +44,9 @@ public class StripeWebhookController {
             return ResponseEntity.badRequest().build();
         }
 
-        if ("checkout.session.completed".equals(event.getType())) {
-            handleCheckoutCompleted(event);
+        switch (event.getType()) {
+            case "checkout.session.completed" -> handleCheckoutCompleted(event);
+            default -> logger.debug("Ignoring unsupported Stripe event type: {}", event.getType());
         }
 
         return ResponseEntity.ok().build();

@@ -82,5 +82,9 @@ public class Payment {
     public String getCheckoutUrl() {
         return checkoutUrl;
     }
+    
+    public boolean isCompleted() {
+        return status == PaymentStatus.COMPLETED;
+    }
 
 }

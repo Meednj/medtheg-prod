@@ -50,6 +50,7 @@ public class PaymentPersistenceAdapter implements PaymentRepository {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<Payment> findByCheckoutSessionId(String checkoutSessionId) {
         return paymentJpaRepository
                 .findByCheckoutSessionId(checkoutSessionId)

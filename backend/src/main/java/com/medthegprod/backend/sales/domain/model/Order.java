@@ -127,4 +127,8 @@ public class Order {
     public OffsetDateTime getPaidAt() {
         return paidAt;
     }
+
+    public boolean isPaid() {
+        return status == OrderStatus.PAID;
+    }
 }

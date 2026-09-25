@@ -3,18 +3,16 @@ package com.medthegprod.backend.entitlement.application.service;
 import com.medthegprod.backend.catalog.domain.model.ProductId;
 import com.medthegprod.backend.entitlement.application.usecase.GrantEntitlementUseCase;
 import com.medthegprod.backend.entitlement.domain.model.Entitlement;
-import com.medthegprod.backend.entitlement.domain.model.EntitlementId;
-import com.medthegprod.backend.entitlement.domain.model.EntitlementStatus;
 import com.medthegprod.backend.entitlement.domain.repository.EntitlementRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.OffsetDateTime;
-import java.util.Objects;
 import java.util.UUID;
 
 @Service
-public class GrantEntitlementService implements GrantEntitlementUseCase {
+@Transactional
+public class GrantEntitlementService
+        implements GrantEntitlementUseCase {
 
     private final EntitlementRepository entitlementRepository;
 
@@ -24,33 +22,39 @@ public class GrantEntitlementService implements GrantEntitlementUseCase {
     }
 
     @Override
-    @Transactional
     public Entitlement execute(
             UUID customerId,
             ProductId productId,
             UUID orderId) {
-        Objects.requireNonNull(customerId);
-        Objects.requireNonNull(productId);
-        Objects.requireNonNull(orderId);
 
-        var existing = entitlementRepository
-                .findByCustomerIdAndProductId(
-                        customerId,
-                        productId.value());
-
-        if (existing.isPresent()) {
-            return existing.get();
+        if (customerId == null) {
+            throw new IllegalArgumentException(
+                    "Customer ID cannot be null");
         }
 
-        Entitlement entitlement = new Entitlement(
-                EntitlementId.generate(),
-                customerId,
-                productId,
-                orderId,
-                EntitlementStatus.ACTIVE,
-                OffsetDateTime.now(),
-                null);
+        if (productId == null) {
+            throw new IllegalArgumentException(
+                    "Product ID cannot be null");
+        }
 
-        return entitlementRepository.save(entitlement);
+        if (orderId == null) {
+            throw new IllegalArgumentException(
+                    "Order ID cannot be null");
+        }
+
+        return entitlementRepository
+                .findByCustomerIdAndProductId(
+                        customerId,
+                        productId.value())
+                .orElseGet(() -> {
+
+                    Entitlement entitlement = Entitlement.create(
+                            customerId,
+                            productId,
+                            orderId);
+
+                    return entitlementRepository
+                            .save(entitlement);
+                });
     }
 }

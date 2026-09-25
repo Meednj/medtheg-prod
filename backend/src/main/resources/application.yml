@@ -1,4 +1,7 @@
 spring:
+  profiles:
+    active: dev
+
   application:
     name: backend
 
@@ -31,3 +34,9 @@ stripe:
   webhook-secret: ${STRIPE_WEBHOOK_SECRET}
   success-url: ${STRIPE_SUCCESS_URL:http://localhost:5173/payment/success}
   cancel-url: ${STRIPE_CANCEL_URL:http://localhost:5173/payment/cancel}
+
+minio:
+  endpoint: ${MINIO_ENDPOINT:http://localhost:9000}
+  access-key: ${MINIO_ACCESS_KEY:medtheg}
+  secret-key: ${MINIO_SECRET_KEY:medtheg_minio_password}
+  bucket: ${MINIO_BUCKET:medtheg-assets}

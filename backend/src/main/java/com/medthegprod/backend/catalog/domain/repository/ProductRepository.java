@@ -1,6 +1,7 @@
 package com.medthegprod.backend.catalog.domain.repository;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import com.medthegprod.backend.catalog.application.query.ProductSearchQuery;
 import com.medthegprod.backend.catalog.domain.model.Product;
@@ -13,4 +14,6 @@ public interface ProductRepository {
     Optional<Product> findById(ProductId productId);
 
     ProductPage findAll(ProductSearchQuery query);
+    
+    Optional<Product> findByAssetId(UUID assetId);
 }

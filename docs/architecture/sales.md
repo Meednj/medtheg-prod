@@ -6,16 +6,16 @@ The Sales module is responsible for the commercial lifecycle of customer purchas
 
 Its current responsibilities are:
 
-* Creating customer orders
-* Calculating order totals
-* Preserving historical product pricing
-* Managing order lifecycle
-* Creating payment sessions
-* Persisting payment information
-* Integrating with Stripe
-* Processing Stripe payment webhooks
-* Marking orders as paid after verified payment
-* Publishing an `OrderPaidEvent` after a successful payment
+- Creating customer orders
+- Calculating order totals
+- Preserving historical product pricing
+- Managing order lifecycle
+- Creating payment sessions
+- Persisting payment information
+- Integrating with Stripe
+- Processing Stripe payment webhooks
+- Marking orders as paid after verified payment
+- Publishing an `OrderPaidEvent` after a successful payment
 
 The module does **not** manage customer ownership or digital asset delivery directly.
 
@@ -120,6 +120,16 @@ The frontend success URL is not considered proof of payment.
 
 Stripe's signed webhook is the authoritative confirmation mechanism.
 
+The application identifies a payment by the Stripe Checkout Session ID stored
+as `checkout_session_id`. The Stripe PaymentIntent is not used as the
+application payment identifier.
+
+The webhook verifies the `Stripe-Signature` header before deserializing the
+event. The supported success event is `checkout.session.completed`; it is
+processed only when the Checkout Session has `payment_status = paid`. Other
+Stripe event types are ignored and logged. An unpaid Checkout Session does not
+change application state.
+
 ---
 
 ## 4. OrderPaidEvent
@@ -132,9 +142,9 @@ OrderPaidEvent
 
 The event contains:
 
-* `orderId`
-* `customerId`
-* `productIds`
+- `orderId`
+- `customerId`
+- `productIds`
 
 Conceptually:
 
@@ -217,6 +227,10 @@ The Sales module only publishes the business event.
 
 The receiving module decides what to do with it.
 
+`OrderPaidEvent` is delivered with Spring's
+`@TransactionalEventListener(phase = AFTER_COMMIT)`. Entitlement processing
+therefore starts only after the payment and order updates have committed.
+
 ---
 
 ## 7. OrderPaidEvent Processing
@@ -281,6 +295,12 @@ UNIQUE (customer_id, product_id)
 
 This prevents duplicate ownership records for the same customer and product.
 
+Payment uniqueness is enforced by the existing V7 migration with a unique
+constraint on `payments.checkout_session_id`. The V8 migration enforces the
+`(customer_id, product_id)` entitlement constraint. The completion lookup uses
+a database pessimistic write lock on the payment row, so concurrent deliveries
+of the same Checkout Session serialize before the idempotency check.
+
 ---
 
 ## 9. Cross-Module Responsibility
@@ -339,20 +359,20 @@ The Sales module currently demonstrates:
 
 Persistence is abstracted through:
 
-* `OrderRepository`
-* `PaymentRepository`
+- `OrderRepository`
+- `PaymentRepository`
 
 ### Ports and Adapters
 
 External payment infrastructure is accessed through:
 
-* `PaymentGateway`
-* `StripePaymentAdapter`
+- `PaymentGateway`
+- `StripePaymentAdapter`
 
 Events are abstracted through:
 
-* `EventPublisher`
-* `SpringEventPublisher`
+- `EventPublisher`
+- `SpringEventPublisher`
 
 ### Adapter Pattern
 
@@ -412,14 +432,14 @@ The next planned capability is the customer-facing library/access layer built on
 
 Production hardening will eventually include:
 
-* Stripe webhook event persistence
-* More robust event deduplication
-* Payment retry handling
-* Refund processing
-* Payment reconciliation
-* Failed-payment recovery
-* Multiple payment attempts per order
-* Production secret management
-* Asynchronous event processing if required by scale
+- Stripe webhook event persistence
+- More robust event deduplication
+- Payment retry handling
+- Refund processing
+- Payment reconciliation
+- Failed-payment recovery
+- Multiple payment attempts per order
+- Production secret management
+- Asynchronous event processing if required by scale
 
 These are intentionally deferred until the core commerce workflow is complete.

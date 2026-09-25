@@ -43,6 +43,21 @@ public class Entitlement {
         this.revokedAt = Objects.requireNonNull(revokedAt);
     }
 
+    public static Entitlement create(
+            UUID customerId,
+            ProductId productId,
+            UUID orderId) {
+
+        return new Entitlement(
+                EntitlementId.generate(),
+                customerId,
+                productId,
+                orderId,
+                EntitlementStatus.ACTIVE,
+                OffsetDateTime.now(),
+                null);
+    }
+
     public EntitlementId getId() {
         return id;
     }
