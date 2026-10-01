@@ -1,0 +1,1466 @@
+{
+  ".vscode/settings.json": {
+    "mtime": 1790167939.8652575,
+    "seen": 1790850401.636841,
+    "ast_hash": "9ffce84a4e079c9e343509ccf129759f",
+    "semantic_hash": "9ffce84a4e079c9e343509ccf129759f"
+  },
+  "backend/mvnw": {
+    "mtime": 1789580696.2928011,
+    "seen": 1790850401.6368456,
+    "ast_hash": "ab50dd89da7da2346b28003352eeeeeb",
+    "semantic_hash": "ab50dd89da7da2346b28003352eeeeeb"
+  },
+  "backend/pom.xml": {
+    "mtime": 1790607540.5015764,
+    "seen": 1790850401.6368473,
+    "ast_hash": "96ac926f74ab814850d6f5a445f11171",
+    "semantic_hash": "96ac926f74ab814850d6f5a445f11171"
+  },
+  "backend/src/main/java/com/medthegprod/backend/BackendApplication.java": {
+    "mtime": 1789580696.3110821,
+    "seen": 1790850401.6368484,
+    "ast_hash": "0f49e383847ecf7ce34197a22ca8ec58",
+    "semantic_hash": "0f49e383847ecf7ce34197a22ca8ec58"
+  },
+  "backend/src/main/java/com/medthegprod/backend/catalog/application/event/ProductPublishedEvent.java": {
+    "mtime": 1790610996.7959476,
+    "seen": 1790850401.6368492,
+    "ast_hash": "bb4f102badf19944a926cf34887aa89e",
+    "semantic_hash": "bb4f102badf19944a926cf34887aa89e"
+  },
+  "backend/src/main/java/com/medthegprod/backend/catalog/application/port/BusinessMetrics.java": {
+    "mtime": 1790608636.7360995,
+    "seen": 1790850401.6368499,
+    "ast_hash": "a98e344a3495b62e9269ea5eb225069d",
+    "semantic_hash": "a98e344a3495b62e9269ea5eb225069d"
+  },
+  "backend/src/main/java/com/medthegprod/backend/catalog/application/port/EventPublisher.java": {
+    "mtime": 1790611123.3759093,
+    "seen": 1790850401.6368508,
+    "ast_hash": "4d3387c1af6dba7eadea6fb84884f9f4",
+    "semantic_hash": "4d3387c1af6dba7eadea6fb84884f9f4"
+  },
+  "backend/src/main/java/com/medthegprod/backend/catalog/application/query/ProductSearchQuery.java": {
+    "mtime": 1789830661.7067893,
+    "seen": 1790850401.6368518,
+    "ast_hash": "5e15689acfcaa6f559c785d1c6aee41a",
+    "semantic_hash": "5e15689acfcaa6f559c785d1c6aee41a"
+  },
+  "backend/src/main/java/com/medthegprod/backend/catalog/application/service/AddProductAssetService.java": {
+    "mtime": 1789831128.6426651,
+    "seen": 1790850401.6368525,
+    "ast_hash": "6040fe9d0c9c71e4632e541a1b3b2420",
+    "semantic_hash": "6040fe9d0c9c71e4632e541a1b3b2420"
+  },
+  "backend/src/main/java/com/medthegprod/backend/catalog/application/service/CreateProductService.java": {
+    "mtime": 1789823865.3439722,
+    "seen": 1790850401.636853,
+    "ast_hash": "a2862f3c767bf8bbc9e733381fc39b54",
+    "semantic_hash": "a2862f3c767bf8bbc9e733381fc39b54"
+  },
+  "backend/src/main/java/com/medthegprod/backend/catalog/application/service/GetProductAssetService.java": {
+    "mtime": 1790322342.418796,
+    "seen": 1790850401.6368537,
+    "ast_hash": "439b7db6a1404e9f5366ddb38b5c4a8d",
+    "semantic_hash": "439b7db6a1404e9f5366ddb38b5c4a8d"
+  },
+  "backend/src/main/java/com/medthegprod/backend/catalog/application/service/GetProductService.java": {
+    "mtime": 1789737879.0415206,
+    "seen": 1790850401.636855,
+    "ast_hash": "ba1538cfa034b1fd714eebb5bdfb55de",
+    "semantic_hash": "ba1538cfa034b1fd714eebb5bdfb55de"
+  },
+  "backend/src/main/java/com/medthegprod/backend/catalog/application/service/ListProductAssetsService.java": {
+    "mtime": 1790328229.845985,
+    "seen": 1790850401.6368556,
+    "ast_hash": "887ca3006e5aa7819d6e4bb0516836fa",
+    "semantic_hash": "887ca3006e5aa7819d6e4bb0516836fa"
+  },
+  "backend/src/main/java/com/medthegprod/backend/catalog/application/service/ListProductsService.java": {
+    "mtime": 1789826702.810743,
+    "seen": 1790850401.6368563,
+    "ast_hash": "c372694c21ec7e3b1259261ecf45a6dd",
+    "semantic_hash": "c372694c21ec7e3b1259261ecf45a6dd"
+  },
+  "backend/src/main/java/com/medthegprod/backend/catalog/application/service/ProductNotFoundException.java": {
+    "mtime": 1789737923.1820154,
+    "seen": 1790850401.6368568,
+    "ast_hash": "70707a0b1d7b0900c6bd937a9724f3d7",
+    "semantic_hash": "70707a0b1d7b0900c6bd937a9724f3d7"
+  },
+  "backend/src/main/java/com/medthegprod/backend/catalog/application/service/PublishProductService.java": {
+    "mtime": 1790611357.4936135,
+    "seen": 1790850401.6368575,
+    "ast_hash": "7e2ed92540d6e20904c671f5a81a0d89",
+    "semantic_hash": "7e2ed92540d6e20904c671f5a81a0d89"
+  },
+  "backend/src/main/java/com/medthegprod/backend/catalog/application/service/RemoveProductAssetService.java": {
+    "mtime": 1789831155.0851624,
+    "seen": 1790850401.6368585,
+    "ast_hash": "d44a6b17339b42deedf04724f42292f6",
+    "semantic_hash": "d44a6b17339b42deedf04724f42292f6"
+  },
+  "backend/src/main/java/com/medthegprod/backend/catalog/application/service/UpdateProductService.java": {
+    "mtime": 1789827357.6338367,
+    "seen": 1790850401.6368592,
+    "ast_hash": "af0e883e2e5c395d7ec1c0a930e53f96",
+    "semantic_hash": "af0e883e2e5c395d7ec1c0a930e53f96"
+  },
+  "backend/src/main/java/com/medthegprod/backend/catalog/application/service/UploadProductAssetService.java": {
+    "mtime": 1790325851.8894286,
+    "seen": 1790850401.6368597,
+    "ast_hash": "370e0460d858c8b3900be2b261cdf59f",
+    "semantic_hash": "370e0460d858c8b3900be2b261cdf59f"
+  },
+  "backend/src/main/java/com/medthegprod/backend/catalog/application/usecase/AddProductAssetUseCase.java": {
+    "mtime": 1789830885.973149,
+    "seen": 1790850401.6368604,
+    "ast_hash": "cb4d1c09a0c556ec070749084d883f5d",
+    "semantic_hash": "cb4d1c09a0c556ec070749084d883f5d"
+  },
+  "backend/src/main/java/com/medthegprod/backend/catalog/application/usecase/CreateProductUseCase.java": {
+    "mtime": 1789823828.896794,
+    "seen": 1790850401.636861,
+    "ast_hash": "6a2e9c35ebd9262d284fe99256b93e2c",
+    "semantic_hash": "6a2e9c35ebd9262d284fe99256b93e2c"
+  },
+  "backend/src/main/java/com/medthegprod/backend/catalog/application/usecase/GetProductAssetUseCase.java": {
+    "mtime": 1790166884.2737966,
+    "seen": 1790850401.636862,
+    "ast_hash": "3fbcf214bb7610699ace35b97d3443b7",
+    "semantic_hash": "3fbcf214bb7610699ace35b97d3443b7"
+  },
+  "backend/src/main/java/com/medthegprod/backend/catalog/application/usecase/GetProductUseCase.java": {
+    "mtime": 1789737802.0016603,
+    "seen": 1790850401.6368628,
+    "ast_hash": "6bef4ec592deebb9f8676d1ab3d63e68",
+    "semantic_hash": "6bef4ec592deebb9f8676d1ab3d63e68"
+  },
+  "backend/src/main/java/com/medthegprod/backend/catalog/application/usecase/ListProductAssetsUseCase.java": {
+    "mtime": 1790328180.0293431,
+    "seen": 1790850401.6368635,
+    "ast_hash": "ae96cee46823906531d105258e4bd302",
+    "semantic_hash": "ae96cee46823906531d105258e4bd302"
+  },
+  "backend/src/main/java/com/medthegprod/backend/catalog/application/usecase/ListProductsUseCase.java": {
+    "mtime": 1789822713.2947028,
+    "seen": 1790850401.6368642,
+    "ast_hash": "a8752de9516f03a5f3e0a886e5d0c781",
+    "semantic_hash": "a8752de9516f03a5f3e0a886e5d0c781"
+  },
+  "backend/src/main/java/com/medthegprod/backend/catalog/application/usecase/ProductAsset.java": {
+    "mtime": 1790166909.322388,
+    "seen": 1790850401.6368651,
+    "ast_hash": "cd7b1e96f63621dbcac5b6ead287cca0",
+    "semantic_hash": "cd7b1e96f63621dbcac5b6ead287cca0"
+  },
+  "backend/src/main/java/com/medthegprod/backend/catalog/application/usecase/PublishProductUseCase.java": {
+    "mtime": 1789828711.1303046,
+    "seen": 1790850401.6368659,
+    "ast_hash": "f3038efd7310efd6f8ceeb140fd8de70",
+    "semantic_hash": "f3038efd7310efd6f8ceeb140fd8de70"
+  },
+  "backend/src/main/java/com/medthegprod/backend/catalog/application/usecase/RemoveProductAssetUseCase.java": {
+    "mtime": 1789830905.7320757,
+    "seen": 1790850401.6368666,
+    "ast_hash": "cee5da04cfbdff03eb6092e901bdc75e",
+    "semantic_hash": "cee5da04cfbdff03eb6092e901bdc75e"
+  },
+  "backend/src/main/java/com/medthegprod/backend/catalog/application/usecase/UpdateProductUseCase.java": {
+    "mtime": 1789827332.3674023,
+    "seen": 1790850401.636867,
+    "ast_hash": "89085fe30e2752e23df66d9d5c994433",
+    "semantic_hash": "89085fe30e2752e23df66d9d5c994433"
+  },
+  "backend/src/main/java/com/medthegprod/backend/catalog/application/usecase/UploadProductAssetUseCase.java": {
+    "mtime": 1790320600.6529226,
+    "seen": 1790850401.636868,
+    "ast_hash": "49681e27257ab5e4b138e13a5b2fd945",
+    "semantic_hash": "49681e27257ab5e4b138e13a5b2fd945"
+  },
+  "backend/src/main/java/com/medthegprod/backend/catalog/domain/model/AssetId.java": {
+    "mtime": 1789656730.2558045,
+    "seen": 1790850401.636869,
+    "ast_hash": "bf1d343abd4e7dd5b78be8472ce7ca57",
+    "semantic_hash": "bf1d343abd4e7dd5b78be8472ce7ca57"
+  },
+  "backend/src/main/java/com/medthegprod/backend/catalog/domain/model/DigitalAsset.java": {
+    "mtime": 1789656780.559245,
+    "seen": 1790850401.6368697,
+    "ast_hash": "01dd00f04ee42bac623879d8a5de3c26",
+    "semantic_hash": "01dd00f04ee42bac623879d8a5de3c26"
+  },
+  "backend/src/main/java/com/medthegprod/backend/catalog/domain/model/DigitalAssetType.java": {
+    "mtime": 1789656753.653207,
+    "seen": 1790850401.6368704,
+    "ast_hash": "12b032d762daea73a6531f2bed781bb6",
+    "semantic_hash": "12b032d762daea73a6531f2bed781bb6"
+  },
+  "backend/src/main/java/com/medthegprod/backend/catalog/domain/model/Money.java": {
+    "mtime": 1789654846.048229,
+    "seen": 1790850401.636871,
+    "ast_hash": "86384c00ed686eab9179b89164f23942",
+    "semantic_hash": "86384c00ed686eab9179b89164f23942"
+  },
+  "backend/src/main/java/com/medthegprod/backend/catalog/domain/model/Product.java": {
+    "mtime": 1789830977.0797453,
+    "seen": 1790850401.6368716,
+    "ast_hash": "6c2499e2f1fd72eff27e063808dd234b",
+    "semantic_hash": "6c2499e2f1fd72eff27e063808dd234b"
+  },
+  "backend/src/main/java/com/medthegprod/backend/catalog/domain/model/ProductCategory.java": {
+    "mtime": 1789657565.7841845,
+    "seen": 1790850401.6368725,
+    "ast_hash": "cb77d84f69f8108fe50b0807b60c2cdd",
+    "semantic_hash": "cb77d84f69f8108fe50b0807b60c2cdd"
+  },
+  "backend/src/main/java/com/medthegprod/backend/catalog/domain/model/ProductId.java": {
+    "mtime": 1789654362.6959183,
+    "seen": 1790850401.6368732,
+    "ast_hash": "a44e84755177c7b8b509e2211ba94142",
+    "semantic_hash": "a44e84755177c7b8b509e2211ba94142"
+  },
+  "backend/src/main/java/com/medthegprod/backend/catalog/domain/model/ProductStatus.java": {
+    "mtime": 1789654893.4095619,
+    "seen": 1790850401.636874,
+    "ast_hash": "36fd3338861e54be0f4d58e63a7b26d7",
+    "semantic_hash": "36fd3338861e54be0f4d58e63a7b26d7"
+  },
+  "backend/src/main/java/com/medthegprod/backend/catalog/domain/model/ProductType.java": {
+    "mtime": 1789654882.1947443,
+    "seen": 1790850401.6368744,
+    "ast_hash": "e8ad3b557e64d205680657b58614874d",
+    "semantic_hash": "e8ad3b557e64d205680657b58614874d"
+  },
+  "backend/src/main/java/com/medthegprod/backend/catalog/domain/repository/ProductPage.java": {
+    "mtime": 1789821458.6051397,
+    "seen": 1790850401.6368752,
+    "ast_hash": "a909e18877f23e4fd14a4d9c7615bd09",
+    "semantic_hash": "a909e18877f23e4fd14a4d9c7615bd09"
+  },
+  "backend/src/main/java/com/medthegprod/backend/catalog/domain/repository/ProductRepository.java": {
+    "mtime": 1790322065.8842585,
+    "seen": 1790850401.636876,
+    "ast_hash": "381dca667de85fa992cf3797baf96b6e",
+    "semantic_hash": "381dca667de85fa992cf3797baf96b6e"
+  },
+  "backend/src/main/java/com/medthegprod/backend/catalog/infrastructure/persistence/ProductPersistenceAdapter.java": {
+    "mtime": 1790322153.5525336,
+    "seen": 1790850401.6368768,
+    "ast_hash": "74c9a66190a64dd526df415ebfa24b50",
+    "semantic_hash": "74c9a66190a64dd526df415ebfa24b50"
+  },
+  "backend/src/main/java/com/medthegprod/backend/catalog/infrastructure/persistence/entity/DigitalAssetEntity.java": {
+    "mtime": 1789831296.4553497,
+    "seen": 1790850401.6368775,
+    "ast_hash": "fb7f65bd1907547ddeccb09b50fda2ba",
+    "semantic_hash": "fb7f65bd1907547ddeccb09b50fda2ba"
+  },
+  "backend/src/main/java/com/medthegprod/backend/catalog/infrastructure/persistence/entity/ProductEntity.java": {
+    "mtime": 1789831315.6033487,
+    "seen": 1790850401.6368785,
+    "ast_hash": "c284fa86931ef35295ef957eda77bddd",
+    "semantic_hash": "c284fa86931ef35295ef957eda77bddd"
+  },
+  "backend/src/main/java/com/medthegprod/backend/catalog/infrastructure/persistence/entity/enums/DigitalAssetTypeEntity.java": {
+    "mtime": 1789831335.3302197,
+    "seen": 1790850401.6368794,
+    "ast_hash": "41379077c94eb7455b5c6d5d49a7e05d",
+    "semantic_hash": "41379077c94eb7455b5c6d5d49a7e05d"
+  },
+  "backend/src/main/java/com/medthegprod/backend/catalog/infrastructure/persistence/entity/enums/ProductCategoryEntity.java": {
+    "mtime": 1789831315.8751376,
+    "seen": 1790850401.6368802,
+    "ast_hash": "9682a3314a08e831af516fb42ac56b46",
+    "semantic_hash": "9682a3314a08e831af516fb42ac56b46"
+  },
+  "backend/src/main/java/com/medthegprod/backend/catalog/infrastructure/persistence/entity/enums/ProductStatusEntity.java": {
+    "mtime": 1789831309.0557232,
+    "seen": 1790850401.6368809,
+    "ast_hash": "8d6913c62f5193fbb9cd1be08098c142",
+    "semantic_hash": "8d6913c62f5193fbb9cd1be08098c142"
+  },
+  "backend/src/main/java/com/medthegprod/backend/catalog/infrastructure/persistence/entity/enums/ProductTypeEntity.java": {
+    "mtime": 1789831303.5149157,
+    "seen": 1790850401.6368814,
+    "ast_hash": "b5fd9e6e0dd59822e08cb4058f6b554b",
+    "semantic_hash": "b5fd9e6e0dd59822e08cb4058f6b554b"
+  },
+  "backend/src/main/java/com/medthegprod/backend/catalog/infrastructure/persistence/mapper/ProductMapper.java": {
+    "mtime": 1789831422.055553,
+    "seen": 1790850401.636882,
+    "ast_hash": "93b3ec309f9ab90a90efeaf416318918",
+    "semantic_hash": "93b3ec309f9ab90a90efeaf416318918"
+  },
+  "backend/src/main/java/com/medthegprod/backend/catalog/infrastructure/persistence/repository/ProductJpaRepository.java": {
+    "mtime": 1790322170.902056,
+    "seen": 1790850401.636883,
+    "ast_hash": "b1ed23b9608deede54592c267a387f58",
+    "semantic_hash": "b1ed23b9608deede54592c267a387f58"
+  },
+  "backend/src/main/java/com/medthegprod/backend/catalog/infrastructure/persistence/repository/ProductSpecifications.java": {
+    "mtime": 1789831315.6078753,
+    "seen": 1790850401.6368837,
+    "ast_hash": "7bf824b9ae91dff3ad2f3bd88e698782",
+    "semantic_hash": "7bf824b9ae91dff3ad2f3bd88e698782"
+  },
+  "backend/src/main/java/com/medthegprod/backend/catalog/infrastructure/web/controller/ProductAssetController.java": {
+    "mtime": 1790370628.001133,
+    "seen": 1790850401.6368845,
+    "ast_hash": "c1c662f08c1a2703cce295983656637a",
+    "semantic_hash": "c1c662f08c1a2703cce295983656637a"
+  },
+  "backend/src/main/java/com/medthegprod/backend/catalog/infrastructure/web/controller/ProductController.java": {
+    "mtime": 1790370627.9333124,
+    "seen": 1790850401.6368854,
+    "ast_hash": "29d136729c0b4ccdd90faecee729f563",
+    "semantic_hash": "29d136729c0b4ccdd90faecee729f563"
+  },
+  "backend/src/main/java/com/medthegprod/backend/catalog/infrastructure/web/dto/AddProductAssetRequest.java": {
+    "mtime": 1789895538.1738508,
+    "seen": 1790850401.6368861,
+    "ast_hash": "868b9dbd0e40ac95deb099aa86b508a1",
+    "semantic_hash": "868b9dbd0e40ac95deb099aa86b508a1"
+  },
+  "backend/src/main/java/com/medthegprod/backend/catalog/infrastructure/web/dto/CreateProductRequest.java": {
+    "mtime": 1789823796.2517836,
+    "seen": 1790850401.6368868,
+    "ast_hash": "07c448034bfa6bffd7aef6d0978f032f",
+    "semantic_hash": "07c448034bfa6bffd7aef6d0978f032f"
+  },
+  "backend/src/main/java/com/medthegprod/backend/catalog/infrastructure/web/dto/DigitalAssetResponse.java": {
+    "mtime": 1789895693.4987288,
+    "seen": 1790850401.6368873,
+    "ast_hash": "0a25c852617e97e0658378c1bbdf5f06",
+    "semantic_hash": "0a25c852617e97e0658378c1bbdf5f06"
+  },
+  "backend/src/main/java/com/medthegprod/backend/catalog/infrastructure/web/dto/ProductAssetResponse.java": {
+    "mtime": 1790324959.1219957,
+    "seen": 1790850401.636888,
+    "ast_hash": "ed9436e592b43e386dbb18b58ecae677",
+    "semantic_hash": "ed9436e592b43e386dbb18b58ecae677"
+  },
+  "backend/src/main/java/com/medthegprod/backend/catalog/infrastructure/web/dto/ProductPageResponse.java": {
+    "mtime": 1789822421.409191,
+    "seen": 1790850401.6368887,
+    "ast_hash": "0effa0a30e9192b0382c7eb605b75d07",
+    "semantic_hash": "0effa0a30e9192b0382c7eb605b75d07"
+  },
+  "backend/src/main/java/com/medthegprod/backend/catalog/infrastructure/web/dto/ProductResponse.java": {
+    "mtime": 1789895757.2235706,
+    "seen": 1790850401.6368897,
+    "ast_hash": "48fd41b14b199a526f412efa40296247",
+    "semantic_hash": "48fd41b14b199a526f412efa40296247"
+  },
+  "backend/src/main/java/com/medthegprod/backend/catalog/infrastructure/web/dto/UpdateProductRequest.java": {
+    "mtime": 1789827419.943872,
+    "seen": 1790850401.6368902,
+    "ast_hash": "07f811ee895419cef3aa58b4d5a8d2ee",
+    "semantic_hash": "07f811ee895419cef3aa58b4d5a8d2ee"
+  },
+  "backend/src/main/java/com/medthegprod/backend/catalog/infrastructure/web/mapper/ProductWebMapper.java": {
+    "mtime": 1789896071.4114175,
+    "seen": 1790850401.636891,
+    "ast_hash": "fa2518a5eb45eda078337686349206c1",
+    "semantic_hash": "fa2518a5eb45eda078337686349206c1"
+  },
+  "backend/src/main/java/com/medthegprod/backend/entitlement/application/service/GrantEntitlementService.java": {
+    "mtime": 1790329262.4639335,
+    "seen": 1790850401.6368916,
+    "ast_hash": "6d720aa111ce6837bfbc12b394c779ed",
+    "semantic_hash": "6d720aa111ce6837bfbc12b394c779ed"
+  },
+  "backend/src/main/java/com/medthegprod/backend/entitlement/application/service/ListCustomerEntitlementsService.java": {
+    "mtime": 1790155997.763331,
+    "seen": 1790850401.6368923,
+    "ast_hash": "16ee317e79be338abf8131ec3554b69c",
+    "semantic_hash": "16ee317e79be338abf8131ec3554b69c"
+  },
+  "backend/src/main/java/com/medthegprod/backend/entitlement/application/usecase/GrantEntitlementUseCase.java": {
+    "mtime": 1790154455.922593,
+    "seen": 1790850401.636893,
+    "ast_hash": "a8f44238269a7e38087681f14c250fa9",
+    "semantic_hash": "a8f44238269a7e38087681f14c250fa9"
+  },
+  "backend/src/main/java/com/medthegprod/backend/entitlement/application/usecase/ListCustomerEntitlementsUseCase.java": {
+    "mtime": 1790155977.4724681,
+    "seen": 1790850401.6368937,
+    "ast_hash": "733f4296f8cea7f2c0243c2dd7757908",
+    "semantic_hash": "733f4296f8cea7f2c0243c2dd7757908"
+  },
+  "backend/src/main/java/com/medthegprod/backend/entitlement/domain/model/Entitlement.java": {
+    "mtime": 1790329240.4661248,
+    "seen": 1790850401.6368942,
+    "ast_hash": "66e26e865c13dae6640d9e533900d12b",
+    "semantic_hash": "66e26e865c13dae6640d9e533900d12b"
+  },
+  "backend/src/main/java/com/medthegprod/backend/entitlement/domain/model/EntitlementId.java": {
+    "mtime": 1790154236.5727448,
+    "seen": 1790850401.636895,
+    "ast_hash": "b692bfd98b7b5266f1f45ffeb8aa2868",
+    "semantic_hash": "b692bfd98b7b5266f1f45ffeb8aa2868"
+  },
+  "backend/src/main/java/com/medthegprod/backend/entitlement/domain/model/EntitlementStatus.java": {
+    "mtime": 1790154194.0237355,
+    "seen": 1790850401.6368954,
+    "ast_hash": "d9e3a4c0f5d943f7f70059c74e569593",
+    "semantic_hash": "d9e3a4c0f5d943f7f70059c74e569593"
+  },
+  "backend/src/main/java/com/medthegprod/backend/entitlement/domain/repository/EntitlementRepository.java": {
+    "mtime": 1790154421.4376597,
+    "seen": 1790850401.6368966,
+    "ast_hash": "e9eb606b0e273574dc8c118adf234e1f",
+    "semantic_hash": "e9eb606b0e273574dc8c118adf234e1f"
+  },
+  "backend/src/main/java/com/medthegprod/backend/entitlement/infrastructure/event/OrderPaidEventListener.java": {
+    "mtime": 1790330524.5788565,
+    "seen": 1790850401.636897,
+    "ast_hash": "10c7583e566712a0921b6085f53971dc",
+    "semantic_hash": "10c7583e566712a0921b6085f53971dc"
+  },
+  "backend/src/main/java/com/medthegprod/backend/entitlement/infrastructure/persistence/EntitlementPersistenceAdapter.java": {
+    "mtime": 1790154791.99438,
+    "seen": 1790850401.6368978,
+    "ast_hash": "034ada770a7ba11b30565431bb411930",
+    "semantic_hash": "034ada770a7ba11b30565431bb411930"
+  },
+  "backend/src/main/java/com/medthegprod/backend/entitlement/infrastructure/persistence/entity/EntitlementEntity.java": {
+    "mtime": 1790154640.6129363,
+    "seen": 1790850401.6368985,
+    "ast_hash": "d820e74ac9789e2079abef06ab44518a",
+    "semantic_hash": "d820e74ac9789e2079abef06ab44518a"
+  },
+  "backend/src/main/java/com/medthegprod/backend/entitlement/infrastructure/persistence/mapper/EntitlementMapper.java": {
+    "mtime": 1790154700.4938931,
+    "seen": 1790850401.636899,
+    "ast_hash": "b25b475c0044d22fba099970eb7f9140",
+    "semantic_hash": "b25b475c0044d22fba099970eb7f9140"
+  },
+  "backend/src/main/java/com/medthegprod/backend/entitlement/infrastructure/persistence/repository/EntitlementJpaRepository.java": {
+    "mtime": 1790154740.2341044,
+    "seen": 1790850401.6369,
+    "ast_hash": "96e22a3e5770eb1eb7c5fe96866ab95f",
+    "semantic_hash": "96e22a3e5770eb1eb7c5fe96866ab95f"
+  },
+  "backend/src/main/java/com/medthegprod/backend/entitlement/infrastructure/web/controller/EntitlementController.java": {
+    "mtime": 1790370627.9267223,
+    "seen": 1790850401.6369007,
+    "ast_hash": "c34c61a14e1a9bae7d87645e14c97aca",
+    "semantic_hash": "c34c61a14e1a9bae7d87645e14c97aca"
+  },
+  "backend/src/main/java/com/medthegprod/backend/entitlement/infrastructure/web/dto/EntitlementResponse.java": {
+    "mtime": 1790156012.6380339,
+    "seen": 1790850401.6369011,
+    "ast_hash": "be0d01136982a6e8eed9b0162a8508f2",
+    "semantic_hash": "be0d01136982a6e8eed9b0162a8508f2"
+  },
+  "backend/src/main/java/com/medthegprod/backend/identity/application/port/PasswordHasher.java": {
+    "mtime": 1789900279.1786163,
+    "seen": 1790850401.6369019,
+    "ast_hash": "3fdee04ae18728233a08e6ef25f5a340",
+    "semantic_hash": "3fdee04ae18728233a08e6ef25f5a340"
+  },
+  "backend/src/main/java/com/medthegprod/backend/identity/application/port/TokenGenerator.java": {
+    "mtime": 1789901085.169559,
+    "seen": 1790850401.6369023,
+    "ast_hash": "3b6fee1b80c4311400f22a9cd6629263",
+    "semantic_hash": "3b6fee1b80c4311400f22a9cd6629263"
+  },
+  "backend/src/main/java/com/medthegprod/backend/identity/application/service/AuthenticateUserService.java": {
+    "mtime": 1789901373.930217,
+    "seen": 1790850401.6369035,
+    "ast_hash": "1cd67d8226887cc762e6cedaba2434c8",
+    "semantic_hash": "1cd67d8226887cc762e6cedaba2434c8"
+  },
+  "backend/src/main/java/com/medthegprod/backend/identity/application/service/InvalidCredentialsException.java": {
+    "mtime": 1789901196.0452232,
+    "seen": 1790850401.636904,
+    "ast_hash": "68bde2cc1ce26dccb13ce81daeab9d39",
+    "semantic_hash": "68bde2cc1ce26dccb13ce81daeab9d39"
+  },
+  "backend/src/main/java/com/medthegprod/backend/identity/application/service/RegisterUserService.java": {
+    "mtime": 1789900359.1003728,
+    "seen": 1790850401.6369047,
+    "ast_hash": "17d083203cd462f4796cf1ed1760dfad",
+    "semantic_hash": "17d083203cd462f4796cf1ed1760dfad"
+  },
+  "backend/src/main/java/com/medthegprod/backend/identity/application/service/UserAlreadyExistsException.java": {
+    "mtime": 1789900375.8807592,
+    "seen": 1790850401.6369054,
+    "ast_hash": "ac11d85e0c88827c6533a61d7500b48f",
+    "semantic_hash": "ac11d85e0c88827c6533a61d7500b48f"
+  },
+  "backend/src/main/java/com/medthegprod/backend/identity/application/service/UserSuspendedException.java": {
+    "mtime": 1789901264.9117622,
+    "seen": 1790850401.6369061,
+    "ast_hash": "b8be68e957438066317cd66c14cb01db",
+    "semantic_hash": "b8be68e957438066317cd66c14cb01db"
+  },
+  "backend/src/main/java/com/medthegprod/backend/identity/application/usecase/AuthenticateUserUseCase.java": {
+    "mtime": 1789901177.105538,
+    "seen": 1790850401.636907,
+    "ast_hash": "ee22514547ce8a7b5362bc14bd829bc7",
+    "semantic_hash": "ee22514547ce8a7b5362bc14bd829bc7"
+  },
+  "backend/src/main/java/com/medthegprod/backend/identity/application/usecase/AuthenticationResult.java": {
+    "mtime": 1789901144.8655384,
+    "seen": 1790850401.6369076,
+    "ast_hash": "ab84a15269617d78cf11a131cbe7fe1b",
+    "semantic_hash": "ab84a15269617d78cf11a131cbe7fe1b"
+  },
+  "backend/src/main/java/com/medthegprod/backend/identity/application/usecase/RegisterUserUseCase.java": {
+    "mtime": 1789900333.173917,
+    "seen": 1790850401.6369083,
+    "ast_hash": "2b1723ba61ae2c7e75cacd77c5e92b1d",
+    "semantic_hash": "2b1723ba61ae2c7e75cacd77c5e92b1d"
+  },
+  "backend/src/main/java/com/medthegprod/backend/identity/domain/model/Role.java": {
+    "mtime": 1789897353.412238,
+    "seen": 1790850401.63691,
+    "ast_hash": "01435fc912734d5a1d7a35fbf6db9e63",
+    "semantic_hash": "01435fc912734d5a1d7a35fbf6db9e63"
+  },
+  "backend/src/main/java/com/medthegprod/backend/identity/domain/model/User.java": {
+    "mtime": 1789897462.934833,
+    "seen": 1790850401.6369107,
+    "ast_hash": "f3d0f9849693a3de5bd9c3e07cc2ca51",
+    "semantic_hash": "f3d0f9849693a3de5bd9c3e07cc2ca51"
+  },
+  "backend/src/main/java/com/medthegprod/backend/identity/domain/model/UserId.java": {
+    "mtime": 1789897236.8242507,
+    "seen": 1790850401.6369114,
+    "ast_hash": "dadc53e5a35a21594dd9deafe35241dc",
+    "semantic_hash": "dadc53e5a35a21594dd9deafe35241dc"
+  },
+  "backend/src/main/java/com/medthegprod/backend/identity/domain/model/UserStatus.java": {
+    "mtime": 1789897371.2194273,
+    "seen": 1790850401.636912,
+    "ast_hash": "fac7dbb7ba3b1e2c1cf80050fa088203",
+    "semantic_hash": "fac7dbb7ba3b1e2c1cf80050fa088203"
+  },
+  "backend/src/main/java/com/medthegprod/backend/identity/domain/repository/UserRepository.java": {
+    "mtime": 1789897503.3669767,
+    "seen": 1790850401.6369126,
+    "ast_hash": "3b5da7b13abb46e8f97d729e76af3d53",
+    "semantic_hash": "3b5da7b13abb46e8f97d729e76af3d53"
+  },
+  "backend/src/main/java/com/medthegprod/backend/identity/infrastructure/persistence/UserPersistenceAdapter.java": {
+    "mtime": 1789898358.67324,
+    "seen": 1790850401.6369133,
+    "ast_hash": "5d4f862481b58311fb3b9105b19253a6",
+    "semantic_hash": "5d4f862481b58311fb3b9105b19253a6"
+  },
+  "backend/src/main/java/com/medthegprod/backend/identity/infrastructure/persistence/entity/UserEntity.java": {
+    "mtime": 1789898053.6836889,
+    "seen": 1790850401.6369143,
+    "ast_hash": "8bf5be58691eb55dba0f78bf17ba8deb",
+    "semantic_hash": "8bf5be58691eb55dba0f78bf17ba8deb"
+  },
+  "backend/src/main/java/com/medthegprod/backend/identity/infrastructure/persistence/mapper/UserMapper.java": {
+    "mtime": 1789898335.7043452,
+    "seen": 1790850401.636915,
+    "ast_hash": "d2d103fef1a4b92d727183cdf0debb0a",
+    "semantic_hash": "d2d103fef1a4b92d727183cdf0debb0a"
+  },
+  "backend/src/main/java/com/medthegprod/backend/identity/infrastructure/persistence/repository/UserJpaRepository.java": {
+    "mtime": 1789898120.6622689,
+    "seen": 1790850401.636918,
+    "ast_hash": "b9498f890cb8b3c58966f4625a28bc54",
+    "semantic_hash": "b9498f890cb8b3c58966f4625a28bc54"
+  },
+  "backend/src/main/java/com/medthegprod/backend/identity/infrastructure/web/controller/AuthController.java": {
+    "mtime": 1790370627.9966073,
+    "seen": 1790850401.6369188,
+    "ast_hash": "1d29737ccc21d5bbcec4d00a4d21c4c3",
+    "semantic_hash": "1d29737ccc21d5bbcec4d00a4d21c4c3"
+  },
+  "backend/src/main/java/com/medthegprod/backend/identity/infrastructure/web/dto/AuthResponse.java": {
+    "mtime": 1789901472.1837492,
+    "seen": 1790850401.6369195,
+    "ast_hash": "266638a60ac142a8f22f087a46e61541",
+    "semantic_hash": "266638a60ac142a8f22f087a46e61541"
+  },
+  "backend/src/main/java/com/medthegprod/backend/identity/infrastructure/web/dto/LoginRequest.java": {
+    "mtime": 1789901428.880944,
+    "seen": 1790850401.6369202,
+    "ast_hash": "e9a7abdc97d8776decfdf178dc63f030",
+    "semantic_hash": "e9a7abdc97d8776decfdf178dc63f030"
+  },
+  "backend/src/main/java/com/medthegprod/backend/identity/infrastructure/web/dto/RegisterRequest.java": {
+    "mtime": 1789900479.959565,
+    "seen": 1790850401.6369212,
+    "ast_hash": "fbd33b6b36358d65180d512630e426d5",
+    "semantic_hash": "fbd33b6b36358d65180d512630e426d5"
+  },
+  "backend/src/main/java/com/medthegprod/backend/identity/infrastructure/web/dto/UserResponse.java": {
+    "mtime": 1789900497.3483076,
+    "seen": 1790850401.6369216,
+    "ast_hash": "2ec6d3e9861714deb224d98c86e62613",
+    "semantic_hash": "2ec6d3e9861714deb224d98c86e62613"
+  },
+  "backend/src/main/java/com/medthegprod/backend/identity/infrastructure/web/mapper/UserWebMapper.java": {
+    "mtime": 1789900522.7495692,
+    "seen": 1790850401.6369224,
+    "ast_hash": "0491519275245dc6a9887824176181cb",
+    "semantic_hash": "0491519275245dc6a9887824176181cb"
+  },
+  "backend/src/main/java/com/medthegprod/backend/infrastructure/event/SpringEventPublisher.java": {
+    "mtime": 1790750690.9115655,
+    "seen": 1790850401.636923,
+    "ast_hash": "e16276ec3e8ef081ecfdd91f219a3034",
+    "semantic_hash": "e16276ec3e8ef081ecfdd91f219a3034"
+  },
+  "backend/src/main/java/com/medthegprod/backend/infrastructure/observability/MicrometerBusinessMetrics.java": {
+    "mtime": 1790608648.7909794,
+    "seen": 1790850401.6369238,
+    "ast_hash": "4fdd82bf508703a76f692ee10decc236",
+    "semantic_hash": "4fdd82bf508703a76f692ee10decc236"
+  },
+  "backend/src/main/java/com/medthegprod/backend/infrastructure/observability/MicrometerSalesMetrics.java": {
+    "mtime": 1790751087.3819768,
+    "seen": 1790850401.6369245,
+    "ast_hash": "b1b1eecd69b7de3f6bc9c0fe797dce5b",
+    "semantic_hash": "b1b1eecd69b7de3f6bc9c0fe797dce5b"
+  },
+  "backend/src/main/java/com/medthegprod/backend/infrastructure/observability/OrderPaidMetricsListener.java": {
+    "mtime": 1790751115.367866,
+    "seen": 1790850401.6369252,
+    "ast_hash": "41cd1c87ecab1036cc7c1b068aea930e",
+    "semantic_hash": "41cd1c87ecab1036cc7c1b068aea930e"
+  },
+  "backend/src/main/java/com/medthegprod/backend/infrastructure/observability/ProductPublishedMetricsListener.java": {
+    "mtime": 1790750389.5003502,
+    "seen": 1790850401.6369257,
+    "ast_hash": "77187fac6315feb75773fd14db0890b3",
+    "semantic_hash": "77187fac6315feb75773fd14db0890b3"
+  },
+  "backend/src/main/java/com/medthegprod/backend/infrastructure/security/BCryptPasswordHasher.java": {
+    "mtime": 1789900441.41308,
+    "seen": 1790850401.6369264,
+    "ast_hash": "d6421eeff10eef3f19c6fbca9f6c7687",
+    "semantic_hash": "d6421eeff10eef3f19c6fbca9f6c7687"
+  },
+  "backend/src/main/java/com/medthegprod/backend/infrastructure/security/JwtKeyConfig.java": {
+    "mtime": 1789907147.5156105,
+    "seen": 1790850401.6369271,
+    "ast_hash": "b3fa50e8a5004e9b2f34ae0e23c3d840",
+    "semantic_hash": "b3fa50e8a5004e9b2f34ae0e23c3d840"
+  },
+  "backend/src/main/java/com/medthegprod/backend/infrastructure/security/JwtTokenGenerator.java": {
+    "mtime": 1789907110.756691,
+    "seen": 1790850401.636928,
+    "ast_hash": "9da02d5ffc9f4ddd138973f369d13e34",
+    "semantic_hash": "9da02d5ffc9f4ddd138973f369d13e34"
+  },
+  "backend/src/main/java/com/medthegprod/backend/infrastructure/security/SecurityConfig.java": {
+    "mtime": 1790607798.7026832,
+    "seen": 1790850401.6369286,
+    "ast_hash": "c186bac28703e82b375cabdd42bfc171",
+    "semantic_hash": "c186bac28703e82b375cabdd42bfc171"
+  },
+  "backend/src/main/java/com/medthegprod/backend/infrastructure/web/GlobalRestExceptionHandler.java": {
+    "mtime": 1790596500.5009487,
+    "seen": 1790850401.6369293,
+    "ast_hash": "ddc88fd0ec32b460540b42e19b4823da",
+    "semantic_hash": "ddc88fd0ec32b460540b42e19b4823da"
+  },
+  "backend/src/main/java/com/medthegprod/backend/infrastructure/web/OpenApiConfig.java": {
+    "mtime": 1790610031.87257,
+    "seen": 1790850401.63693,
+    "ast_hash": "a453060f30f17911ed37392d3f1bb5da",
+    "semantic_hash": "a453060f30f17911ed37392d3f1bb5da"
+  },
+  "backend/src/main/java/com/medthegprod/backend/infrastructure/web/RequestIdFilter.java": {
+    "mtime": 1790597544.0315392,
+    "seen": 1790850401.6369307,
+    "ast_hash": "f08efdcd8ab81d0e3b343714d71a44d7",
+    "semantic_hash": "f08efdcd8ab81d0e3b343714d71a44d7"
+  },
+  "backend/src/main/java/com/medthegprod/backend/infrastructure/web/RequestLoggingFilter.java": {
+    "mtime": 1790597603.699271,
+    "seen": 1790850401.6369317,
+    "ast_hash": "305a6f0f3eb7981eed08bc1f4ec3166a",
+    "semantic_hash": "305a6f0f3eb7981eed08bc1f4ec3166a"
+  },
+  "backend/src/main/java/com/medthegprod/backend/library/application/port/AssetStorage.java": {
+    "mtime": 1790325031.6538563,
+    "seen": 1790850401.6369321,
+    "ast_hash": "8edabe381f93499a40d53d51ef99de5a",
+    "semantic_hash": "8edabe381f93499a40d53d51ef99de5a"
+  },
+  "backend/src/main/java/com/medthegprod/backend/library/application/service/GetAssetDownloadUrlService.java": {
+    "mtime": 1790327106.1905444,
+    "seen": 1790850401.6369328,
+    "ast_hash": "9fdbc3298430eb9bbb169e3464948e43",
+    "semantic_hash": "9fdbc3298430eb9bbb169e3464948e43"
+  },
+  "backend/src/main/java/com/medthegprod/backend/library/application/service/GetCustomerLibraryService.java": {
+    "mtime": 1790327947.504904,
+    "seen": 1790850401.6369336,
+    "ast_hash": "c2450f1665f62c06b16e3e3405f4a19f",
+    "semantic_hash": "c2450f1665f62c06b16e3e3405f4a19f"
+  },
+  "backend/src/main/java/com/medthegprod/backend/library/application/service/LibraryAccessDeniedException.java": {
+    "mtime": 1790327082.9897332,
+    "seen": 1790850401.6369345,
+    "ast_hash": "da53fe5895a6e102febb44bf3f518734",
+    "semantic_hash": "da53fe5895a6e102febb44bf3f518734"
+  },
+  "backend/src/main/java/com/medthegprod/backend/library/application/usecase/GetAssetDownloadUrlUseCase.java": {
+    "mtime": 1790326350.5720086,
+    "seen": 1790850401.6369352,
+    "ast_hash": "34fdb5a7c948ce44eafde58ff97501ad",
+    "semantic_hash": "34fdb5a7c948ce44eafde58ff97501ad"
+  },
+  "backend/src/main/java/com/medthegprod/backend/library/application/usecase/GetCustomerLibraryUseCase.java": {
+    "mtime": 1790157121.1159034,
+    "seen": 1790850401.6369357,
+    "ast_hash": "ef259285929757c47efced2040e42aea",
+    "semantic_hash": "ef259285929757c47efced2040e42aea"
+  },
+  "backend/src/main/java/com/medthegprod/backend/library/application/usecase/LibraryAsset.java": {
+    "mtime": 1790327311.9825957,
+    "seen": 1790850401.6369364,
+    "ast_hash": "e4df7868cdd25cd25031efd1d1caf8f8",
+    "semantic_hash": "e4df7868cdd25cd25031efd1d1caf8f8"
+  },
+  "backend/src/main/java/com/medthegprod/backend/library/application/usecase/LibraryItem.java": {
+    "mtime": 1790327349.2678156,
+    "seen": 1790850401.6369371,
+    "ast_hash": "be58560d6fac1565174ed72248bca653",
+    "semantic_hash": "be58560d6fac1565174ed72248bca653"
+  },
+  "backend/src/main/java/com/medthegprod/backend/library/infrastructure/storage/MinioAssetStorageAdapter.java": {
+    "mtime": 1790325706.4801393,
+    "seen": 1790850401.636938,
+    "ast_hash": "fb2faffeaf7cea5baa1f09d87f011030",
+    "semantic_hash": "fb2faffeaf7cea5baa1f09d87f011030"
+  },
+  "backend/src/main/java/com/medthegprod/backend/library/infrastructure/storage/MinioConfiguration.java": {
+    "mtime": 1790168352.2288384,
+    "seen": 1790850401.6369386,
+    "ast_hash": "f10bbe9a73c763e4f701efc43f71ddde",
+    "semantic_hash": "f10bbe9a73c763e4f701efc43f71ddde"
+  },
+  "backend/src/main/java/com/medthegprod/backend/library/infrastructure/storage/MinioProperties.java": {
+    "mtime": 1790168248.8648126,
+    "seen": 1790850401.6369393,
+    "ast_hash": "ab3503fd21c695d29ea8502b411ac5ac",
+    "semantic_hash": "ab3503fd21c695d29ea8502b411ac5ac"
+  },
+  "backend/src/main/java/com/medthegprod/backend/library/infrastructure/web/controller/LibraryAssetController.java": {
+    "mtime": 1790370627.9333124,
+    "seen": 1790850401.63694,
+    "ast_hash": "3e5c5e9c2d9d6ec99b8d93e52447d45a",
+    "semantic_hash": "3e5c5e9c2d9d6ec99b8d93e52447d45a"
+  },
+  "backend/src/main/java/com/medthegprod/backend/library/infrastructure/web/controller/LibraryController.java": {
+    "mtime": 1790370627.9966073,
+    "seen": 1790850401.6369407,
+    "ast_hash": "d11a2be0c1025afc69e096164aebb82b",
+    "semantic_hash": "d11a2be0c1025afc69e096164aebb82b"
+  },
+  "backend/src/main/java/com/medthegprod/backend/library/infrastructure/web/dto/DownloadUrlResponse.java": {
+    "mtime": 1790326629.642974,
+    "seen": 1790850401.6369412,
+    "ast_hash": "fca88bbb938fd6fa0b2af2881404eeb5",
+    "semantic_hash": "fca88bbb938fd6fa0b2af2881404eeb5"
+  },
+  "backend/src/main/java/com/medthegprod/backend/library/infrastructure/web/dto/LibraryAssetResponse.java": {
+    "mtime": 1790327689.08786,
+    "seen": 1790850401.6369421,
+    "ast_hash": "f4225e1695cad6bc55cef19efc209924",
+    "semantic_hash": "f4225e1695cad6bc55cef19efc209924"
+  },
+  "backend/src/main/java/com/medthegprod/backend/library/infrastructure/web/dto/LibraryItemResponse.java": {
+    "mtime": 1790327673.720383,
+    "seen": 1790850401.6369426,
+    "ast_hash": "56b485e62529ef0ac8fe3635f0523688",
+    "semantic_hash": "56b485e62529ef0ac8fe3635f0523688"
+  },
+  "backend/src/main/java/com/medthegprod/backend/sales/application/event/OrderPaidEvent.java": {
+    "mtime": 1790751243.033918,
+    "seen": 1790850401.6369436,
+    "ast_hash": "2dd94d399ea765003d1f7464f2f314ee",
+    "semantic_hash": "2dd94d399ea765003d1f7464f2f314ee"
+  },
+  "backend/src/main/java/com/medthegprod/backend/sales/application/port/EventPublisher.java": {
+    "mtime": 1790154864.2509172,
+    "seen": 1790850401.636944,
+    "ast_hash": "6a4761e8858130858bab06bc02b0b486",
+    "semantic_hash": "6a4761e8858130858bab06bc02b0b486"
+  },
+  "backend/src/main/java/com/medthegprod/backend/sales/application/port/PaymentGateway.java": {
+    "mtime": 1790100711.3124263,
+    "seen": 1790850401.636945,
+    "ast_hash": "b9af002bc0ed5d7bfbc8e70952403efa",
+    "semantic_hash": "b9af002bc0ed5d7bfbc8e70952403efa"
+  },
+  "backend/src/main/java/com/medthegprod/backend/sales/application/port/SalesMetrics.java": {
+    "mtime": 1790751058.453254,
+    "seen": 1790850401.6369457,
+    "ast_hash": "644940596d3ae9bcd7cc331045c0c3ca",
+    "semantic_hash": "644940596d3ae9bcd7cc331045c0c3ca"
+  },
+  "backend/src/main/java/com/medthegprod/backend/sales/application/service/CreateOrderService.java": {
+    "mtime": 1789932449.691219,
+    "seen": 1790850401.6369464,
+    "ast_hash": "b03c2b2f50ff41e6b0c1c1741f55fcf5",
+    "semantic_hash": "b03c2b2f50ff41e6b0c1c1741f55fcf5"
+  },
+  "backend/src/main/java/com/medthegprod/backend/sales/application/service/CreatePaymentService.java": {
+    "mtime": 1790101245.6782396,
+    "seen": 1790850401.6369472,
+    "ast_hash": "ef2c09f228607f96acaefad5430e36b6",
+    "semantic_hash": "ef2c09f228607f96acaefad5430e36b6"
+  },
+  "backend/src/main/java/com/medthegprod/backend/sales/application/service/GetOrderService.java": {
+    "mtime": 1789932912.1760504,
+    "seen": 1790850401.6369479,
+    "ast_hash": "9e430c9eb767f70dd945b34323d088b4",
+    "semantic_hash": "9e430c9eb767f70dd945b34323d088b4"
+  },
+  "backend/src/main/java/com/medthegprod/backend/sales/application/service/ListCustomerOrdersService.java": {
+    "mtime": 1789933034.222898,
+    "seen": 1790850401.6369486,
+    "ast_hash": "a34944359b8a53335021df540b32b989",
+    "semantic_hash": "a34944359b8a53335021df540b32b989"
+  },
+  "backend/src/main/java/com/medthegprod/backend/sales/application/service/MarkOrderAsPaidService.java": {
+    "mtime": 1790330524.5933518,
+    "seen": 1790850401.6369493,
+    "ast_hash": "05ac01c871df4bf2a340064382fa5c4a",
+    "semantic_hash": "05ac01c871df4bf2a340064382fa5c4a"
+  },
+  "backend/src/main/java/com/medthegprod/backend/sales/application/service/OrderAccessDeniedException.java": {
+    "mtime": 1789932875.310507,
+    "seen": 1790850401.63695,
+    "ast_hash": "448dde9f27d6f2ba1ff4c249c80a7de6",
+    "semantic_hash": "448dde9f27d6f2ba1ff4c249c80a7de6"
+  },
+  "backend/src/main/java/com/medthegprod/backend/sales/application/service/OrderNotFoundException.java": {
+    "mtime": 1789932930.231019,
+    "seen": 1790850401.6369507,
+    "ast_hash": "5833460094a8a745a604ffd473131bce",
+    "semantic_hash": "5833460094a8a745a604ffd473131bce"
+  },
+  "backend/src/main/java/com/medthegprod/backend/sales/application/usecase/CreateOrderUseCase.java": {
+    "mtime": 1789931893.948494,
+    "seen": 1790850401.6369514,
+    "ast_hash": "584cf8f091c54460ae5bf5f09a5f748b",
+    "semantic_hash": "584cf8f091c54460ae5bf5f09a5f748b"
+  },
+  "backend/src/main/java/com/medthegprod/backend/sales/application/usecase/CreatePaymentUseCase.java": {
+    "mtime": 1790012617.3734403,
+    "seen": 1790850401.6369524,
+    "ast_hash": "5e359cd4613f9ca8045717daa1c35167",
+    "semantic_hash": "5e359cd4613f9ca8045717daa1c35167"
+  },
+  "backend/src/main/java/com/medthegprod/backend/sales/application/usecase/GetOrderUseCase.java": {
+    "mtime": 1789932856.5188806,
+    "seen": 1790850401.6369529,
+    "ast_hash": "83c45331b3075b30f9cf7dabc5283366",
+    "semantic_hash": "83c45331b3075b30f9cf7dabc5283366"
+  },
+  "backend/src/main/java/com/medthegprod/backend/sales/application/usecase/ListCustomerOrdersUseCase.java": {
+    "mtime": 1789933019.771727,
+    "seen": 1790850401.6369536,
+    "ast_hash": "2242810918cd98d06edb32b5248e667e",
+    "semantic_hash": "2242810918cd98d06edb32b5248e667e"
+  },
+  "backend/src/main/java/com/medthegprod/backend/sales/application/usecase/MarkOrderAsPaidUseCase.java": {
+    "mtime": 1790152816.6756053,
+    "seen": 1790850401.6369543,
+    "ast_hash": "901e1f1343fdee877da673227de16397",
+    "semantic_hash": "901e1f1343fdee877da673227de16397"
+  },
+  "backend/src/main/java/com/medthegprod/backend/sales/domain/model/Order.java": {
+    "mtime": 1790329378.549402,
+    "seen": 1790850401.636955,
+    "ast_hash": "3eb342b287c56a826c47e40584dbd506",
+    "semantic_hash": "3eb342b287c56a826c47e40584dbd506"
+  },
+  "backend/src/main/java/com/medthegprod/backend/sales/domain/model/OrderId.java": {
+    "mtime": 1789929684.1743162,
+    "seen": 1790850401.636956,
+    "ast_hash": "de2263e246054cdae26fdc6305155ba6",
+    "semantic_hash": "de2263e246054cdae26fdc6305155ba6"
+  },
+  "backend/src/main/java/com/medthegprod/backend/sales/domain/model/OrderItem.java": {
+    "mtime": 1789929868.8982215,
+    "seen": 1790850401.6369567,
+    "ast_hash": "7ecae7ded4c87d8e15aa076e8e8099ee",
+    "semantic_hash": "7ecae7ded4c87d8e15aa076e8e8099ee"
+  },
+  "backend/src/main/java/com/medthegprod/backend/sales/domain/model/OrderItemId.java": {
+    "mtime": 1789929849.3780437,
+    "seen": 1790850401.6369574,
+    "ast_hash": "f58d32091bd3b98b86faa645b1883c59",
+    "semantic_hash": "f58d32091bd3b98b86faa645b1883c59"
+  },
+  "backend/src/main/java/com/medthegprod/backend/sales/domain/model/OrderPage.java": {
+    "mtime": 1789933000.4647949,
+    "seen": 1790850401.6369581,
+    "ast_hash": "dc2cc1931f04e772588120217a28b50a",
+    "semantic_hash": "dc2cc1931f04e772588120217a28b50a"
+  },
+  "backend/src/main/java/com/medthegprod/backend/sales/domain/model/OrderStatus.java": {
+    "mtime": 1789929702.1312158,
+    "seen": 1790850401.636959,
+    "ast_hash": "ccfb4d2b797e39abfbd01f6c57e5b48e",
+    "semantic_hash": "ccfb4d2b797e39abfbd01f6c57e5b48e"
+  },
+  "backend/src/main/java/com/medthegprod/backend/sales/domain/model/Payment.java": {
+    "mtime": 1790329406.2237628,
+    "seen": 1790850401.6369596,
+    "ast_hash": "ddbc83e2aab89ccd96e996857934fa71",
+    "semantic_hash": "ddbc83e2aab89ccd96e996857934fa71"
+  },
+  "backend/src/main/java/com/medthegprod/backend/sales/domain/model/PaymentStatus.java": {
+    "mtime": 1790100402.5413384,
+    "seen": 1790850401.6369603,
+    "ast_hash": "9839ee4a139c77a6471bbf5791b5ed7a",
+    "semantic_hash": "9839ee4a139c77a6471bbf5791b5ed7a"
+  },
+  "backend/src/main/java/com/medthegprod/backend/sales/domain/repository/OrderRepository.java": {
+    "mtime": 1789932985.933676,
+    "seen": 1790850401.636961,
+    "ast_hash": "6ff12af32dbeaecf1943aa0697445836",
+    "semantic_hash": "6ff12af32dbeaecf1943aa0697445836"
+  },
+  "backend/src/main/java/com/medthegprod/backend/sales/domain/repository/PaymentRepository.java": {
+    "mtime": 1790152416.4096253,
+    "seen": 1790850401.6369617,
+    "ast_hash": "c89f411a8762ec4c1c0a9755132c15ec",
+    "semantic_hash": "c89f411a8762ec4c1c0a9755132c15ec"
+  },
+  "backend/src/main/java/com/medthegprod/backend/sales/infrastructure/payment/stripe/StripeConfiguration.java": {
+    "mtime": 1790329638.5731573,
+    "seen": 1790850401.6369627,
+    "ast_hash": "851251cf9b29b94d87544b9c92f8574c",
+    "semantic_hash": "851251cf9b29b94d87544b9c92f8574c"
+  },
+  "backend/src/main/java/com/medthegprod/backend/sales/infrastructure/payment/stripe/StripePaymentAdapter.java": {
+    "mtime": 1790330524.5863864,
+    "seen": 1790850401.6369634,
+    "ast_hash": "dfd5c49f28be90a86832fef61465f9f2",
+    "semantic_hash": "dfd5c49f28be90a86832fef61465f9f2"
+  },
+  "backend/src/main/java/com/medthegprod/backend/sales/infrastructure/payment/stripe/StripeProperties.java": {
+    "mtime": 1790329638.5838318,
+    "seen": 1790850401.6369638,
+    "ast_hash": "f127f229f5922a785e29966bd845be75",
+    "semantic_hash": "f127f229f5922a785e29966bd845be75"
+  },
+  "backend/src/main/java/com/medthegprod/backend/sales/infrastructure/payment/stripe/StripeWebhookController.java": {
+    "mtime": 1790370627.9333124,
+    "seen": 1790850401.6369646,
+    "ast_hash": "aa98d60d7bea50d3774516fbc9077db9",
+    "semantic_hash": "aa98d60d7bea50d3774516fbc9077db9"
+  },
+  "backend/src/main/java/com/medthegprod/backend/sales/infrastructure/persistence/OrderPersistenceAdapter.java": {
+    "mtime": 1789933133.1084318,
+    "seen": 1790850401.6369653,
+    "ast_hash": "6a96ffd5907d37bdb1868a7b69c0c63e",
+    "semantic_hash": "6a96ffd5907d37bdb1868a7b69c0c63e"
+  },
+  "backend/src/main/java/com/medthegprod/backend/sales/infrastructure/persistence/PaymentPersistenceAdapter.java": {
+    "mtime": 1790330524.55847,
+    "seen": 1790850401.636966,
+    "ast_hash": "a40c06ff5f2cd9c8ee63a4c3b6321077",
+    "semantic_hash": "a40c06ff5f2cd9c8ee63a4c3b6321077"
+  },
+  "backend/src/main/java/com/medthegprod/backend/sales/infrastructure/persistence/entity/OrderEntity.java": {
+    "mtime": 1789930729.7250264,
+    "seen": 1790850401.636967,
+    "ast_hash": "758d5c905037451f96b09926880e9a77",
+    "semantic_hash": "758d5c905037451f96b09926880e9a77"
+  },
+  "backend/src/main/java/com/medthegprod/backend/sales/infrastructure/persistence/entity/OrderItemEntity.java": {
+    "mtime": 1789930761.5540433,
+    "seen": 1790850401.6369674,
+    "ast_hash": "5764dcfa06812443e3c4342bb11dbf61",
+    "semantic_hash": "5764dcfa06812443e3c4342bb11dbf61"
+  },
+  "backend/src/main/java/com/medthegprod/backend/sales/infrastructure/persistence/entity/PaymentEntity.java": {
+    "mtime": 1790101245.6687174,
+    "seen": 1790850401.6369681,
+    "ast_hash": "129182857129a020d89e29157c889d0d",
+    "semantic_hash": "129182857129a020d89e29157c889d0d"
+  },
+  "backend/src/main/java/com/medthegprod/backend/sales/infrastructure/persistence/mapper/OrderMapper.java": {
+    "mtime": 1789931034.781832,
+    "seen": 1790850401.6369689,
+    "ast_hash": "b20a186c9750bb92f127b2b1e1a4fc60",
+    "semantic_hash": "b20a186c9750bb92f127b2b1e1a4fc60"
+  },
+  "backend/src/main/java/com/medthegprod/backend/sales/infrastructure/persistence/mapper/PaymentMapper.java": {
+    "mtime": 1790101245.717095,
+    "seen": 1790850401.6369698,
+    "ast_hash": "52ac798a4815299c531be65995794269",
+    "semantic_hash": "52ac798a4815299c531be65995794269"
+  },
+  "backend/src/main/java/com/medthegprod/backend/sales/infrastructure/persistence/repository/OrderJpaRepository.java": {
+    "mtime": 1789933101.141077,
+    "seen": 1790850401.6369705,
+    "ast_hash": "cec92b1001b26f06492db703721fae33",
+    "semantic_hash": "cec92b1001b26f06492db703721fae33"
+  },
+  "backend/src/main/java/com/medthegprod/backend/sales/infrastructure/persistence/repository/PaymentJpaRepository.java": {
+    "mtime": 1790330524.5853739,
+    "seen": 1790850401.636971,
+    "ast_hash": "79eab1746a289cf68d75dd8e9250e826",
+    "semantic_hash": "79eab1746a289cf68d75dd8e9250e826"
+  },
+  "backend/src/main/java/com/medthegprod/backend/sales/infrastructure/web/AuthenticatedUser.java": {
+    "mtime": 1789931729.364094,
+    "seen": 1790850401.6369717,
+    "ast_hash": "8f8abadf38905fcd7512799b11e614db",
+    "semantic_hash": "8f8abadf38905fcd7512799b11e614db"
+  },
+  "backend/src/main/java/com/medthegprod/backend/sales/infrastructure/web/controller/OrderController.java": {
+    "mtime": 1790370627.9267223,
+    "seen": 1790850401.6369724,
+    "ast_hash": "18320be6aa1ac981323c6cf916cb4d73",
+    "semantic_hash": "18320be6aa1ac981323c6cf916cb4d73"
+  },
+  "backend/src/main/java/com/medthegprod/backend/sales/infrastructure/web/dto/CreateOrderRequest.java": {
+    "mtime": 1789931639.9814854,
+    "seen": 1790850401.6369748,
+    "ast_hash": "d5639ef2bda9c94713e23af35a9de154",
+    "semantic_hash": "d5639ef2bda9c94713e23af35a9de154"
+  },
+  "backend/src/main/java/com/medthegprod/backend/sales/infrastructure/web/dto/OrderHistoryResponse.java": {
+    "mtime": 1789933255.680458,
+    "seen": 1790850401.6369755,
+    "ast_hash": "2345831ed17f128c516bae9de6722270",
+    "semantic_hash": "2345831ed17f128c516bae9de6722270"
+  },
+  "backend/src/main/java/com/medthegprod/backend/sales/infrastructure/web/dto/OrderResponse.java": {
+    "mtime": 1789931667.5532787,
+    "seen": 1790850401.6369762,
+    "ast_hash": "517ef6ac9f49e03ac9a0ca90c6e5c6ab",
+    "semantic_hash": "517ef6ac9f49e03ac9a0ca90c6e5c6ab"
+  },
+  "backend/src/main/java/com/medthegprod/backend/sales/infrastructure/web/mapper/OrderWebMapper.java": {
+    "mtime": 1789931693.2654314,
+    "seen": 1790850401.636977,
+    "ast_hash": "38bffd4aa45007445bf45fc71f26c642",
+    "semantic_hash": "38bffd4aa45007445bf45fc71f26c642"
+  },
+  "backend/src/main/resources/db/migration/V1__create_products_table.sql": {
+    "mtime": 1789660828.5974586,
+    "seen": 1790850401.6369777,
+    "ast_hash": "86117e5cc854cca37900ffbe22e555f2",
+    "semantic_hash": "86117e5cc854cca37900ffbe22e555f2"
+  },
+  "backend/src/main/resources/db/migration/V2__create_product_categories.sql": {
+    "mtime": 1789823668.037121,
+    "seen": 1790850401.6369784,
+    "ast_hash": "f42f1fd4f32b8ecbce7182b6c60020d3",
+    "semantic_hash": "f42f1fd4f32b8ecbce7182b6c60020d3"
+  },
+  "backend/src/main/resources/db/migration/V3__create_product_assets.sql": {
+    "mtime": 1789831442.949278,
+    "seen": 1790850401.636979,
+    "ast_hash": "2b55df1466dc31b877121709bc04faf7",
+    "semantic_hash": "2b55df1466dc31b877121709bc04faf7"
+  },
+  "backend/src/main/resources/db/migration/V4__create_users_table.sql": {
+    "mtime": 1789897864.8166184,
+    "seen": 1790850401.6369798,
+    "ast_hash": "ab22f2678571312b3520659029f7ea1a",
+    "semantic_hash": "ab22f2678571312b3520659029f7ea1a"
+  },
+  "backend/src/main/resources/db/migration/V5__create_orders_tables.sql": {
+    "mtime": 1789930793.7271955,
+    "seen": 1790850401.6369805,
+    "ast_hash": "ed4560013686b7f58007ce92fa784325",
+    "semantic_hash": "ed4560013686b7f58007ce92fa784325"
+  },
+  "backend/src/main/resources/db/migration/V6__create_payments_table.sql": {
+    "mtime": 1790100514.2680209,
+    "seen": 1790850401.6369812,
+    "ast_hash": "29b8568778352e218b079b66db6b14d3",
+    "semantic_hash": "29b8568778352e218b079b66db6b14d3"
+  },
+  "backend/src/main/resources/db/migration/V7__add_checkout_session_to_payments.sql": {
+    "mtime": 1790100768.1800396,
+    "seen": 1790850401.636982,
+    "ast_hash": "cd842364707da637e8b202d16c296633",
+    "semantic_hash": "cd842364707da637e8b202d16c296633"
+  },
+  "backend/src/main/resources/db/migration/V8__create_entitlements_table.sql": {
+    "mtime": 1790154521.5752766,
+    "seen": 1790850401.6369824,
+    "ast_hash": "ca31f00dba168b905d7430baede7b8d9",
+    "semantic_hash": "ca31f00dba168b905d7430baede7b8d9"
+  },
+  "backend/src/test/java/com/medthegprod/backend/BackendApplicationTests.java": {
+    "mtime": 1790098641.0795286,
+    "seen": 1790850401.6369834,
+    "ast_hash": "c9a6acc0a797f3993a0b66b155600288",
+    "semantic_hash": "c9a6acc0a797f3993a0b66b155600288"
+  },
+  "backend/src/test/java/com/medthegprod/backend/catalog/application/service/AddProductAssetServiceTest.java": {
+    "mtime": 1789831740.6498945,
+    "seen": 1790850401.636984,
+    "ast_hash": "bf36437497e24fa68803c4fd0dc362c8",
+    "semantic_hash": "bf36437497e24fa68803c4fd0dc362c8"
+  },
+  "backend/src/test/java/com/medthegprod/backend/catalog/application/service/CreateProductServiceTest.java": {
+    "mtime": 1789824297.7114015,
+    "seen": 1790850401.6369846,
+    "ast_hash": "1c5f59baaed0c0d512baf972e8991bd6",
+    "semantic_hash": "1c5f59baaed0c0d512baf972e8991bd6"
+  },
+  "backend/src/test/java/com/medthegprod/backend/catalog/application/service/PublishProductServiceTest.java": {
+    "mtime": 1790750738.2007692,
+    "seen": 1790850401.6369853,
+    "ast_hash": "0b40aec6f6fcf6026c48519560ba5583",
+    "semantic_hash": "0b40aec6f6fcf6026c48519560ba5583"
+  },
+  "backend/src/test/java/com/medthegprod/backend/catalog/application/service/RemoveProductAssetServiceTest.java": {
+    "mtime": 1789832176.7475843,
+    "seen": 1790850401.636986,
+    "ast_hash": "21b7efa2abbf08bb699eb8497e16c7c3",
+    "semantic_hash": "21b7efa2abbf08bb699eb8497e16c7c3"
+  },
+  "backend/src/test/java/com/medthegprod/backend/catalog/application/service/UpdateProductServiceTest.java": {
+    "mtime": 1789829786.441419,
+    "seen": 1790850401.636987,
+    "ast_hash": "ef370a11b4b2bd384b121af2a676b64a",
+    "semantic_hash": "ef370a11b4b2bd384b121af2a676b64a"
+  },
+  "backend/src/test/java/com/medthegprod/backend/catalog/domain/model/ProductTest.java": {
+    "mtime": 1789832176.7475843,
+    "seen": 1790850401.6369877,
+    "ast_hash": "c01ac8e9b3abe274c057d83619659e4e",
+    "semantic_hash": "c01ac8e9b3abe274c057d83619659e4e"
+  },
+  "backend/src/test/java/com/medthegprod/backend/catalog/infrastructure/observability/ProductPublicationMetricsIntegrationTest.java": {
+    "mtime": 1790750938.9746673,
+    "seen": 1790850401.6369884,
+    "ast_hash": "87cc44d7b738fd1a119422681d74c2af",
+    "semantic_hash": "87cc44d7b738fd1a119422681d74c2af"
+  },
+  "backend/src/test/java/com/medthegprod/backend/catalog/infrastructure/persistence/ProductPersistenceAdapterIntegrationTest.java": {
+    "mtime": 1789894973.632461,
+    "seen": 1790850401.636989,
+    "ast_hash": "9531833225d83e0e313b282dee02f6a8",
+    "semantic_hash": "9531833225d83e0e313b282dee02f6a8"
+  },
+  "backend/src/test/java/com/medthegprod/backend/catalog/infrastructure/web/controller/ProductControllerIntegrationTest.java": {
+    "mtime": 1790610031.976095,
+    "seen": 1790850401.6369896,
+    "ast_hash": "8002542a73031894f316b821e226d982",
+    "semantic_hash": "8002542a73031894f316b821e226d982"
+  },
+  "backend/src/test/java/com/medthegprod/backend/entitlement/infrastructure/event/OrderPaidEventListenerTest.java": {
+    "mtime": 1790156733.7056406,
+    "seen": 1790850401.6369905,
+    "ast_hash": "e77e9efb1a3add3462861b2395892b1c",
+    "semantic_hash": "e77e9efb1a3add3462861b2395892b1c"
+  },
+  "backend/src/test/java/com/medthegprod/backend/identity/application/service/RegisterUserServiceTest.java": {
+    "mtime": 1789900806.4123323,
+    "seen": 1790850401.6369913,
+    "ast_hash": "6bbde2be8895a895aa0c7bc7c24fdd26",
+    "semantic_hash": "6bbde2be8895a895aa0c7bc7c24fdd26"
+  },
+  "backend/src/test/java/com/medthegprod/backend/identity/infrastructure/persistence/UserPersistenceAdapterIntegrationTest.java": {
+    "mtime": 1789898477.4967272,
+    "seen": 1790850401.636992,
+    "ast_hash": "d26fcfea9e3f025e2c76b9184a67a7b9",
+    "semantic_hash": "d26fcfea9e3f025e2c76b9184a67a7b9"
+  },
+  "backend/src/test/java/com/medthegprod/backend/identity/infrastructure/web/controller/AuthControllerIntegrationTest.java": {
+    "mtime": 1789900806.4330177,
+    "seen": 1790850401.6369925,
+    "ast_hash": "05a0159bd90447abfd3a689e68f61088",
+    "semantic_hash": "05a0159bd90447abfd3a689e68f61088"
+  },
+  "backend/src/test/java/com/medthegprod/backend/identity/support/AuthTestHelper.java": {
+    "mtime": 1789907386.4302242,
+    "seen": 1790850401.6369932,
+    "ast_hash": "52cb0be2f8e5f2b54ede40cb0faf74ef",
+    "semantic_hash": "52cb0be2f8e5f2b54ede40cb0faf74ef"
+  },
+  "backend/src/test/java/com/medthegprod/backend/infrastructure/observability/MicrometerBusinessMetricsTest.java": {
+    "mtime": 1790608858.042643,
+    "seen": 1790850401.6369944,
+    "ast_hash": "7fe5ce7c3eab649d8433126b78f2d102",
+    "semantic_hash": "7fe5ce7c3eab649d8433126b78f2d102"
+  },
+  "backend/src/test/java/com/medthegprod/backend/infrastructure/observability/MicrometerSalesMetricsTest.java": {
+    "mtime": 1790751132.5770931,
+    "seen": 1790850401.6369948,
+    "ast_hash": "09cc779772c958c7e91ee2cb553525e3",
+    "semantic_hash": "09cc779772c958c7e91ee2cb553525e3"
+  },
+  "backend/src/test/java/com/medthegprod/backend/infrastructure/observability/OrderPaidMetricsListenerTest.java": {
+    "mtime": 1790751718.6884224,
+    "seen": 1790850401.6369956,
+    "ast_hash": "a3a1c0020f0433a894f75fd260179e3d",
+    "semantic_hash": "a3a1c0020f0433a894f75fd260179e3d"
+  },
+  "backend/src/test/java/com/medthegprod/backend/infrastructure/observability/ProductPublishedMetricsListenerTest.java": {
+    "mtime": 1790611414.6157055,
+    "seen": 1790850401.6369963,
+    "ast_hash": "433db9ec4534d79e8dbdd8ceeb1c25fb",
+    "semantic_hash": "433db9ec4534d79e8dbdd8ceeb1c25fb"
+  },
+  "backend/src/test/java/com/medthegprod/backend/infrastructure/web/MetricsIntegrationTest.java": {
+    "mtime": 1790608069.164086,
+    "seen": 1790850401.6369972,
+    "ast_hash": "9ae525abdc761f7fbd506ddaad76547b",
+    "semantic_hash": "9ae525abdc761f7fbd506ddaad76547b"
+  },
+  "backend/src/test/java/com/medthegprod/backend/infrastructure/web/ObservabilityIntegrationTest.java": {
+    "mtime": 1790597826.974733,
+    "seen": 1790850401.636998,
+    "ast_hash": "fff95b871dd4b7a76d01d5ad0e84f0a9",
+    "semantic_hash": "fff95b871dd4b7a76d01d5ad0e84f0a9"
+  },
+  "backend/src/test/java/com/medthegprod/backend/sales/application/service/CreateOrderServiceTest.java": {
+    "mtime": 1789932627.0900476,
+    "seen": 1790850401.6369984,
+    "ast_hash": "255499dafdcce236a1972991d3818356",
+    "semantic_hash": "255499dafdcce236a1972991d3818356"
+  },
+  "backend/src/test/java/com/medthegprod/backend/sales/application/service/CreatePaymentServiceTest.java": {
+    "mtime": 1790101245.7313797,
+    "seen": 1790850401.6369991,
+    "ast_hash": "42434ebf5a94f2b5d52f024a250916a1",
+    "semantic_hash": "42434ebf5a94f2b5d52f024a250916a1"
+  },
+  "backend/src/test/java/com/medthegprod/backend/sales/domain/model/OrderTest.java": {
+    "mtime": 1789930029.1182702,
+    "seen": 1790850401.6369998,
+    "ast_hash": "3e372d7380ffd90ed39f572009c7a0bf",
+    "semantic_hash": "3e372d7380ffd90ed39f572009c7a0bf"
+  },
+  "backend/src/test/java/com/medthegprod/backend/sales/infrastructure/persistence/OrderPersistenceAdapterIntegrationTest.java": {
+    "mtime": 1789931360.5418036,
+    "seen": 1790850401.6370008,
+    "ast_hash": "289f26c05970d81d446a08f74c9d95c7",
+    "semantic_hash": "289f26c05970d81d446a08f74c9d95c7"
+  },
+  "backend/src/test/java/com/medthegprod/backend/sales/infrastructure/web/controller/OrderControllerIntegrationTest.java": {
+    "mtime": 1790098806.406288,
+    "seen": 1790850401.6370015,
+    "ast_hash": "3a6dceb3d66e6d268d56320df9438d24",
+    "semantic_hash": "3a6dceb3d66e6d268d56320df9438d24"
+  },
+  "frontend/.oxlintrc.json": {
+    "mtime": 1789579872.4260006,
+    "seen": 1790850401.637002,
+    "ast_hash": "029f4905006c1fffd96bc863e2d98d3e",
+    "semantic_hash": "029f4905006c1fffd96bc863e2d98d3e"
+  },
+  "frontend/package.json": {
+    "mtime": 1789580541.752787,
+    "seen": 1790850401.6370027,
+    "ast_hash": "6402eb85db538e51000cc12bf9af505b",
+    "semantic_hash": "6402eb85db538e51000cc12bf9af505b"
+  },
+  "frontend/src/App.tsx": {
+    "mtime": 1789579872.431007,
+    "seen": 1790850401.6370034,
+    "ast_hash": "e4931f6d58500c8315d8198f9aa64ff0",
+    "semantic_hash": "e4931f6d58500c8315d8198f9aa64ff0"
+  },
+  "frontend/src/main.tsx": {
+    "mtime": 1789579872.4360054,
+    "seen": 1790850401.6370044,
+    "ast_hash": "787e5a07efeb2bf6209d5937195f2f68",
+    "semantic_hash": "787e5a07efeb2bf6209d5937195f2f68"
+  },
+  "frontend/tsconfig.app.json": {
+    "mtime": 1789579872.4370625,
+    "seen": 1790850401.6370049,
+    "ast_hash": "5f2dafd737dea8a4ddcbb10f5113ac5a",
+    "semantic_hash": "5f2dafd737dea8a4ddcbb10f5113ac5a"
+  },
+  "frontend/tsconfig.json": {
+    "mtime": 1789579872.4380627,
+    "seen": 1790850401.6370056,
+    "ast_hash": "a3d39fa780ebff65444de257f291ce6c",
+    "semantic_hash": "a3d39fa780ebff65444de257f291ce6c"
+  },
+  "frontend/tsconfig.node.json": {
+    "mtime": 1789579872.4380627,
+    "seen": 1790850401.637006,
+    "ast_hash": "f9cb81ddcea69ffdab672fc8c48dca66",
+    "semantic_hash": "f9cb81ddcea69ffdab672fc8c48dca66"
+  },
+  "frontend/vite.config.ts": {
+    "mtime": 1789579942.3714852,
+    "seen": 1790850401.6370068,
+    "ast_hash": "2099edf51f1ea131c385ec12b7b21cb8",
+    "semantic_hash": "2099edf51f1ea131c385ec12b7b21cb8"
+  },
+  "infrastructure/monitoring/grafana/dashboards/medtheg-overview.json": {
+    "mtime": 1790779562.316307,
+    "seen": 1790850401.6370077,
+    "ast_hash": "09e76e0be64fb99e30d0a014bd9c63c4",
+    "semantic_hash": "09e76e0be64fb99e30d0a014bd9c63c4"
+  },
+  ".github/copilot-instructions.md": {
+    "mtime": 1790849387.0105026,
+    "seen": 1790850401.6370084,
+    "ast_hash": "2b23503628bf2ec71d067a85ca8948ab",
+    "semantic_hash": "2b23503628bf2ec71d067a85ca8948ab"
+  },
+  "README.md": {
+    "mtime": 1790780675.9041524,
+    "seen": 1790850401.637009,
+    "ast_hash": "060a8724892eac8edcf2f317dfc4e7db",
+    "semantic_hash": "060a8724892eac8edcf2f317dfc4e7db"
+  },
+  "backend/src/main/resources/application.yml": {
+    "mtime": 1790607609.8274343,
+    "seen": 1790850401.6370096,
+    "ast_hash": "ab42a582b358b4c7c6695d7efa530533",
+    "semantic_hash": "ab42a582b358b4c7c6695d7efa530533"
+  },
+  "docker-compose.yml": {
+    "mtime": 1790779481.3489425,
+    "seen": 1790850401.6370103,
+    "ast_hash": "8aeafce7ae6644df1fc729dff0d0ae8a",
+    "semantic_hash": "8aeafce7ae6644df1fc729dff0d0ae8a"
+  },
+  "docs/adr/001-modular-monolith.md": {
+    "mtime": 1789592997.5225413,
+    "seen": 1790850401.6370113,
+    "ast_hash": "025cab3d698d3caf5b3d8102ff16d7f1",
+    "semantic_hash": "025cab3d698d3caf5b3d8102ff16d7f1"
+  },
+  "docs/architecture/backend.md": {
+    "mtime": 1790780675.9922788,
+    "seen": 1790850401.6370122,
+    "ast_hash": "bf8e66fc4b3f573f2618ee6caeb8c13f",
+    "semantic_hash": "bf8e66fc4b3f573f2618ee6caeb8c13f"
+  },
+  "docs/architecture/catalog.md": {
+    "mtime": 1790780676.1570094,
+    "seen": 1790850401.6370127,
+    "ast_hash": "f5ba02ab43ef95fac0510688ced37fe4",
+    "semantic_hash": "f5ba02ab43ef95fac0510688ced37fe4"
+  },
+  "docs/architecture/database.md": {
+    "mtime": 1790780676.0295699,
+    "seen": 1790850401.6370134,
+    "ast_hash": "fe2bd13d916c80dd423ba6d5b52848fc",
+    "semantic_hash": "fe2bd13d916c80dd423ba6d5b52848fc"
+  },
+  "docs/architecture/deployment.md": {
+    "mtime": 1790780675.9432902,
+    "seen": 1790850401.6370144,
+    "ast_hash": "ad49d7807e9d8d529cacd276d493f1d5",
+    "semantic_hash": "ad49d7807e9d8d529cacd276d493f1d5"
+  },
+  "docs/architecture/frontend.md": {
+    "mtime": 1790780676.0295699,
+    "seen": 1790850401.637015,
+    "ast_hash": "b912d7d2a72144391e7755f207db4ce4",
+    "semantic_hash": "b912d7d2a72144391e7755f207db4ce4"
+  },
+  "docs/architecture/identity.md": {
+    "mtime": 1789929431.6935966,
+    "seen": 1790850401.6370158,
+    "ast_hash": "33e3618e6be80f21b70b64cd048d7205",
+    "semantic_hash": "33e3618e6be80f21b70b64cd048d7205"
+  },
+  "docs/architecture/library.md": {
+    "mtime": 1790780676.1705675,
+    "seen": 1790850401.6370165,
+    "ast_hash": "ce26da90d66f2fb3d8750e8ef86a40fb",
+    "semantic_hash": "ce26da90d66f2fb3d8750e8ef86a40fb"
+  },
+  "docs/architecture/overview.md": {
+    "mtime": 1790780676.2044868,
+    "seen": 1790850401.637017,
+    "ast_hash": "702129ac72249b1c731da4f98582b177",
+    "semantic_hash": "702129ac72249b1c731da4f98582b177"
+  },
+  "docs/architecture/sales.md": {
+    "mtime": 1790370743.6642675,
+    "seen": 1790850401.637018,
+    "ast_hash": "f7002a036c09f8fa8d5b6e101e7c2f41",
+    "semantic_hash": "f7002a036c09f8fa8d5b6e101e7c2f41"
+  },
+  "docs/architecture/security.md": {
+    "mtime": 1790780675.9850407,
+    "seen": 1790850401.6370187,
+    "ast_hash": "fb6a331c217a9c13905ce8c454ab4c6b",
+    "semantic_hash": "fb6a331c217a9c13905ce8c454ab4c6b"
+  },
+  "frontend/README.md": {
+    "mtime": 1789579942.3725343,
+    "seen": 1790850401.6370194,
+    "ast_hash": "45b067c80169a1436502fcc6537403c6",
+    "semantic_hash": "45b067c80169a1436502fcc6537403c6"
+  },
+  "frontend/index.html": {
+    "mtime": 1789579942.3174644,
+    "seen": 1790850401.6370199,
+    "ast_hash": "33bd262affcefea92f1509cda449a19c",
+    "semantic_hash": "33bd262affcefea92f1509cda449a19c"
+  },
+  "infrastructure/docker/docker-compose.yml": {
+    "mtime": 1790752360.5193937,
+    "seen": 1790850401.6370206,
+    "ast_hash": "fbe900c5d84bcff471af89685821f98b",
+    "semantic_hash": "fbe900c5d84bcff471af89685821f98b"
+  },
+  "infrastructure/monitoring/grafana/provisioning/dashboards/dashboards.yml": {
+    "mtime": 1790779426.8450248,
+    "seen": 1790850401.6370215,
+    "ast_hash": "c8e0604027f48ba6ff835c03bc41bb4d",
+    "semantic_hash": "c8e0604027f48ba6ff835c03bc41bb4d"
+  },
+  "infrastructure/monitoring/grafana/provisioning/datasources/prometheus.yml": {
+    "mtime": 1790779409.594712,
+    "seen": 1790850401.6370223,
+    "ast_hash": "68d46f6de539d4babbddd708dc55594b",
+    "semantic_hash": "68d46f6de539d4babbddd708dc55594b"
+  },
+  "infrastructure/monitoring/prometheus/prometheus.yml": {
+    "mtime": 1790752017.9948325,
+    "seen": 1790850401.637023,
+    "ast_hash": "ad34e1b79566ee8d2cd050e643554396",
+    "semantic_hash": "ad34e1b79566ee8d2cd050e643554396"
+  },
+  "frontend/public/favicon.svg": {
+    "mtime": 1789579872.4290063,
+    "seen": 1790850401.6370234,
+    "ast_hash": "7e840862161341271697daa99a40d76b",
+    "semantic_hash": "7e840862161341271697daa99a40d76b"
+  },
+  "frontend/public/icons.svg": {
+    "mtime": 1789579872.4300067,
+    "seen": 1790850401.6370244,
+    "ast_hash": "3b4fcfcf393eca4d264dca4a4663bc37",
+    "semantic_hash": "3b4fcfcf393eca4d264dca4a4663bc37"
+  },
+  "frontend/src/assets/hero.png": {
+    "mtime": 1789579872.433006,
+    "seen": 1790850401.637025,
+    "ast_hash": "aead493361b27e7510691c5d7072dfc1",
+    "semantic_hash": "aead493361b27e7510691c5d7072dfc1"
+  },
+  "frontend/src/assets/react.svg": {
+    "mtime": 1789579872.4340062,
+    "seen": 1790850401.6370258,
+    "ast_hash": "f0402b67b6ce880f65666bb49e841696",
+    "semantic_hash": "f0402b67b6ce880f65666bb49e841696"
+  },
+  "frontend/src/assets/vite.svg": {
+    "mtime": 1789579872.4350066,
+    "seen": 1790850401.6370265,
+    "ast_hash": "9960a24288958394ac50e57ff638b036",
+    "semantic_hash": "9960a24288958394ac50e57ff638b036"
+  }
+}

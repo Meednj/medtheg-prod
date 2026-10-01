@@ -3,6 +3,7 @@ package com.medthegprod.backend.catalog.infrastructure.persistence.repository;
 import com.medthegprod.backend.catalog.infrastructure.persistence.entity.ProductEntity;
 import com.medthegprod.backend.catalog.infrastructure.persistence.entity.enums.ProductCategoryEntity;
 import com.medthegprod.backend.catalog.infrastructure.persistence.entity.enums.ProductTypeEntity;
+import com.medthegprod.backend.catalog.infrastructure.persistence.entity.enums.ProductStatusEntity;
 
 import org.springframework.data.jpa.domain.Specification;
 
@@ -13,6 +14,10 @@ public final class ProductSpecifications {
 
     public static Specification<ProductEntity> hasType(ProductTypeEntity type) {
         return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("type"), type);
+    }
+
+    public static Specification<ProductEntity> hasStatus(ProductStatusEntity status) {
+        return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("status"), status);
     }
 
     public static Specification<ProductEntity> hasCategory(

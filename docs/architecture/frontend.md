@@ -46,6 +46,11 @@ order history, customer entitlements, and the downloadable library. The API
 contract should be treated as the source of truth while those screens are
 implemented.
 
+For catalog cards, use `categories`, `coverAssetId`, and `previewAssetId` from
+the product response. Request preview playback through the public preview URL
+endpoint. Do not assume the Stripe success route means the order is already
+paid; refresh backend order or payment state instead.
+
 ## Development Commands
 
 ```bash

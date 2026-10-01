@@ -41,6 +41,10 @@ Entitlement
 └── entitlements
 ```
 
+Product visibility is represented by the existing `products.status` value.
+The repository adapter applies `PUBLISHED` as the public catalog predicate;
+no duplicate visibility table or API-specific projection is used.
+
 The `library` module does not currently own a separate table. It composes
 entitlements with catalog assets and uses the storage adapter to produce
 download URLs.

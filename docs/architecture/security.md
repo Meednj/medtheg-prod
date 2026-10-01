@@ -14,16 +14,17 @@ to Spring authorities with the `ROLE_` prefix.
 
 The current HTTP policy is:
 
-| Resource                              | Access                                                        |
-| ------------------------------------- | ------------------------------------------------------------- |
-| Registration and login                | Public                                                        |
-| `GET /api/products` and product reads | Public                                                        |
-| Product management writes             | `ADMIN` role                                                  |
-| Orders and customer resources         | Authenticated user                                            |
-| Stripe webhook                        | Public HTTP route, protected by Stripe signature verification |
-| OpenAPI and Swagger UI                | Public                                                        |
-| Health and Prometheus endpoints       | Public                                                        |
-| Other routes                          | Authenticated user                                            |
+| Resource                                               | Access                                                        |
+| ------------------------------------------------------ | ------------------------------------------------------------- |
+| Registration and login                                 | Public                                                        |
+| `GET /api/products`, published reads, and preview URLs | Public                                                        |
+| Administrator product reads and lifecycle operations   | `ADMIN` role                                                  |
+| Product management writes                              | `ADMIN` role                                                  |
+| Orders and customer resources                          | Authenticated user                                            |
+| Stripe webhook                                         | Public HTTP route, protected by Stripe signature verification |
+| OpenAPI and Swagger UI                                 | Public                                                        |
+| Health and Prometheus endpoints                        | Public                                                        |
+| Other routes                                           | Authenticated user                                            |
 
 Customer-owned resources perform an additional ownership check in application
 services. A valid JWT alone does not grant access to another customer's orders,
@@ -51,8 +52,10 @@ removed after the request. Authorization headers, JWTs, passwords, request
 bodies, payment credentials, and storage credentials are excluded from request
 logging.
 
-Unauthenticated and unauthorized requests return structured `401` and `403`
-JSON responses. CSRF is ignored for the stateless `/api/**` API surface.
+Unauthenticated and unauthorized requests return the same structured error
+shape as application failures: `timestamp`, `status`, `code`, `error`,
+`message`, `path`, and `errors`. CSRF is ignored for the stateless `/api/**`
+API surface.
 
 ## Open Work
 

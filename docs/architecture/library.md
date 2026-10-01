@@ -50,6 +50,11 @@ Customers can view their purchased library and request a download URL for an
 asset they are entitled to access. The URL is time-limited so the application
 does not need to proxy the file contents through the API.
 
+Catalog preview audio follows a separate public path:
+`GET /api/products/{productId}/assets/{assetId}/preview`. It accepts only an
+`AUDIO_PREVIEW` asset and returns an expiring URL. Library downloads continue
+to require an active entitlement.
+
 ## Storage Configuration
 
 Local development uses MinIO at `http://localhost:9000` with the `medtheg-assets`

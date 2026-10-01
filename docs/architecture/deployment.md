@@ -50,6 +50,10 @@ Each HTTP request receives an `X-Request-ID`. It is stored in SLF4J MDC and
 included in request logs with method, path, status, and duration. Sensitive
 request data is excluded.
 
+The backend also exposes the public catalog preview endpoint, which generates
+short-lived object-storage URLs. Protected library downloads remain
+customer-authenticated and entitlement-checked.
+
 ## Containerization Status
 
 There is currently infrastructure for the MinIO image and local dependency

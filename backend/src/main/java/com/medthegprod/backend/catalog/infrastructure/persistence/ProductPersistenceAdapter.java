@@ -8,6 +8,7 @@ import com.medthegprod.backend.catalog.domain.repository.ProductRepository;
 import com.medthegprod.backend.catalog.infrastructure.persistence.entity.ProductEntity;
 import com.medthegprod.backend.catalog.infrastructure.persistence.entity.enums.ProductCategoryEntity;
 import com.medthegprod.backend.catalog.infrastructure.persistence.entity.enums.ProductTypeEntity;
+import com.medthegprod.backend.catalog.infrastructure.persistence.entity.enums.ProductStatusEntity;
 import com.medthegprod.backend.catalog.infrastructure.persistence.mapper.ProductMapper;
 import com.medthegprod.backend.catalog.infrastructure.persistence.repository.ProductJpaRepository;
 import org.springframework.data.domain.Page;
@@ -26,101 +27,112 @@ import java.util.UUID;
 @Transactional(readOnly = true)
 public class ProductPersistenceAdapter implements ProductRepository {
 
-    private final ProductJpaRepository productJpaRepository;
+        private final ProductJpaRepository productJpaRepository;
 
-    public ProductPersistenceAdapter(
-            ProductJpaRepository productJpaRepository) {
-        this.productJpaRepository = productJpaRepository;
-    }
-
-    @Override
-    @Transactional
-    public Product save(Product product) {
-
-        ProductEntity entity = ProductMapper.toEntity(product);
-
-        ProductEntity savedEntity = productJpaRepository.save(entity);
-
-        return ProductMapper.toDomain(savedEntity);
-    }
-
-    @Override
-    public Optional<Product> findById(ProductId productId) {
-        return productJpaRepository
-                .findByIdWithCategories(productId.value())
-                .map(ProductMapper::toDomain);
-    }
-
-    @Override
-    public ProductPage findAll(ProductSearchQuery query) {
-
-        Sort sort = buildSort(query);
-
-        Pageable pageable = PageRequest.of(
-                query.page(),
-                query.size(),
-                sort);
-
-        Specification<ProductEntity> specification = null;
-
-        if (query.type() != null) {
-            Specification<ProductEntity> typeSpecification = ProductSpecifications.hasType(
-                    ProductTypeEntity.valueOf(query.type().name()));
-
-            specification = typeSpecification;
+        public ProductPersistenceAdapter(
+                        ProductJpaRepository productJpaRepository) {
+                this.productJpaRepository = productJpaRepository;
         }
 
-        if (query.category() != null) {
-            Specification<ProductEntity> categorySpecification = ProductSpecifications.hasCategory(
-                    ProductCategoryEntity.valueOf(query.category().name()));
+        @Override
+        @Transactional
+        public Product save(Product product) {
 
-            specification = specification == null
-                    ? categorySpecification
-                    : specification.and(categorySpecification);
+                ProductEntity entity = ProductMapper.toEntity(product);
+
+                ProductEntity savedEntity = productJpaRepository.save(entity);
+
+                return ProductMapper.toDomain(savedEntity);
         }
 
-        if (query.search() != null && !query.search().isBlank()) {
-            Specification<ProductEntity> searchSpecification = ProductSpecifications.containsText(query.search());
-
-            specification = specification == null
-                    ? searchSpecification
-                    : specification.and(searchSpecification);
+        @Override
+        public Optional<Product> findById(ProductId productId) {
+                return productJpaRepository
+                                .findByIdWithCategories(productId.value())
+                                .map(ProductMapper::toDomain);
         }
 
-        Page<ProductEntity> result = productJpaRepository.findAll(
-                specification,
-                pageable);
+        @Override
+        public Optional<Product> findPublishedById(ProductId productId) {
+                return productJpaRepository
+                                .findByIdWithCategoriesAndStatus(
+                                                productId.value(),
+                                                ProductStatusEntity.PUBLISHED)
+                                .map(ProductMapper::toDomain);
+        }
 
-        return new ProductPage(
-                result.getContent()
-                        .stream()
-                        .map(ProductMapper::toDomain)
-                        .toList(),
-                result.getNumber(),
-                result.getSize(),
-                result.getTotalElements(),
-                result.getTotalPages());
-    }
+        @Override
+        public ProductPage findAll(ProductSearchQuery query) {
 
-    private Sort buildSort(ProductSearchQuery query) {
+                Sort sort = buildSort(query);
 
-            String property = switch (query.sortBy()) {
-                    case "price" -> "price";
-                    case "title" -> "title";
-                    case "createdAt" -> "createdAt";
-                    default -> "createdAt";
-            };
+                Pageable pageable = PageRequest.of(
+                                query.page(),
+                                query.size(),
+                                sort);
 
-            Sort.Direction direction = "desc".equalsIgnoreCase(query.direction())
-                            ? Sort.Direction.DESC
-                            : Sort.Direction.ASC;
+                Specification<ProductEntity> specification = ProductSpecifications.hasStatus(
+                                ProductStatusEntity.PUBLISHED);
 
-            return Sort.by(direction, property);
-    }
-    
-    @Override
-    public Optional<Product> findByAssetId(UUID assetId) {
-            return productJpaRepository.findByAssets_Id(assetId)
-                            .map(ProductMapper::toDomain);
-    }
+                if (query.type() != null) {
+                        Specification<ProductEntity> typeSpecification = ProductSpecifications.hasType(
+                                        ProductTypeEntity.valueOf(query.type().name()));
+
+                        specification = specification.and(typeSpecification);
+                }
+
+                if (query.category() != null) {
+                        Specification<ProductEntity> categorySpecification = ProductSpecifications.hasCategory(
+                                        ProductCategoryEntity.valueOf(query.category().name()));
+
+                        specification = specification == null
+                                        ? categorySpecification
+                                        : specification.and(categorySpecification);
+                }
+
+                if (query.search() != null && !query.search().isBlank()) {
+                        Specification<ProductEntity> searchSpecification = ProductSpecifications
+                                        .containsText(query.search());
+
+                        specification = specification == null
+                                        ? searchSpecification
+                                        : specification.and(searchSpecification);
+                }
+
+                Page<ProductEntity> result = productJpaRepository.findAll(
+                                specification,
+                                pageable);
+
+                return new ProductPage(
+                                result.getContent()
+                                                .stream()
+                                                .map(ProductMapper::toDomain)
+                                                .toList(),
+                                result.getNumber(),
+                                result.getSize(),
+                                result.getTotalElements(),
+                                result.getTotalPages());
+        }
+
+        private Sort buildSort(ProductSearchQuery query) {
+
+                String property = switch (query.sortBy()) {
+                        case "price" -> "price";
+                        case "title" -> "title";
+                        case "createdAt" -> "createdAt";
+                        default -> "createdAt";
+                };
+
+                Sort.Direction direction = "desc".equalsIgnoreCase(query.direction())
+                                ? Sort.Direction.DESC
+                                : Sort.Direction.ASC;
+
+                return Sort.by(direction, property);
+        }
+
+        @Override
+        public Optional<Product> findByAssetId(UUID assetId) {
+                return productJpaRepository.findByAssets_Id(assetId)
+                                .map(ProductMapper::toDomain);
+        }
 }

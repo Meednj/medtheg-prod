@@ -76,6 +76,7 @@ The domain stores a storage key rather than the physical file itself.
 Supported asset types currently include:
 
 ```text
+IMAGE
 AUDIO_PREVIEW
 AUDIO_MP3
 AUDIO_WAV
@@ -111,9 +112,12 @@ Current use cases:
 
 - `CreateProductUseCase`
 - `GetProductUseCase`
+- `GetAdminProductUseCase`
+- `GetProductPreviewUrlUseCase`
 - `ListProductsUseCase`
 - `UpdateProductUseCase`
 - `PublishProductUseCase`
+- `ArchiveProductUseCase`
 - `AddProductAssetUseCase`
 - `RemoveProductAssetUseCase`
 
@@ -181,15 +185,19 @@ Current endpoints:
 POST   /api/products
 GET    /api/products
 GET    /api/products/{id}
+GET    /api/products/admin/{id}
+GET    /api/products/{productId}/assets/{assetId}/preview
 PUT    /api/products/{id}
 POST   /api/products/{id}/publish
+POST   /api/products/{id}/archive
 POST   /api/products/{productId}/assets
 DELETE /api/products/{productId}/assets/{assetId}
 ```
 
-Product browsing endpoints are public. Product creation, updates, publishing,
-and asset management require the `ADMIN` role. Product listing supports page,
-size, type, category, search, sort field, and sort direction parameters.
+Product browsing and preview URLs are public, but only `PUBLISHED` products
+are visible. The administrator route can retrieve drafts and archived
+products. Product creation, updates, lifecycle changes, and asset management
+require the `ADMIN` role. Public responses never expose storage keys.
 
 ### Create Product
 

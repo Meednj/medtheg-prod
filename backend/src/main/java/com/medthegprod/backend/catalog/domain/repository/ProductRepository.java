@@ -8,12 +8,14 @@ import com.medthegprod.backend.catalog.domain.model.Product;
 import com.medthegprod.backend.catalog.domain.model.ProductId;
 
 public interface ProductRepository {
-    
+
     Product save(Product product);
 
     Optional<Product> findById(ProductId productId);
 
+    Optional<Product> findPublishedById(ProductId productId);
+
     ProductPage findAll(ProductSearchQuery query);
-    
+
     Optional<Product> findByAssetId(UUID assetId);
 }

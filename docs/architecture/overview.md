@@ -176,6 +176,10 @@ The Entitlement consumer is implemented. Email and analytics consumers remain
 future extensions. Library access is provided through authenticated HTTP
 requests after entitlements have been granted.
 
+Public catalog reads are restricted to published products at the repository
+boundary. Preview audio uses a short-lived presigned URL, while purchased
+assets remain behind active entitlement checks.
+
 ---
 
 ## 5. Dependency Direction

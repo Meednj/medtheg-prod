@@ -1,8 +1,10 @@
 package com.medthegprod.backend.catalog.infrastructure.web.controller;
 
 import com.medthegprod.backend.catalog.application.usecase.AddProductAssetUseCase;
+import com.medthegprod.backend.catalog.application.usecase.ArchiveProductUseCase;
 import com.medthegprod.backend.catalog.application.usecase.CreateProductUseCase;
 import com.medthegprod.backend.catalog.application.usecase.GetProductUseCase;
+import com.medthegprod.backend.catalog.application.usecase.GetAdminProductUseCase;
 import com.medthegprod.backend.catalog.application.usecase.ListProductsUseCase;
 import com.medthegprod.backend.catalog.application.usecase.PublishProductUseCase;
 import com.medthegprod.backend.catalog.application.usecase.RemoveProductAssetUseCase;
@@ -27,6 +29,7 @@ import com.medthegprod.backend.catalog.domain.model.ProductType;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 @RestController
 @RequestMapping("/api/products")
@@ -35,27 +38,33 @@ public class ProductController {
 
         private final CreateProductUseCase createProductUseCase;
         private final GetProductUseCase getProductUseCase;
+        private final GetAdminProductUseCase getAdminProductUseCase;
         private final ListProductsUseCase listProductsUseCase;
         private final UpdateProductUseCase updateProductUseCase;
         private final PublishProductUseCase publishProductUseCase;
         private final AddProductAssetUseCase addProductAssetUseCase;
         private final RemoveProductAssetUseCase removeProductAssetUseCase;
+        private final ArchiveProductUseCase archiveProductUseCase;
 
         public ProductController(
                         CreateProductUseCase createProductUseCase,
                         GetProductUseCase getProductUseCase,
+                        GetAdminProductUseCase getAdminProductUseCase,
                         ListProductsUseCase listProductsUseCase,
                         UpdateProductUseCase updateProductUseCase,
                         PublishProductUseCase publishProductUseCase,
                         AddProductAssetUseCase addProductAssetUseCase,
-                        RemoveProductAssetUseCase removeProductAssetUseCase) {
+                        RemoveProductAssetUseCase removeProductAssetUseCase,
+                        ArchiveProductUseCase archiveProductUseCase) {
                 this.createProductUseCase = createProductUseCase;
                 this.getProductUseCase = getProductUseCase;
+                this.getAdminProductUseCase = getAdminProductUseCase;
                 this.listProductsUseCase = listProductsUseCase;
                 this.updateProductUseCase = updateProductUseCase;
                 this.publishProductUseCase = publishProductUseCase;
                 this.addProductAssetUseCase = addProductAssetUseCase;
                 this.removeProductAssetUseCase = removeProductAssetUseCase;
+                this.archiveProductUseCase = archiveProductUseCase;
         }
 
         @PostMapping
@@ -74,13 +83,20 @@ public class ProductController {
         }
 
         @GetMapping("/{id}")
-        @Operation(summary = "Get a product", description = "Returns a published or draft product by ID. This endpoint is public.")
+        @Operation(summary = "Get a product", description = "Returns a published product by ID. This endpoint is public.")
         public ProductResponse getProduct(
                         @PathVariable UUID id) {
                 Product product = getProductUseCase.execute(
                                 new ProductId(id));
 
                 return ProductWebMapper.toResponse(product);
+        }
+
+        @GetMapping("/admin/{id}")
+        @PreAuthorize("hasRole('ADMIN')")
+        @Operation(summary = "Get any product", description = "Returns a product in any lifecycle state. Requires the ADMIN role.", security = @SecurityRequirement(name = "bearerAuth"))
+        public ProductResponse getAdminProduct(@PathVariable UUID id) {
+                return ProductWebMapper.toResponse(getAdminProductUseCase.execute(new ProductId(id)));
         }
 
         @GetMapping
@@ -146,6 +162,14 @@ public class ProductController {
                                 new ProductId(id));
 
                 return ProductWebMapper.toResponse(product);
+        }
+
+        @PostMapping("/{id}/archive")
+        @PreAuthorize("hasRole('ADMIN')")
+        @Operation(summary = "Archive a product", description = "Archives a published product. Requires the ADMIN role.", security = @SecurityRequirement(name = "bearerAuth"))
+        public ProductResponse archiveProduct(@PathVariable UUID id) {
+                return ProductWebMapper.toResponse(
+                                archiveProductUseCase.execute(new ProductId(id)));
         }
 
         @PostMapping("/{productId}/assets")

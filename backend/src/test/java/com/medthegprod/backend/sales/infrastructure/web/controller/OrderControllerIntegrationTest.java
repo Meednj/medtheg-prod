@@ -16,8 +16,6 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import java.util.UUID;
 
-
-
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
@@ -28,191 +26,209 @@ import java.time.Instant;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.mockito.Mockito.when;
+
 @SpringBootTest
 @AutoConfigureMockMvc
 class OrderControllerIntegrationTest {
 
-    @Autowired
-    private MockMvc mockMvc;
+        @Autowired
+        private MockMvc mockMvc;
 
-    @Autowired
-    private JwtEncoder jwtEncoder;
+        @Autowired
+        private JwtEncoder jwtEncoder;
 
-    @Autowired
-    private ProductRepository productRepository;
+        @Autowired
+        private ProductRepository productRepository;
 
-    @MockitoBean
-    private CreatePaymentUseCase createPaymentUseCase;
+        @MockitoBean
+        private CreatePaymentUseCase createPaymentUseCase;
 
-    private String customerToken;
+        @MockitoBean
+        private com.medthegprod.backend.sales.application.usecase.ListCustomerOrdersUseCase listCustomerOrdersUseCase;
 
-    private UserId customerId;
+        private String customerToken;
 
-    @BeforeEach
-    void setUp() {
+        private UserId customerId;
 
-        customerId = UserId.generate();
+        @BeforeEach
+        void setUp() {
 
-        Instant now = Instant.now();
+                customerId = UserId.generate();
 
-        var claims = org.springframework.security.oauth2.jwt.JwtClaimsSet
-                .builder()
-                .subject(customerId.value().toString())
-                .issuedAt(now)
-                .expiresAt(now.plusSeconds(3600))
-                .claim("email", "customer@test.com")
-                .claim("role", "CUSTOMER")
-                .build();
+                Instant now = Instant.now();
 
-        customerToken = jwtEncoder
-                .encode(
-                        org.springframework.security.oauth2.jwt.JwtEncoderParameters
-                                .from(claims))
-                .getTokenValue();
-    }
+                var claims = org.springframework.security.oauth2.jwt.JwtClaimsSet
+                                .builder()
+                                .subject(customerId.value().toString())
+                                .issuedAt(now)
+                                .expiresAt(now.plusSeconds(3600))
+                                .claim("email", "customer@test.com")
+                                .claim("role", "CUSTOMER")
+                                .build();
 
-    @Test
-    void shouldCreateOrderForAuthenticatedCustomer() throws Exception {
+                customerToken = jwtEncoder
+                                .encode(
+                                                org.springframework.security.oauth2.jwt.JwtEncoderParameters
+                                                                .from(claims))
+                                .getTokenValue();
+        }
 
-        ProductId productId = ProductId.generate();
+        @Test
+        void shouldCreateOrderForAuthenticatedCustomer() throws Exception {
 
-        Product product = new Product(
-                productId,
-                "Dark Beat",
-                "Dark underground beat",
-                ProductType.BEAT,
-                Money.eur(new BigDecimal("15.00")));
+                ProductId productId = ProductId.generate();
 
-        product.addCategory(ProductCategory.BEATS);
-        product.publish();
+                Product product = new Product(
+                                productId,
+                                "Dark Beat",
+                                "Dark underground beat",
+                                ProductType.BEAT,
+                                Money.eur(new BigDecimal("15.00")));
 
-        productRepository.save(product);
+                product.addCategory(ProductCategory.BEATS);
+                product.publish();
 
-        String request = """
-                {
-                    "items": [
-                        {
-                            "productId": "%s",
-                            "quantity": 1
-                        }
-                    ]
-                }
-                """.formatted(productId.value());
+                productRepository.save(product);
 
-        mockMvc.perform(
-                post("/api/orders")
-                        .contentType(APPLICATION_JSON)
-                        .header(
-                                "Authorization",
-                                "Bearer " + customerToken)
-                        .content(request))
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.customerId")
-                        .value(customerId.value().toString()))
-                .andExpect(jsonPath("$.status")
-                        .value("PENDING"))
-                .andExpect(jsonPath("$.total")
-                        .value(15.00))
-                .andExpect(jsonPath("$.currency")
-                        .value("EUR"))
-                .andExpect(jsonPath("$.items.length()")
-                        .value(1))
-                .andExpect(jsonPath("$.items[0].productId")
-                        .value(productId.value().toString()))
-                .andExpect(jsonPath("$.items[0].productTitle")
-                        .value("Dark Beat"))
-                .andExpect(jsonPath("$.items[0].unitPrice")
-                        .value(15.00))
-                .andExpect(jsonPath("$.items[0].quantity")
-                        .value(1));
-    }
+                String request = """
+                                {
+                                    "items": [
+                                        {
+                                            "productId": "%s",
+                                            "quantity": 1
+                                        }
+                                    ]
+                                }
+                                """.formatted(productId.value());
 
-    @Test
-    void shouldRejectUnauthenticatedCustomer() throws Exception {
+                mockMvc.perform(
+                                post("/api/orders")
+                                                .contentType(APPLICATION_JSON)
+                                                .header(
+                                                                "Authorization",
+                                                                "Bearer " + customerToken)
+                                                .content(request))
+                                .andExpect(status().isCreated())
+                                .andExpect(jsonPath("$.customerId")
+                                                .value(customerId.value().toString()))
+                                .andExpect(jsonPath("$.status")
+                                                .value("PENDING"))
+                                .andExpect(jsonPath("$.total")
+                                                .value(15.00))
+                                .andExpect(jsonPath("$.currency")
+                                                .value("EUR"))
+                                .andExpect(jsonPath("$.items.length()")
+                                                .value(1))
+                                .andExpect(jsonPath("$.items[0].productId")
+                                                .value(productId.value().toString()))
+                                .andExpect(jsonPath("$.items[0].productTitle")
+                                                .value("Dark Beat"))
+                                .andExpect(jsonPath("$.items[0].unitPrice")
+                                                .value(15.00))
+                                .andExpect(jsonPath("$.items[0].quantity")
+                                                .value(1));
+        }
 
-        ProductId productId = ProductId.generate();
+        @Test
+        void shouldRejectUnauthenticatedCustomer() throws Exception {
 
-        String request = """
-                {
-                    "items": [
-                        {
-                            "productId": "%s",
-                            "quantity": 1
-                        }
-                    ]
-                }
-                """.formatted(productId.value());
+                ProductId productId = ProductId.generate();
 
-        mockMvc.perform(
-                post("/api/orders")
-                        .contentType(APPLICATION_JSON)
-                        .content(request))
-                .andExpect(status().isUnauthorized());
-    }
+                String request = """
+                                {
+                                    "items": [
+                                        {
+                                            "productId": "%s",
+                                            "quantity": 1
+                                        }
+                                    ]
+                                }
+                                """.formatted(productId.value());
 
-    @Test
-    void shouldRejectInvalidQuantity() throws Exception {
+                mockMvc.perform(
+                                post("/api/orders")
+                                                .contentType(APPLICATION_JSON)
+                                                .content(request))
+                                .andExpect(status().isUnauthorized());
+        }
 
-            ProductId productId = ProductId.generate();
+        @Test
+        void shouldRejectInvalidQuantity() throws Exception {
 
-            String request = """
-                            {
-                                "items": [
-                                    {
-                                        "productId": "%s",
-                                        "quantity": 0
-                                    }
-                                ]
-                            }
-                            """.formatted(productId.value());
+                ProductId productId = ProductId.generate();
 
-            mockMvc.perform(
-                            post("/api/orders")
-                                            .contentType(APPLICATION_JSON)
-                                            .header(
-                                                            "Authorization",
-                                                            "Bearer " + customerToken)
-                                            .content(request))
-                            .andExpect(status().isBadRequest());
-    }
-    
-    @Test
-    void shouldCreatePaymentForAuthenticatedCustomer() throws Exception {
+                String request = """
+                                {
+                                    "items": [
+                                        {
+                                            "productId": "%s",
+                                            "quantity": 0
+                                        }
+                                    ]
+                                }
+                                """.formatted(productId.value());
 
-            UUID orderId = UUID.randomUUID();
+                mockMvc.perform(
+                                post("/api/orders")
+                                                .contentType(APPLICATION_JSON)
+                                                .header(
+                                                                "Authorization",
+                                                                "Bearer " + customerToken)
+                                                .content(request))
+                                .andExpect(status().isBadRequest());
+        }
 
-            CreatePaymentUseCase.PaymentResult paymentResult = new CreatePaymentUseCase.PaymentResult(
-                            orderId,
-                            "pi_test_123",
-                            "https://checkout.stripe.test/session");
+        @Test
+        void shouldCreatePaymentForAuthenticatedCustomer() throws Exception {
 
-            when(createPaymentUseCase.execute(
-                            new com.medthegprod.backend.sales.domain.model.OrderId(orderId),
-                            customerId.value())).thenReturn(paymentResult);
+                UUID orderId = UUID.randomUUID();
 
-            mockMvc.perform(
-                            post("/api/orders/{orderId}/payment", orderId)
-                                            .header(
-                                                            "Authorization",
-                                                            "Bearer " + customerToken))
-                            .andExpect(status().isOk())
-                            .andExpect(jsonPath("$.orderId")
-                                            .value(orderId.toString()))
-                            .andExpect(jsonPath("$.paymentId")
-                                            .value("pi_test_123"))
-                            .andExpect(jsonPath("$.checkoutUrl")
-                                            .value("https://checkout.stripe.test/session"));
-    }
+                CreatePaymentUseCase.PaymentResult paymentResult = new CreatePaymentUseCase.PaymentResult(
+                                orderId,
+                                "pi_test_123",
+                                "https://checkout.stripe.test/session");
 
-    @Test
-    void shouldRejectUnauthenticatedPaymentRequest() throws Exception {
+                when(createPaymentUseCase.execute(
+                                new com.medthegprod.backend.sales.domain.model.OrderId(orderId),
+                                customerId.value())).thenReturn(paymentResult);
 
-            UUID orderId = UUID.randomUUID();
+                mockMvc.perform(
+                                post("/api/orders/{orderId}/payment", orderId)
+                                                .header(
+                                                                "Authorization",
+                                                                "Bearer " + customerToken))
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$.orderId")
+                                                .value(orderId.toString()))
+                                .andExpect(jsonPath("$.paymentId")
+                                                .value("pi_test_123"))
+                                .andExpect(jsonPath("$.checkoutUrl")
+                                                .value("https://checkout.stripe.test/session"));
+        }
 
-            mockMvc.perform(
-                            post("/api/orders/{orderId}/payment", orderId))
-                            .andExpect(status().isUnauthorized());
-    }
+        @Test
+        void shouldRejectUnauthenticatedPaymentRequest() throws Exception {
+
+                UUID orderId = UUID.randomUUID();
+
+                mockMvc.perform(
+                                post("/api/orders/{orderId}/payment", orderId))
+                                .andExpect(status().isUnauthorized());
+        }
+
+        @Test
+        void shouldListOrdersForAuthenticatedCustomer() throws Exception {
+                when(listCustomerOrdersUseCase.execute(customerId, 0, 12))
+                                .thenReturn(new com.medthegprod.backend.sales.domain.model.OrderPage(
+                                                java.util.List.of(), 0, 12, 0, 0));
+
+                mockMvc.perform(get("/api/orders")
+                                .header("Authorization", "Bearer " + customerToken))
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$.content").isArray())
+                                .andExpect(jsonPath("$.totalElements").value(0));
+        }
 }

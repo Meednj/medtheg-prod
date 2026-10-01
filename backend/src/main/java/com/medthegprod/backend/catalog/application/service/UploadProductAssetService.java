@@ -1,6 +1,5 @@
 package com.medthegprod.backend.catalog.application.service;
 
-
 import com.medthegprod.backend.catalog.application.usecase.ProductAsset;
 import com.medthegprod.backend.catalog.application.usecase.UploadProductAssetUseCase;
 import com.medthegprod.backend.catalog.domain.model.AssetId;
@@ -111,6 +110,9 @@ public class UploadProductAssetService implements UploadProductAssetUseCase {
         }
 
         return switch (contentType.toLowerCase()) {
+            case "image/jpeg", "image/png", "image/webp" ->
+                DigitalAssetType.IMAGE;
+
             case "audio/mpeg",
                     "audio/mp3" ->
                 DigitalAssetType.AUDIO_MP3;

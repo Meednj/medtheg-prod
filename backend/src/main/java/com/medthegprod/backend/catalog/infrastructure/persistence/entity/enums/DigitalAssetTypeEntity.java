@@ -1,6 +1,7 @@
 package com.medthegprod.backend.catalog.infrastructure.persistence.entity.enums;
 
 public enum DigitalAssetTypeEntity {
+    IMAGE,
     AUDIO_PREVIEW,
     AUDIO_MP3,
     AUDIO_WAV,

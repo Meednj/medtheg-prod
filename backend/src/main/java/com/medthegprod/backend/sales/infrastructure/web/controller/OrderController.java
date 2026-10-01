@@ -67,16 +67,18 @@ public class OrderController {
 
         @GetMapping
         @Operation(summary = "List my orders", description = "Returns the authenticated customer's order history.")
-        public static OrderHistoryResponse from(OrderPage page) {
-                return new OrderHistoryResponse(
-                                page.content()
-                                                .stream()
-                                                .map(OrderWebMapper::toResponse)
-                                                .toList(),
-                                page.page(),
-                                page.size(),
-                                page.totalElements(),
-                                page.totalPages());
+        public OrderHistoryResponse getOrders(
+                        @RequestParam(defaultValue = "0") int page,
+                        @RequestParam(defaultValue = "12") int size,
+                        Authentication authentication) {
+                UserId customerId = AuthenticatedUser.getUserId(authentication);
+
+                OrderPage result = listCustomerOrdersUseCase.execute(
+                                customerId,
+                                page,
+                                size);
+
+                return OrderHistoryResponse.from(result);
         }
 
         @PostMapping("/{orderId}/payment")

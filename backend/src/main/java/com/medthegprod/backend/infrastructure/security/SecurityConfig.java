@@ -1,5 +1,7 @@
 package com.medthegprod.backend.infrastructure.security;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -9,10 +11,16 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.SecurityFilterChain;
 
-import java.nio.charset.StandardCharsets;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
+import java.util.Map;
 
 @Configuration
 public class SecurityConfig {
+
+        private final ObjectMapper objectMapper = JsonMapper.builder()
+                        .findAndAddModules()
+                        .build();
 
         @Bean
         public SecurityFilterChain securityFilterChain(
@@ -39,6 +47,11 @@ public class SecurityConfig {
                                                                 "/swagger-ui.html",
                                                                 "/swagger-ui/**")
                                                 .permitAll()
+
+                                                // administrator product reads must be evaluated before the public GET
+                                                // wildcard
+                                                .requestMatchers("/api/products/admin/**")
+                                                .hasRole("ADMIN")
 
                                                 // public product browsing
                                                 .requestMatchers(
@@ -77,6 +90,7 @@ public class SecurityConfig {
         @Bean
         public AuthenticationEntryPoint authenticationEntryPoint() {
                 return (request, response, exception) -> writeSecurityError(
+                                request,
                                 response,
                                 401,
                                 "UNAUTHORIZED",
@@ -86,6 +100,7 @@ public class SecurityConfig {
         @Bean
         public AccessDeniedHandler accessDeniedHandler() {
                 return (request, response, exception) -> writeSecurityError(
+                                request,
                                 response,
                                 403,
                                 "FORBIDDEN",
@@ -93,17 +108,21 @@ public class SecurityConfig {
         }
 
         private void writeSecurityError(
+                        jakarta.servlet.http.HttpServletRequest request,
                         jakarta.servlet.http.HttpServletResponse response,
                         int status,
                         String code,
                         String message) throws java.io.IOException {
                 response.setStatus(status);
                 response.setContentType("application/json");
-                response.getOutputStream().write(("{\"status\":" + status
-                                + ",\"code\":\"" + code
-                                + "\",\"error\":\"" + code
-                                + "\",\"message\":\"" + message + "\"}")
-                                .getBytes(StandardCharsets.UTF_8));
+                response.getOutputStream().write(objectMapper.writeValueAsBytes(Map.of(
+                                "timestamp", OffsetDateTime.now(ZoneOffset.UTC),
+                                "status", status,
+                                "code", code,
+                                "error", code,
+                                "message", message,
+                                "path", request.getRequestURI(),
+                                "errors", Map.of())));
         }
 
         @Bean

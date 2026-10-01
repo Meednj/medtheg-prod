@@ -62,6 +62,8 @@ The REST API currently covers:
 
 - `/api/auth/register` and `/api/auth/login`
 - `/api/products` and product asset operations
+- `/api/products/admin/{id}` for administrator lifecycle reads
+- `/api/products/{productId}/assets/{assetId}/preview` for expiring previews
 - `/api/orders` and payment-session creation
 - `/api/webhooks/stripe`
 - customer entitlements and library asset operations
@@ -69,6 +71,9 @@ The REST API currently covers:
 
 OpenAPI is available at `/v3/api-docs` with Swagger UI at
 `/swagger-ui.html`.
+
+The complete implemented request and response contract is maintained in
+[`docs/api-contract.md`](../api-contract.md).
 
 ## Testing Approach
 

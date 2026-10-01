@@ -18,7 +18,7 @@ public class GetProductService implements GetProductUseCase {
     @Override
     public Product execute(ProductId productId) {
         return productRepository
-                .findById(productId)
+                .findPublishedById(productId)
                 .orElseThrow(() -> new ProductNotFoundException(productId));
     }
 }

@@ -460,3 +460,8 @@ Production hardening will eventually include:
 - Asynchronous event processing if required by scale
 
 These are intentionally deferred until the core commerce workflow is complete.
+
+The implemented `GET /api/orders` endpoint resolves the authenticated customer
+from the JWT and delegates pagination to `ListCustomerOrdersUseCase`. Stripe
+success and cancel redirects do not change order state; the verified webhook
+does.
