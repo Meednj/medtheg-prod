@@ -5,62 +5,119 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
+import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.SecurityFilterChain;
+
+import java.nio.charset.StandardCharsets;
 
 @Configuration
 public class SecurityConfig {
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(
-            HttpSecurity http) throws Exception {
+        @Bean
+        public SecurityFilterChain securityFilterChain(
+                        HttpSecurity http) throws Exception {
 
-        return http
-                .csrf(csrf -> csrf.ignoringRequestMatchers("/api/**"))
+                return http
+                                .csrf(csrf -> csrf.ignoringRequestMatchers("/api/**"))
 
-                .authorizeHttpRequests(auth -> auth
+                                .authorizeHttpRequests(auth -> auth
 
-                        // public authentication endpoints
-                        .requestMatchers(
-                                "/api/auth/register",
-                                "/api/auth/login")
-                        .permitAll()
+                                                // public authentication endpoints
+                                                .requestMatchers(
+                                                                "/api/auth/register",
+                                                                "/api/auth/login")
+                                                .permitAll()
 
-                        // public product browsing
-                        .requestMatchers(
-                                org.springframework.http.HttpMethod.GET,
-                                "/api/products",
-                                "/api/products/**")
-                        .permitAll()
+                                                // Stripe authenticates this endpoint with its signature.
+                                                .requestMatchers("/api/webhooks/stripe")
+                                                .permitAll()
 
-                        // product management requires ADMIN
-                        .requestMatchers("/api/products/**")
-                        .hasRole("ADMIN")
+                                                // OpenAPI resources are public documentation.
+                                                .requestMatchers(
+                                                                "/v3/api-docs/**",
+                                                                "/swagger-ui.html",
+                                                                "/swagger-ui/**")
+                                                .permitAll()
 
-                        // actuator health
-                        .requestMatchers("/actuator/health")
-                        .permitAll()
+                                                // public product browsing
+                                                .requestMatchers(
+                                                                org.springframework.http.HttpMethod.GET,
+                                                                "/api/products",
+                                                                "/api/products/**")
+                                                .permitAll()
 
-                        .anyRequest()
-                        .authenticated())
+                                                // product management requires ADMIN
+                                                .requestMatchers("/api/products/**")
+                                                .hasRole("ADMIN")
 
-                .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> jwt.jwtAuthenticationConverter(
-                        jwtAuthenticationConverter())))
+                                                // actuator health
+                                                .requestMatchers(
+                                                                "/actuator/health",
+                                                                "/actuator/health/**",
+                                                                "/actuator/prometheus")
+                                                .permitAll()
 
-                .build();
-    }
+                                                .anyRequest()
+                                                .authenticated())
 
-    @Bean
-    public JwtAuthenticationConverter jwtAuthenticationConverter() {
+                                .oauth2ResourceServer(oauth2 -> oauth2
+                                                .authenticationEntryPoint(authenticationEntryPoint())
+                                                .accessDeniedHandler(accessDeniedHandler())
+                                                .jwt(jwt -> jwt.jwtAuthenticationConverter(
+                                                                jwtAuthenticationConverter())))
 
-        JwtGrantedAuthoritiesConverter authoritiesConverter = new JwtGrantedAuthoritiesConverter();
+                                .exceptionHandling(exceptions -> exceptions
+                                                .authenticationEntryPoint(authenticationEntryPoint())
+                                                .accessDeniedHandler(accessDeniedHandler()))
 
-        authoritiesConverter.setAuthoritiesClaimName("role");
-        authoritiesConverter.setAuthorityPrefix("ROLE_");
+                                .build();
+        }
 
-        JwtAuthenticationConverter converter = new JwtAuthenticationConverter();
+        @Bean
+        public AuthenticationEntryPoint authenticationEntryPoint() {
+                return (request, response, exception) -> writeSecurityError(
+                                response,
+                                401,
+                                "UNAUTHORIZED",
+                                "Authentication is required to access this resource");
+        }
 
-        converter.setJwtGrantedAuthoritiesConverter(authoritiesConverter);
+        @Bean
+        public AccessDeniedHandler accessDeniedHandler() {
+                return (request, response, exception) -> writeSecurityError(
+                                response,
+                                403,
+                                "FORBIDDEN",
+                                "You do not have permission to access this resource");
+        }
 
-        return converter;
-    }
+        private void writeSecurityError(
+                        jakarta.servlet.http.HttpServletResponse response,
+                        int status,
+                        String code,
+                        String message) throws java.io.IOException {
+                response.setStatus(status);
+                response.setContentType("application/json");
+                response.getOutputStream().write(("{\"status\":" + status
+                                + ",\"code\":\"" + code
+                                + "\",\"error\":\"" + code
+                                + "\",\"message\":\"" + message + "\"}")
+                                .getBytes(StandardCharsets.UTF_8));
+        }
+
+        @Bean
+        public JwtAuthenticationConverter jwtAuthenticationConverter() {
+
+                JwtGrantedAuthoritiesConverter authoritiesConverter = new JwtGrantedAuthoritiesConverter();
+
+                authoritiesConverter.setAuthoritiesClaimName("role");
+                authoritiesConverter.setAuthorityPrefix("ROLE_");
+
+                JwtAuthenticationConverter converter = new JwtAuthenticationConverter();
+
+                converter.setJwtGrantedAuthoritiesConverter(authoritiesConverter);
+
+                return converter;
+        }
 }

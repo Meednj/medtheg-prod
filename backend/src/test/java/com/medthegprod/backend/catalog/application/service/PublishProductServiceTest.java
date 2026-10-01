@@ -16,6 +16,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.medthegprod.backend.catalog.application.port.EventPublisher;
 import com.medthegprod.backend.catalog.domain.model.Money;
 import com.medthegprod.backend.catalog.domain.model.Product;
 import com.medthegprod.backend.catalog.domain.model.ProductCategory;
@@ -27,15 +28,18 @@ import com.medthegprod.backend.catalog.domain.repository.ProductRepository;
 @ExtendWith(MockitoExtension.class)
 class PublishProductServiceTest {
 
-    @Mock
-    private ProductRepository productRepository;
+        @Mock
+        private ProductRepository productRepository;
 
-    private PublishProductService publishProductService;
+        @Mock
+        private EventPublisher eventPublisher;
 
-    @BeforeEach
-    void setUp() {
-        publishProductService = new PublishProductService(productRepository);
-    }
+        private PublishProductService publishProductService;
+
+        @BeforeEach
+        void setUp() {
+                publishProductService = new PublishProductService(productRepository, eventPublisher);
+        }
 
     @Test
     void shouldPublishProduct() {

@@ -14,7 +14,7 @@ The application is deployed as a single Spring Boot application while maintainin
                     │   Application     │
                     └─────────┬─────────┘
                               │
-       ┌──────────────────────┼──────────────────────┐
+         ┌──────────────────────┼──────────────────────┐
        │                      │                      │
        ▼                      ▼                      ▼
    Identity                Catalog                 Sales
@@ -28,59 +28,67 @@ The application is deployed as a single Spring Boot application while maintainin
        └──────────────────────┼───────────────────────────────┘
                               │
                               ▼
-                         Entitlement
+                        Entitlement / Library
 ```
 
 ---
 
 ## 2. Current Business Modules
 
-The backend currently contains four major business modules:
+The backend currently contains five major business modules:
 
 ### Identity
 
 Responsible for:
 
-* User registration
-* Authentication
-* Password hashing
-* JWT generation
-* Roles
-* User status
-* Authorization integration
+- User registration
+- Authentication
+- Password hashing
+- JWT generation
+- Roles
+- User status
+- Authorization integration
 
 ### Catalog
 
 Responsible for:
 
-* Products
-* Product types
-* Categories
-* Prices
-* Product lifecycle
-* Digital assets
-* Product publication
+- Products
+- Product types
+- Categories
+- Prices
+- Product lifecycle
+- Digital assets
+- Product publication
 
 ### Sales
 
 Responsible for:
 
-* Orders
-* Order items
-* Historical pricing
-* Payment records
-* Stripe Checkout
-* Payment confirmation
-* Order lifecycle
+- Orders
+- Order items
+- Historical pricing
+- Payment records
+- Stripe Checkout
+- Payment confirmation
+- Order lifecycle
 
 ### Entitlement
 
 Responsible for:
 
-* Customer ownership
-* Access rights to purchased products
-* Entitlement lifecycle
-* Customer product library
+- Customer ownership
+- Access rights to purchased products
+- Entitlement lifecycle
+- Customer product library
+
+### Library
+
+Responsible for:
+
+- Listing a customer's assets from active entitlements
+- Checking customer access to individual assets
+- Generating temporary MinIO download URLs
 
 ---
 
@@ -164,7 +172,9 @@ The event can then be consumed by other modules.
      Customer Ownership
 ```
 
-Only the Entitlement consumer is currently implemented.
+The Entitlement consumer is implemented. Email and analytics consumers remain
+future extensions. Library access is provided through authenticated HTTP
+requests after entitlements have been granted.
 
 ---
 
@@ -184,12 +194,12 @@ Domain
 
 The domain must not depend on:
 
-* PostgreSQL
-* JPA
-* Redis
-* Stripe
-* HTTP
-* Spring framework APIs
+- PostgreSQL
+- JPA
+- Redis
+- Stripe
+- HTTP
+- Spring framework APIs
 
 Infrastructure adapters implement the ports defined by the application/domain layers.
 
@@ -233,6 +243,9 @@ Sales
 
 Entitlement
 └── entitlements
+
+Library
+└── Reads entitlements and catalog assets; no separate table currently
 ```
 
 Cross-module database coupling is intentionally minimized.
@@ -373,14 +386,14 @@ The project intentionally uses a modular monolith instead of microservices at th
 
 Benefits include:
 
-* Simple deployment
-* Simple local development
-* Single database infrastructure
-* Lower operational complexity
-* Clear business boundaries
-* Easier debugging
-* Ability to introduce asynchronous processing later
-* Possibility of extracting modules into services if future requirements justify it
+- Simple deployment
+- Simple local development
+- Single database infrastructure
+- Lower operational complexity
+- Clear business boundaries
+- Easier debugging
+- Ability to introduce asynchronous processing later
+- Possibility of extracting modules into services if future requirements justify it
 
 The architecture therefore separates business responsibilities without introducing unnecessary distributed-system complexity.
 

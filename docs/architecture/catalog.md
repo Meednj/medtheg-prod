@@ -86,7 +86,9 @@ VIDEO
 OTHER
 ```
 
-The actual object storage implementation will be introduced later.
+The current infrastructure includes a MinIO adapter for storage operations.
+The catalog still stores only the storage key and delegates URL generation and
+file access to the Library module's `AssetStorage` port.
 
 ## Categories
 
@@ -109,6 +111,11 @@ Current use cases:
 
 - `CreateProductUseCase`
 - `GetProductUseCase`
+- `ListProductsUseCase`
+- `UpdateProductUseCase`
+- `PublishProductUseCase`
+- `AddProductAssetUseCase`
+- `RemoveProductAssetUseCase`
 
 Application services coordinate domain objects and repository ports without depending directly on PostgreSQL or Spring Data.
 
@@ -171,9 +178,18 @@ Flyway is therefore responsible for schema evolution.
 Current endpoints:
 
 ```text
-POST /api/products
-GET  /api/products/{id}
+POST   /api/products
+GET    /api/products
+GET    /api/products/{id}
+PUT    /api/products/{id}
+POST   /api/products/{id}/publish
+POST   /api/products/{productId}/assets
+DELETE /api/products/{productId}/assets/{assetId}
 ```
+
+Product browsing endpoints are public. Product creation, updates, publishing,
+and asset management require the `ADMIN` role. Product listing supports page,
+size, type, category, search, sort field, and sort direction parameters.
 
 ### Create Product
 
@@ -320,26 +336,26 @@ Product
 
 Continue with:
 
-```markdown
+````markdown
 ## REST API
 
 The Catalog module exposes the following endpoints.
 
 ### Products
 
-| Method | Endpoint | Purpose |
-|---|---|---|
-| POST | `/api/products` | Create a product |
-| GET | `/api/products/{id}` | Get a product |
-| GET | `/api/products` | List/search products |
-| PUT | `/api/products/{id}` | Update a product |
-| POST | `/api/products/{id}/publish` | Publish a product |
+| Method | Endpoint                     | Purpose              |
+| ------ | ---------------------------- | -------------------- |
+| POST   | `/api/products`              | Create a product     |
+| GET    | `/api/products/{id}`         | Get a product        |
+| GET    | `/api/products`              | List/search products |
+| PUT    | `/api/products/{id}`         | Update a product     |
+| POST   | `/api/products/{id}/publish` | Publish a product    |
 
 ### Product assets
 
-| Method | Endpoint | Purpose |
-|---|---|---|
-| POST | `/api/products/{productId}/assets` | Add a digital asset |
+| Method | Endpoint                                     | Purpose                |
+| ------ | -------------------------------------------- | ---------------------- |
+| POST   | `/api/products/{productId}/assets`           | Add a digital asset    |
 | DELETE | `/api/products/{productId}/assets/{assetId}` | Remove a digital asset |
 
 Asset creation currently accepts:
@@ -350,7 +366,7 @@ Asset creation currently accepts:
   "storageKey": "products/{productId}/full.wav"
 }
 ```
-
+````
 
 ---
 
@@ -358,7 +374,7 @@ Asset creation currently accepts:
 
 If you don't already have a complete testing section, add:
 
-```markdown
+````markdown
 ## Testing
 
 The Catalog module is covered at multiple architectural levels.
@@ -429,6 +445,7 @@ The Catalog test suite currently passes with:
 61 tests
 0 failures
 ```
+````
 
 ---
 
@@ -470,3 +487,4 @@ The Catalog module follows these rules:
 
 11. Catalog remains part of a modular monolith rather than being deployed as
     an independent microservice.
+```

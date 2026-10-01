@@ -130,6 +130,23 @@ processed only when the Checkout Session has `payment_status = paid`. Other
 Stripe event types are ignored and logged. An unpaid Checkout Session does not
 change application state.
 
+## 3.1 REST API
+
+The Sales HTTP endpoints are:
+
+```text
+POST /api/orders
+GET  /api/orders
+POST /api/orders/{orderId}/payment
+POST /api/webhooks/stripe
+```
+
+The order endpoints require a customer JWT. The Stripe webhook is public at the
+HTTP authorization layer because Stripe authenticates it with the
+`Stripe-Signature` header; the signature is verified before payment state can
+change. OpenAPI documentation is available at `/v3/api-docs` and Swagger UI at
+`/swagger-ui.html`.
+
 ---
 
 ## 4. OrderPaidEvent

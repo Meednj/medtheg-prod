@@ -20,9 +20,14 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/api/orders")
+@Tag(name = "Sales", description = "Customer orders and Stripe Checkout payments")
+@SecurityRequirement(name = "bearerAuth")
 public class OrderController {
 
         private final CreateOrderUseCase createOrderUseCase;
@@ -40,6 +45,7 @@ public class OrderController {
 
         @PostMapping
         @ResponseStatus(HttpStatus.CREATED)
+        @Operation(summary = "Create an order", description = "Creates an order for the authenticated customer.")
         public OrderResponse createOrder(
                         @Valid @RequestBody CreateOrderRequest request,
                         Authentication authentication) {
@@ -60,6 +66,7 @@ public class OrderController {
         }
 
         @GetMapping
+        @Operation(summary = "List my orders", description = "Returns the authenticated customer's order history.")
         public static OrderHistoryResponse from(OrderPage page) {
                 return new OrderHistoryResponse(
                                 page.content()
@@ -73,6 +80,7 @@ public class OrderController {
         }
 
         @PostMapping("/{orderId}/payment")
+        @Operation(summary = "Create a payment", description = "Creates a Stripe Checkout Session for an authenticated customer's order.")
         public PaymentResult createPayment(
                         @PathVariable UUID orderId,
                         Authentication authentication) {

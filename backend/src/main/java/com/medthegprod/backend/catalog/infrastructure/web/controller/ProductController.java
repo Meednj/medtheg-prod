@@ -24,9 +24,13 @@ import java.util.UUID;
 import com.medthegprod.backend.catalog.application.query.ProductSearchQuery;
 import com.medthegprod.backend.catalog.domain.model.ProductCategory;
 import com.medthegprod.backend.catalog.domain.model.ProductType;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/api/products")
+@Tag(name = "Catalog", description = "Public product browsing and administrator product management")
 public class ProductController {
 
         private final CreateProductUseCase createProductUseCase;
@@ -56,6 +60,7 @@ public class ProductController {
 
         @PostMapping
         @ResponseStatus(HttpStatus.CREATED)
+        @Operation(summary = "Create a product", description = "Creates a draft product. Requires the ADMIN role.", security = @SecurityRequirement(name = "bearerAuth"))
         public ProductResponse createProduct(
                         @Valid @RequestBody CreateProductRequest request) {
                 Product product = createProductUseCase.execute(
@@ -69,6 +74,7 @@ public class ProductController {
         }
 
         @GetMapping("/{id}")
+        @Operation(summary = "Get a product", description = "Returns a published or draft product by ID. This endpoint is public.")
         public ProductResponse getProduct(
                         @PathVariable UUID id) {
                 Product product = getProductUseCase.execute(
@@ -78,6 +84,7 @@ public class ProductController {
         }
 
         @GetMapping
+        @Operation(summary = "List products", description = "Returns public products with pagination and optional filtering. This endpoint is public.")
         public ProductPageResponse getProducts(
 
                         @RequestParam(defaultValue = "0") int page,
@@ -116,6 +123,7 @@ public class ProductController {
         }
 
         @PutMapping("/{id}")
+        @Operation(summary = "Update a product", description = "Updates a product. Requires the ADMIN role.", security = @SecurityRequirement(name = "bearerAuth"))
         public ProductResponse updateProduct(
                         @PathVariable UUID id,
                         @Valid @RequestBody UpdateProductRequest request) {
@@ -131,6 +139,7 @@ public class ProductController {
         }
 
         @PostMapping("/{id}/publish")
+        @Operation(summary = "Publish a product", description = "Publishes a product. Requires the ADMIN role.", security = @SecurityRequirement(name = "bearerAuth"))
         public ProductResponse publishProduct(
                         @PathVariable UUID id) {
                 Product product = publishProductUseCase.execute(
@@ -140,6 +149,7 @@ public class ProductController {
         }
 
         @PostMapping("/{productId}/assets")
+        @Operation(summary = "Add a product asset", description = "Adds an asset reference to a product. Requires the ADMIN role.", security = @SecurityRequirement(name = "bearerAuth"))
         public ProductResponse addAsset(
                         @PathVariable UUID productId,
                         @Valid @RequestBody AddProductAssetRequest request) {
@@ -152,6 +162,7 @@ public class ProductController {
         }
 
         @DeleteMapping("/{productId}/assets/{assetId}")
+        @Operation(summary = "Remove a product asset", description = "Removes an asset from a product. Requires the ADMIN role.", security = @SecurityRequirement(name = "bearerAuth"))
         public ProductResponse removeAsset(
                         @PathVariable UUID productId,
                         @PathVariable UUID assetId) {

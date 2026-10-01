@@ -1,21 +1,21 @@
 package com.medthegprod.backend.infrastructure.event;
 
-import com.medthegprod.backend.sales.application.port.EventPublisher;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SpringEventPublisher implements EventPublisher {
+public class SpringEventPublisher
+        implements com.medthegprod.backend.catalog.application.port.EventPublisher,
+        com.medthegprod.backend.sales.application.port.EventPublisher {
 
-    private final ApplicationEventPublisher applicationEventPublisher;
+    private final ApplicationEventPublisher publisher;
 
-    public SpringEventPublisher(
-            ApplicationEventPublisher applicationEventPublisher) {
-        this.applicationEventPublisher = applicationEventPublisher;
+    public SpringEventPublisher(ApplicationEventPublisher publisher) {
+        this.publisher = publisher;
     }
 
     @Override
     public void publish(Object event) {
-        applicationEventPublisher.publishEvent(event);
+        publisher.publishEvent(event);
     }
 }

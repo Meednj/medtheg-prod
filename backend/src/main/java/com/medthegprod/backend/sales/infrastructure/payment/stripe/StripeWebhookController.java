@@ -12,9 +12,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.UUID;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/api/webhooks/stripe")
+@Tag(name = "Payments", description = "Stripe payment webhook")
 public class StripeWebhookController {
 
     private static final Logger logger = LoggerFactory.getLogger(StripeWebhookController.class);
@@ -30,6 +33,7 @@ public class StripeWebhookController {
     }
 
     @PostMapping
+    @Operation(summary = "Receive a Stripe webhook", description = "Public endpoint validated with the Stripe-Signature header. It does not require JWT authentication.")
     public ResponseEntity<Void> handleWebhook(
             @RequestBody String payload,
             @RequestHeader("Stripe-Signature") String signature) {

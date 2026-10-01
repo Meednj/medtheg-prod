@@ -27,7 +27,22 @@ management:
   endpoints:
     web:
       exposure:
-        include: health,info
+        include: health,info,prometheus
+
+  endpoint:
+    health:
+      probes:
+        enabled: true
+
+  health:
+    livenessstate:
+      enabled: true
+    readinessstate:
+      enabled: true
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
 
 stripe:
   secret-key: ${STRIPE_SECRET_KEY}
@@ -40,3 +55,7 @@ minio:
   access-key: ${MINIO_ACCESS_KEY:medtheg}
   secret-key: ${MINIO_SECRET_KEY:medtheg_minio_password}
   bucket: ${MINIO_BUCKET:medtheg-assets}
+
+logging:
+  pattern:
+    level: "%5p [requestId:%X{requestId:-}]"
