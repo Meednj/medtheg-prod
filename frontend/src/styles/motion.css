@@ -1,0 +1,27 @@
+/* MedTheG motion is rare, physical and tied to a user action. */
+:root {
+  --motion-micro: 140ms;
+  --motion-object: 260ms;
+  --motion-editorial: 420ms;
+  --motion-ease: cubic-bezier(.2, .7, .2, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --motion-micro: 1ms;
+    --motion-object: 1ms;
+    --motion-editorial: 1ms;
+  }
+
+  .home-hero:not(.is-formed) .hero-copy .eyebrow,
+  .home-hero:not(.is-formed) .hero-description,
+  .home-hero:not(.is-formed) .hero-cta,
+  .home-hero:not(.is-formed) .artwork-topline,
+  .home-hero:not(.is-formed) .artwork-bottomline {
+    opacity: 1;
+  }
+
+  .home-hero .hero-grid-rule {
+    transform: none;
+  }
+}
