@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.InputStream;
+import java.util.Locale;
+import java.util.Set;
 import java.util.UUID;
 
 @Service
@@ -36,7 +38,8 @@ public class UploadProductAssetService implements UploadProductAssetUseCase {
             String fileName,
             String contentType,
             long contentLength,
-            InputStream inputStream) {
+            InputStream inputStream,
+            DigitalAssetType requestedType) {
 
         if (productId == null) {
             throw new IllegalArgumentException(
@@ -58,6 +61,8 @@ public class UploadProductAssetService implements UploadProductAssetUseCase {
                     "Input stream cannot be null");
         }
 
+        DigitalAssetType assetType = determineAssetType(contentType, requestedType);
+
         Product product = productRepository
                 .findById(new ProductId(productId))
                 .orElseThrow(() -> new ProductNotFoundException(
@@ -75,7 +80,7 @@ public class UploadProductAssetService implements UploadProductAssetUseCase {
 
         DigitalAsset asset = new DigitalAsset(
                 AssetId.generate(),
-                determineAssetType(contentType),
+                assetType,
                 storageKey);
 
         product.addAsset(asset);
@@ -103,36 +108,72 @@ public class UploadProductAssetService implements UploadProductAssetUseCase {
     }
 
     private DigitalAssetType determineAssetType(
-            String contentType) {
+            String contentType,
+            DigitalAssetType requestedType) {
 
-        if (contentType == null) {
+        String normalizedContentType = contentType == null
+                ? null
+                : contentType.toLowerCase(Locale.ROOT);
+
+        if (requestedType != null) {
+            if (!isCompatible(requestedType, normalizedContentType)) {
+                throw new IllegalArgumentException(
+                        "Uploaded file content type is not valid for " + requestedType);
+            }
+            return requestedType;
+        }
+
+        if (normalizedContentType == null) {
             return DigitalAssetType.OTHER;
         }
 
-        return switch (contentType.toLowerCase()) {
-            case "image/jpeg", "image/png", "image/webp" ->
-                DigitalAssetType.IMAGE;
+        return inferAssetType(normalizedContentType);
+    }
 
-            case "audio/mpeg",
-                    "audio/mp3" ->
-                DigitalAssetType.AUDIO_MP3;
+    private boolean isCompatible(
+            DigitalAssetType requestedType,
+            String contentType) {
+        if (contentType == null || contentType.isBlank()) {
+            return false;
+        }
 
-            case "audio/wav",
-                    "audio/x-wav",
-                    "audio/wave" ->
-                DigitalAssetType.AUDIO_WAV;
+        return switch (requestedType) {
+            case IMAGE -> Set.of("image/jpeg", "image/png", "image/webp").contains(contentType);
+            case AUDIO_PREVIEW -> isPlayableAudio(contentType);
+            case AUDIO_MP3 -> Set.of("audio/mpeg", "audio/mp3").contains(contentType);
+            case AUDIO_WAV -> Set.of("audio/wav", "audio/x-wav", "audio/wave").contains(contentType);
+            case STEMS -> Set.of("application/zip", "application/x-zip-compressed").contains(contentType);
+            case MIDI -> Set.of("audio/midi", "audio/x-midi").contains(contentType);
+            case PDF -> "application/pdf".equals(contentType);
+            case VIDEO -> contentType.startsWith("video/");
+            case OTHER -> !isKnownAssetContentType(contentType);
+        };
+    }
 
-            case "audio/midi",
-                    "audio/x-midi" ->
-                DigitalAssetType.MIDI;
+    private boolean isKnownAssetContentType(String contentType) {
+        return contentType.startsWith("image/")
+                || contentType.startsWith("audio/")
+                || contentType.startsWith("video/")
+                || "application/pdf".equals(contentType)
+                || Set.of("application/zip", "application/x-zip-compressed").contains(contentType);
+    }
 
-            case "application/pdf" ->
-                DigitalAssetType.PDF;
+    private boolean isPlayableAudio(String contentType) {
+        return Set.of(
+                "audio/mpeg", "audio/mp3",
+                "audio/wav", "audio/x-wav", "audio/wave",
+                "audio/ogg", "audio/webm", "audio/aac",
+                "audio/flac", "audio/mp4").contains(contentType);
+    }
 
-            default ->
-                contentType.startsWith("video/")
-                        ? DigitalAssetType.VIDEO
-                        : DigitalAssetType.OTHER;
+    private DigitalAssetType inferAssetType(String contentType) {
+        return switch (contentType) {
+            case "image/jpeg", "image/png", "image/webp" -> DigitalAssetType.IMAGE;
+            case "audio/mpeg", "audio/mp3" -> DigitalAssetType.AUDIO_MP3;
+            case "audio/wav", "audio/x-wav", "audio/wave" -> DigitalAssetType.AUDIO_WAV;
+            case "audio/midi", "audio/x-midi" -> DigitalAssetType.MIDI;
+            case "application/pdf" -> DigitalAssetType.PDF;
+            default -> contentType.startsWith("video/") ? DigitalAssetType.VIDEO : DigitalAssetType.OTHER;
         };
     }
 }

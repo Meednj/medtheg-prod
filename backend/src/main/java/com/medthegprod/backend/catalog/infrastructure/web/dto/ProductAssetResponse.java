@@ -7,14 +7,12 @@ import java.util.UUID;
 public record ProductAssetResponse(
         UUID productId,
         UUID assetId,
-        String type,
-        String storageKey) {
+        String type) {
 
     public static ProductAssetResponse from(ProductAsset productAsset) {
         return new ProductAssetResponse(
                 productAsset.productId().value(),
                 productAsset.asset().getId().value(),
-                productAsset.asset().getType().name(),
-                productAsset.asset().getStorageKey());
+                productAsset.asset().getType().name());
     }
 }

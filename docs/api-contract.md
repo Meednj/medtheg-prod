@@ -16,11 +16,14 @@ Public endpoints:
 
 - `GET /api/products?page=0&size=12&type=&category=&search=&sortBy=createdAt&direction=desc`
 - `GET /api/products/{id}`
+- `GET /api/products/{productId}/assets/{assetId}/cover`
 - `GET /api/products/{productId}/assets/{assetId}/preview`
 
 Public catalog queries return only `PUBLISHED` products. Draft and archived products behave as not found. Product responses include `id`, `title`, `description`, `type`, `price`, `currency`, `status`, `categories`, `coverAssetId`, `previewAssetId`, and asset references containing only `id` and `type`. Storage keys are never included in public product responses.
 
 The preview endpoint returns `{ url }` for a published product's `AUDIO_PREVIEW` asset. The URL is presigned and expires after 15 minutes. It cannot be used to access protected purchased assets.
+
+The cover endpoint returns `{ url }` for a published product's `IMAGE` asset. The URL is presigned and expires after 15 minutes. Draft and archived products, assets belonging to another product, and non-image assets are not publicly accessible. Storage keys are never returned by this endpoint.
 
 Administrator endpoints require `ADMIN`:
 
@@ -30,7 +33,7 @@ Administrator endpoints require `ADMIN`:
 - `POST /api/products/{id}/publish` publishes a draft with at least one category.
 - `POST /api/products/{id}/archive` archives a published product.
 - `POST /api/products/{productId}/assets` adds an asset reference.
-- `POST /api/products/{productId}/assets/upload` uploads an asset.
+- `POST /api/products/{productId}/assets/upload` uploads and registers an asset. Multipart fields: `file` and optional `type` (`DigitalAssetType`). When provided, the server validates the type against the file content type; omitting it preserves MIME-based inference. The response is `{ assetId, type }`; internal storage keys are never returned.
 - `DELETE /api/products/{productId}/assets/{assetId}` removes an asset.
 
 Product categories are `BEATS`, `KITS`, `COURSES`, and `BUNDLES`. Asset types include `IMAGE`, `AUDIO_PREVIEW`, `AUDIO_MP3`, `AUDIO_WAV`, `STEMS`, `MIDI`, `PDF`, `VIDEO`, and `OTHER`.
@@ -41,9 +44,12 @@ Authenticated customers use:
 
 - `POST /api/orders` with `{ items: [{ productId, quantity }] }`.
 - `GET /api/orders?page=0&size=12` for their own paginated order history.
+- `GET /api/orders/{orderId}` for one owned order.
 - `POST /api/orders/{orderId}/payment` to create a Stripe Checkout Session.
 
 The payment response is `{ orderId, paymentId, checkoutUrl }`. Ownership, order state, and payment state are checked before creating a session.
+
+The individual order endpoint requires bearer authentication and verifies that the requested order belongs to the authenticated customer. It returns the same `OrderResponse` shape as order history, including the authoritative order status, totals, timestamps, and item snapshots. Payment status is represented by the order status; no Stripe credentials or provider secrets are returned.
 
 `POST /api/webhooks/stripe` is public at the HTTP layer but requires a valid `Stripe-Signature`. Only `checkout.session.completed` events whose `payment_status` is `paid` complete payment. Completion is idempotent and publishes `OrderPaidEvent` after the payment transaction succeeds.
 

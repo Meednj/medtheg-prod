@@ -2,6 +2,7 @@ package com.medthegprod.backend.catalog.infrastructure.web.controller;
 
 import com.medthegprod.backend.catalog.application.usecase.ProductAsset;
 import com.medthegprod.backend.catalog.application.usecase.UploadProductAssetUseCase;
+import com.medthegprod.backend.catalog.domain.model.DigitalAssetType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -31,23 +32,26 @@ public class ProductAssetController {
         @Operation(summary = "Upload a product asset", description = "Uploads a product asset. Requires the ADMIN role.")
         public ResponseEntity<AssetUploadResponse> upload(
                         @PathVariable UUID productId,
-                        @RequestParam("file") MultipartFile file) throws IOException {
+                        @RequestParam("file") MultipartFile file,
+                        @RequestParam(value = "type", required = false) DigitalAssetType requestedType)
+                        throws IOException {
 
                 ProductAsset productAsset = uploadProductAssetUseCase.execute(
                                 productId,
                                 file.getOriginalFilename(),
                                 file.getContentType(),
                                 file.getSize(),
-                                file.getInputStream());
+                                file.getInputStream(),
+                                requestedType);
 
                 return ResponseEntity.ok(
                                 new AssetUploadResponse(
                                                 productAsset.asset().getId().value(),
-                                                productAsset.asset().getStorageKey()));
+                                                productAsset.asset().getType()));
         }
 
         public record AssetUploadResponse(
                         UUID assetId,
-                        String storageKey) {
+                        DigitalAssetType type) {
         }
 }

@@ -2,15 +2,16 @@
 
 ## Current State
 
-The frontend is a Vite application using React 19, TypeScript, and React DOM.
-It is located in `frontend/` and currently contains the default Vite starter
-experience: a counter, Vite and React links, and the starter assets in
-`src/assets`.
+The frontend is a Vite application using React 19, TypeScript, React Router 7,
+TanStack Query 5, and Zustand. It is located in `frontend/` and keeps the
+monochrome editorial shell, artwork presentation, and motion components in
+`src/`.
 
-There are no application routes, API clients, authentication screens, or
-marketplace workflows implemented yet. `react-router-dom` and
-`@tanstack/react-query` are already listed as dependencies for the planned
-application surface, but they are not currently used by `App.tsx`.
+The first API-backed slice is implemented. Catalog routes and product detail
+read the documented public product endpoints through `src/api/client.ts` and
+TanStack Query. Authentication uses the login/register endpoints with one
+Zustand session store; the API client reads its bearer token from that store.
+Zustand also owns the client-side cart, while server state remains in Query.
 
 ## Current Entry Flow
 
@@ -24,13 +25,15 @@ src/App.tsx
 src/App.css and src/index.css
 ```
 
-The current page imports the generated Vite, React, and hero assets. The
-frontend is therefore useful as a development shell, but it is not yet a
-client for the backend marketplace.
+`src/App.tsx` provides the shared Query client and router, then mounts the
+route shell. Route-level catalog, product, and homepage sections consume real
+API data while preserving the existing visual treatment. The centralized audio
+controller owns the single media element and in-memory temporary preview URL;
+the audio store contains playback state only.
 
 ## Planned Integration Boundary
 
-The frontend will eventually communicate with the backend through the REST API
+The frontend communicates with the backend through a centralized REST client
 and JWT bearer authentication:
 
 ```text
@@ -41,10 +44,14 @@ React Query / API client
 Spring Boot REST API
 ```
 
-The planned user-facing areas are product browsing, authentication, checkout,
-order history, customer entitlements, and the downloadable library. The API
-contract should be treated as the source of truth while those screens are
-implemented.
+The public catalog, checkout handoff, order archive, private library, and
+admin product workbench now consume the implemented API surfaces. The API
+contract remains the source of truth for later product roadmap work.
+
+unavailable treatment and does not invent a URL or expose storage keys.
+The backend exposes product asset IDs and a published-product cover endpoint
+that returns a temporary URL for IMAGE assets. The frontend requests that URL
+through `ProductArtwork` and never invents a URL or exposes storage keys.
 
 For catalog cards, use `categories`, `coverAssetId`, and `previewAssetId` from
 the product response. Request preview playback through the public preview URL

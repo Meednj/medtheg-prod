@@ -3,6 +3,7 @@ import { Link, NavLink } from 'react-router-dom'
 import { Dialog } from '../foundation/Dialog'
 import { Input } from '../foundation/Input'
 import { LineIcon } from '../icons/LineIcon'
+import { useAuthStore } from '../../state/authStore'
 
 const categories = [
   { label: 'Beats', to: '/beats', number: '01' },
@@ -20,6 +21,8 @@ type MobileNavigationProps = {
 }
 
 export function MobileNavigation({ open, onOpenChange, query, onQueryChange, onSearch }: MobileNavigationProps) {
+  const user = useAuthStore((state) => state.user)
+  const clearSession = useAuthStore((state) => state.clearSession)
   function changeQuery(event: ChangeEvent<HTMLInputElement>) {
     onQueryChange(event.target.value)
   }
@@ -49,7 +52,21 @@ export function MobileNavigation({ open, onOpenChange, query, onQueryChange, onS
           <button className="search-submit" type="submit" aria-label="Search releases"><LineIcon name="search" /></button>
         </form>
         <div className="mobile-menu-bottom">
-          <Link to="/login" onClick={() => onOpenChange(false)}>Account</Link>
+          <div className="mobile-account-links">
+            {user ? (
+              <>
+                <Link to={user.role === 'ADMIN' ? '/admin' : '/library'} onClick={() => onOpenChange(false)}>
+                  {user.role === 'ADMIN' ? 'Production desk' : 'Private library'}
+                </Link>
+                {user.role === 'CUSTOMER' && (
+                  <Link to="/orders" onClick={() => onOpenChange(false)}>Orders</Link>
+                )}
+                <button type="button" onClick={() => { clearSession(); onOpenChange(false) }}>Sign out</button>
+              </>
+            ) : (
+              <Link to="/login" onClick={() => onOpenChange(false)}>Account</Link>
+            )}
+          </div>
           <span className="tech-label">Independent production goods</span>
         </div>
       </div>

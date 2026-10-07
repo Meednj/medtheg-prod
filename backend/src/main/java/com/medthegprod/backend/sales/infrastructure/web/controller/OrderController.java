@@ -5,6 +5,7 @@ import com.medthegprod.backend.sales.application.usecase.CreateOrderUseCase;
 import com.medthegprod.backend.sales.application.usecase.CreatePaymentUseCase;
 import com.medthegprod.backend.sales.application.usecase.CreatePaymentUseCase.PaymentResult;
 import com.medthegprod.backend.sales.application.usecase.ListCustomerOrdersUseCase;
+import com.medthegprod.backend.sales.application.usecase.GetOrderUseCase;
 import com.medthegprod.backend.sales.domain.model.Order;
 import com.medthegprod.backend.sales.domain.model.OrderId;
 import com.medthegprod.backend.sales.domain.model.OrderPage;
@@ -33,14 +34,17 @@ public class OrderController {
         private final CreateOrderUseCase createOrderUseCase;
         private final ListCustomerOrdersUseCase listCustomerOrdersUseCase;
         private final CreatePaymentUseCase createPaymentUseCase;
+        private final GetOrderUseCase getOrderUseCase;
 
         public OrderController(
                         CreateOrderUseCase createOrderUseCase,
                         ListCustomerOrdersUseCase listCustomerOrdersUseCase,
-                        CreatePaymentUseCase createPaymentUseCase) {
+                        CreatePaymentUseCase createPaymentUseCase,
+                        GetOrderUseCase getOrderUseCase) {
                 this.createOrderUseCase = createOrderUseCase;
                 this.listCustomerOrdersUseCase = listCustomerOrdersUseCase;
                 this.createPaymentUseCase = createPaymentUseCase;
+                this.getOrderUseCase = getOrderUseCase;
         }
 
         @PostMapping
@@ -63,6 +67,19 @@ public class OrderController {
                                 items);
 
                 return OrderWebMapper.toResponse(order);
+        }
+
+        @GetMapping("/{orderId}")
+        @Operation(summary = "Get one of my orders", description = "Returns an authenticated customer's order by ID.")
+        public OrderResponse getOrder(
+                        @PathVariable UUID orderId,
+                        Authentication authentication) {
+                UserId customerId = AuthenticatedUser.getUserId(authentication);
+
+                return OrderWebMapper.toResponse(
+                                getOrderUseCase.execute(
+                                                new OrderId(orderId),
+                                                customerId));
         }
 
         @GetMapping

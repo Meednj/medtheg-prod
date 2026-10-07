@@ -50,6 +50,12 @@ npm install
 npm run dev
 ```
 
+The frontend uses `/api` as its API base and Vite proxies that path to
+`http://localhost:8080` during development. Set `VITE_API_PROXY_TARGET` in
+`frontend/.env.local` if the backend runs elsewhere. For deployments without a
+same-origin `/api` proxy, set `VITE_API_BASE_URL` to the backend API base URL,
+including its `/api` path.
+
 The backend uses PostgreSQL at `localhost:5432`, Redis at `localhost:6379`,
 and MinIO at `localhost:9000` by default. Stripe secrets are supplied through
 `STRIPE_SECRET_KEY` and `STRIPE_WEBHOOK_SECRET`. See

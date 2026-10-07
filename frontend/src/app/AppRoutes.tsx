@@ -1,35 +1,135 @@
-import { Route, Routes } from 'react-router-dom'
-import { AppShell } from '../layout/AppShell'
-import { HomePage } from '../pages/HomePage'
-import { NotFoundPage } from '../pages/NotFoundPage'
-import { PlaceholderPage } from '../pages/PlaceholderPage'
+import { Route, Routes } from "react-router-dom";
+import { AppShell } from "../layout/AppShell";
+import { HomePage } from "../pages/HomePage";
+import { CatalogPage } from "../pages/CatalogPage";
+import { AuthPage } from "../pages/AuthPage";
+import { ProductPage } from "../pages/ProductPage";
+import { RequireAuth } from "./RequireAuth";
+import { NotFoundPage } from "../pages/NotFoundPage";
+import { CartPage } from "../pages/CartPage";
+import { CheckoutPage } from "../pages/CheckoutPage";
+import { PaymentReturnPage } from "../pages/PaymentReturnPage";
+import { OrdersPage } from "../pages/OrdersPage";
+import { LibraryPage } from "../pages/LibraryPage";
+import { AdminHomePage } from "../pages/AdminHomePage";
+import { AdminProductsPage } from "../pages/AdminProductsPage";
+import { AdminNewProductPage } from "../pages/AdminNewProductPage";
+import { AdminProductPage } from "../pages/AdminProductPage";
+import { AdminEditProductPage } from "../pages/AdminEditProductPage";
+import { OrderDetailPage } from "../pages/OrderDetailPage";
+import { LibraryProductPage } from "../pages/LibraryProductPage";
 
 export function AppRoutes() {
   return (
     <Routes>
       <Route element={<AppShell />}>
         <Route index element={<HomePage />} />
-        <Route path="beats" element={<PlaceholderPage rhythm="beats" eyebrow="Catalogue / 01" title="Beats" detail="An index of independent instrumentals is being prepared." />} />
-        <Route path="kits" element={<PlaceholderPage rhythm="kits" eyebrow="Catalogue / 02" title="Kits" detail="A considered collection of production tools is on its way." />} />
-        <Route path="courses" element={<PlaceholderPage rhythm="courses" eyebrow="Catalogue / 03" title="Courses" detail="Producer-led learning will take its place in this index." />} />
-        <Route path="bundles" element={<PlaceholderPage rhythm="bundles" eyebrow="Catalogue / 04" title="Bundles" detail="Selected production goods, gathered together." />} />
-        <Route path="products/:id" element={<PlaceholderPage eyebrow="Release / Product" title="Product detail" detail="The artwork, listening preview, and release information will live here." />} />
-        <Route path="login" element={<PlaceholderPage eyebrow="Customer / 01" title="Sign in" detail="A secure customer sign-in experience will be added in the next phase." />} />
-        <Route path="register" element={<PlaceholderPage eyebrow="Customer / 02" title="Create account" detail="Customer registration will be added in the next phase." />} />
-        <Route path="payment/success" element={<PlaceholderPage eyebrow="Checkout / Return" title="Payment received?" detail="Payment confirmation is asynchronous and will be shown only from order status." />} />
-        <Route path="payment/cancel" element={<PlaceholderPage eyebrow="Checkout / Return" title="Checkout closed" detail="Your cart will be available when you return." />} />
-        <Route path="cart" element={<PlaceholderPage eyebrow="Customer / 03" title="Your cart" detail="Your selected releases will be gathered here." />} />
-        <Route path="checkout" element={<PlaceholderPage eyebrow="Customer / 04" title="Checkout" detail="Checkout will hand off to the secure payment session." />} />
-        <Route path="orders" element={<PlaceholderPage eyebrow="Customer / 05" title="Order archive" detail="A private record of your purchases." />} />
-        <Route path="library" element={<PlaceholderPage eyebrow="Customer / 06" title="Private library" detail="Your acquired production goods, held in a private digital vault." />} />
-        <Route path="library/:productId" element={<PlaceholderPage eyebrow="Customer / 06" title="Library release" detail="Authorized files and product details will be gathered here." />} />
-        <Route path="admin" element={<PlaceholderPage eyebrow="Studio / Admin" title="Production desk" detail="A professional product workbench, grounded in the available admin API." />} />
-        <Route path="admin/products" element={<PlaceholderPage eyebrow="Studio / Admin" title="Product index" detail="Create a draft or look up a product by ID. The API has no all-products endpoint." />} />
-        <Route path="admin/products/new" element={<PlaceholderPage eyebrow="Studio / Admin" title="New draft" detail="Create a product draft and add supported assets." />} />
-        <Route path="admin/products/:id/edit" element={<PlaceholderPage eyebrow="Studio / Admin" title="Edit release" detail="Edit product details and categories supported by the backend." />} />
-        <Route path="admin/products/:id" element={<PlaceholderPage eyebrow="Studio / Admin" title="Product workbench" detail="Review a product lifecycle state, details, and supported asset operations." />} />
+        <Route path="beats" element={<CatalogPage category="BEATS" />} />
+        <Route path="kits" element={<CatalogPage category="KITS" />} />
+        <Route path="courses" element={<CatalogPage category="COURSES" />} />
+        <Route path="bundles" element={<CatalogPage category="BUNDLES" />} />
+        <Route path="products/:id" element={<ProductPage />} />
+        <Route path="login" element={<AuthPage mode="login" />} />
+        <Route path="register" element={<AuthPage mode="register" />} />
+        <Route
+          path="payment/success"
+          element={
+            <RequireAuth>
+              <PaymentReturnPage />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="payment/cancel"
+          element={
+            <RequireAuth>
+              <PaymentReturnPage cancelled />
+            </RequireAuth>
+          }
+        />
+        <Route path="cart" element={<CartPage />} />
+        <Route
+          path="checkout"
+          element={
+            <RequireAuth>
+              <CheckoutPage />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="orders"
+          element={
+            <RequireAuth>
+              <OrdersPage />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="orders/:orderId"
+          element={
+            <RequireAuth>
+              <OrderDetailPage />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="library"
+          element={
+            <RequireAuth>
+              <LibraryPage />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="library/:productId"
+          element={
+            <RequireAuth>
+              <LibraryProductPage />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="admin"
+          element={
+            <RequireAuth role="ADMIN">
+              <AdminHomePage />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="admin/products"
+          element={
+            <RequireAuth role="ADMIN">
+              <AdminProductsPage />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="admin/products/new"
+          element={
+            <RequireAuth role="ADMIN">
+              <AdminNewProductPage />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="admin/products/:id/edit"
+          element={
+            <RequireAuth role="ADMIN">
+              <AdminEditProductPage />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="admin/products/:id"
+          element={
+            <RequireAuth role="ADMIN">
+              <AdminProductPage />
+            </RequireAuth>
+          }
+        />
         <Route path="*" element={<NotFoundPage />} />
       </Route>
     </Routes>
-  )
+  );
 }

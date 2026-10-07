@@ -79,7 +79,8 @@ public class StripePaymentAdapter implements PaymentGateway {
 
                 } catch (StripeException e) {
                         throw new IllegalStateException(
-                                        "Unable to create Stripe checkout session",
+                                        "Unable to create Stripe checkout session: "
+                                                        + e.getMessage(),
                                         e);
                 }
         }
