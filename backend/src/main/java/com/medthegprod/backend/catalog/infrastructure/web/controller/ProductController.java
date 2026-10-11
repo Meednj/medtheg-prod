@@ -6,6 +6,8 @@ import com.medthegprod.backend.catalog.application.usecase.CreateProductUseCase;
 import com.medthegprod.backend.catalog.application.usecase.GetProductUseCase;
 import com.medthegprod.backend.catalog.application.usecase.GetAdminProductUseCase;
 import com.medthegprod.backend.catalog.application.usecase.ListProductsUseCase;
+import com.medthegprod.backend.catalog.application.usecase.ListAdminProductsUseCase;
+import com.medthegprod.backend.catalog.application.query.AdminProductSearchQuery;
 import com.medthegprod.backend.catalog.application.usecase.PublishProductUseCase;
 import com.medthegprod.backend.catalog.application.usecase.RemoveProductAssetUseCase;
 import com.medthegprod.backend.catalog.application.usecase.UpdateProductUseCase;
@@ -26,6 +28,7 @@ import java.util.UUID;
 import com.medthegprod.backend.catalog.application.query.ProductSearchQuery;
 import com.medthegprod.backend.catalog.domain.model.ProductCategory;
 import com.medthegprod.backend.catalog.domain.model.ProductType;
+import com.medthegprod.backend.catalog.domain.model.ProductStatus;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -40,6 +43,7 @@ public class ProductController {
         private final GetProductUseCase getProductUseCase;
         private final GetAdminProductUseCase getAdminProductUseCase;
         private final ListProductsUseCase listProductsUseCase;
+        private final ListAdminProductsUseCase listAdminProductsUseCase;
         private final UpdateProductUseCase updateProductUseCase;
         private final PublishProductUseCase publishProductUseCase;
         private final AddProductAssetUseCase addProductAssetUseCase;
@@ -51,6 +55,7 @@ public class ProductController {
                         GetProductUseCase getProductUseCase,
                         GetAdminProductUseCase getAdminProductUseCase,
                         ListProductsUseCase listProductsUseCase,
+                        ListAdminProductsUseCase listAdminProductsUseCase,
                         UpdateProductUseCase updateProductUseCase,
                         PublishProductUseCase publishProductUseCase,
                         AddProductAssetUseCase addProductAssetUseCase,
@@ -60,6 +65,7 @@ public class ProductController {
                 this.getProductUseCase = getProductUseCase;
                 this.getAdminProductUseCase = getAdminProductUseCase;
                 this.listProductsUseCase = listProductsUseCase;
+                this.listAdminProductsUseCase = listAdminProductsUseCase;
                 this.updateProductUseCase = updateProductUseCase;
                 this.publishProductUseCase = publishProductUseCase;
                 this.addProductAssetUseCase = addProductAssetUseCase;
@@ -97,6 +103,24 @@ public class ProductController {
         @Operation(summary = "Get any product", description = "Returns a product in any lifecycle state. Requires the ADMIN role.", security = @SecurityRequirement(name = "bearerAuth"))
         public ProductResponse getAdminProduct(@PathVariable UUID id) {
                 return ProductWebMapper.toResponse(getAdminProductUseCase.execute(new ProductId(id)));
+        }
+
+        @GetMapping("/admin")
+        @PreAuthorize("hasRole('ADMIN')")
+        @Operation(summary = "List products for the Production Desk", description = "Returns a paginated view of products in every lifecycle state. Requires the ADMIN role.", security = @SecurityRequirement(name = "bearerAuth"))
+        public ProductPageResponse getAdminProducts(
+                        @RequestParam(defaultValue = "0") int page,
+                        @RequestParam(defaultValue = "20") int size,
+                        @RequestParam(required = false) ProductStatus status,
+                        @RequestParam(required = false) ProductType type,
+                        @RequestParam(required = false) String search,
+                        @RequestParam(defaultValue = "updatedAt") String sortBy,
+                        @RequestParam(defaultValue = "desc") String direction) {
+                ProductPage result = listAdminProductsUseCase.execute(
+                                new AdminProductSearchQuery(page, size, status, type, search, sortBy, direction));
+                return new ProductPageResponse(
+                                result.content().stream().map(ProductWebMapper::toResponse).toList(),
+                                result.page(), result.size(), result.totalElements(), result.totalPages());
         }
 
         @GetMapping

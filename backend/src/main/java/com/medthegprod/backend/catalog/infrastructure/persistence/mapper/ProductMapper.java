@@ -66,7 +66,8 @@ public final class ProductMapper {
                                 new Money(
                                                 entity.getPrice(),
                                                 Currency.getInstance(entity.getCurrency())),
-                                ProductStatus.valueOf(entity.getStatus().name()));
+                                ProductStatus.valueOf(entity.getStatus().name()),
+                                entity.getUpdatedAt());
 
                 entity.getCategories().forEach(category -> product.addCategory(
                                 ProductCategory.valueOf(category.name())));

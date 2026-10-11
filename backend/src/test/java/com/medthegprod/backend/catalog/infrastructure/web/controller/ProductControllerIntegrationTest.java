@@ -255,6 +255,108 @@ class ProductControllerIntegrationTest {
         }
 
         @Test
+        void shouldListAllProductStatesOnlyForAdminsWithFiltersAndPagination() throws Exception {
+                createDraftProduct("Desk draft Alpha");
+                UUID secondDraftId = createDraftProduct("Desk draft Zeta");
+                String samplePackJson = mockMvc.perform(authenticated(post("/api/products")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content("""
+                                                {"title":"Desk sample pack","description":"Catalog filter","type":"SAMPLE_PACK","price":12.00,"categories":["KITS"]}
+                                                """)))
+                                .andExpect(status().isCreated())
+                                .andReturn().getResponse().getContentAsString();
+                UUID samplePackId = UUID.fromString(new ObjectMapper().readTree(samplePackJson).get("id").asText());
+                UUID publishedId = createDraftProduct("Desk published Beta");
+                mockMvc.perform(authenticated(post("/api/products/{id}/publish", publishedId)))
+                                .andExpect(status().isOk());
+                UUID archivedId = createDraftProduct("Desk archived Gamma");
+                mockMvc.perform(authenticated(post("/api/products/{id}/publish", archivedId)))
+                                .andExpect(status().isOk());
+                mockMvc.perform(authenticated(post("/api/products/{id}/archive", archivedId)))
+                                .andExpect(status().isOk());
+
+                mockMvc.perform(get("/api/products/admin"))
+                                .andExpect(status().isUnauthorized());
+                mockMvc.perform(get("/api/products/admin")
+                                .header("Authorization", "Bearer " + customerToken))
+                                .andExpect(status().isForbidden());
+                mockMvc.perform(authenticated(get("/api/products/admin")
+                                .param("status", "DRAFT")
+                                .param("type", "BEAT")
+                                .param("search", "desk")
+                                .param("sortBy", "title")
+                                .param("direction", "asc")
+                                .param("page", "0")
+                                .param("size", "1")))
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$.content.length()").value(1))
+                                .andExpect(jsonPath("$.content[0].status").value("DRAFT"))
+                                .andExpect(jsonPath("$.totalElements").value(2))
+                                .andExpect(jsonPath("$.totalPages").value(2));
+                mockMvc.perform(authenticated(get("/api/products/admin")
+                                .param("status", "DRAFT")
+                                .param("type", "BEAT")
+                                .param("search", "desk")
+                                .param("sortBy", "title")
+                                .param("direction", "asc")
+                                .param("page", "1")
+                                .param("size", "1")))
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$.content.length()").value(1))
+                                .andExpect(jsonPath("$.content[0].id").value(secondDraftId.toString()));
+                mockMvc.perform(authenticated(get("/api/products/admin")
+                                .param("status", "DRAFT")
+                                .param("type", "SAMPLE_PACK")
+                                .param("search", "desk")))
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$.content.length()").value(1))
+                                .andExpect(jsonPath("$.content[0].id").value(samplePackId.toString()));
+                mockMvc.perform(authenticated(get("/api/products/admin")
+                                .param("status", "ARCHIVED")
+                                .param("type", "BEAT")))
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$.content[0].id").value(archivedId.toString()));
+                mockMvc.perform(authenticated(get("/api/products/admin")
+                                .param("status", "PUBLISHED")))
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$.content[0].id").value(publishedId.toString()));
+                mockMvc.perform(get("/api/products").param("search", "Desk"))
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$.content.length()").value(1))
+                                .andExpect(jsonPath("$.content[0].id").value(publishedId.toString()));
+        }
+
+        @Test
+        void shouldAllowAdminsToPreviewOnlyImageAndAudioPreviewAssets() throws Exception {
+                UUID productId = createDraftProduct("Admin preview draft");
+                String assetResponse = mockMvc.perform(authenticated(post("/api/products/{productId}/assets", productId)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content("""
+                                                {"type":"AUDIO_PREVIEW","storageKey":"test/admin-preview.mp3"}
+                                                """)))
+                                .andExpect(status().isOk())
+                                .andReturn().getResponse().getContentAsString();
+                UUID assetId = UUID.fromString(new ObjectMapper().readTree(assetResponse)
+                                .get("assets").get(0).get("id").asText());
+                when(assetStorage.generateDownloadUrl(anyString(), any())).thenReturn("https://storage.example/temporary");
+
+                mockMvc.perform(get("/api/products/admin/{productId}/assets/{assetId}/preview", productId, assetId)
+                                .param("type", "AUDIO_PREVIEW"))
+                                .andExpect(status().isUnauthorized());
+                mockMvc.perform(get("/api/products/admin/{productId}/assets/{assetId}/preview", productId, assetId)
+                                .header("Authorization", "Bearer " + customerToken)
+                                .param("type", "AUDIO_PREVIEW"))
+                                .andExpect(status().isForbidden());
+                mockMvc.perform(authenticated(get("/api/products/admin/{productId}/assets/{assetId}/preview", productId, assetId)
+                                .param("type", "AUDIO_PREVIEW")))
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$.url").value("https://storage.example/temporary"));
+                mockMvc.perform(authenticated(get("/api/products/admin/{productId}/assets/{assetId}/preview", productId, assetId)
+                                .param("type", "AUDIO_MP3")))
+                                .andExpect(status().isBadRequest());
+        }
+
+        @Test
         void shouldCreateProduct() throws Exception {
 
                 String requestBody = """

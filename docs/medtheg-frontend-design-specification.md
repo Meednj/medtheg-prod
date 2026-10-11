@@ -228,11 +228,11 @@ StripePaymentAdapter currently appends `?orderId=<UUID>` to both configured retu
 
 ### `/admin`
 
-Professional production workbench landing: “Studio / Admin” identity, create draft action, and product-ID lookup. No fake dashboard metrics, charts, or activity feeds. The actual API has no admin list endpoint.
+Professional production workbench landing: “Studio / Admin” identity, create draft action, and direct product-ID lookup. No fake dashboard metrics, charts, or activity feeds. The implemented Production Desk now has a separate paginated, authenticated all-status listing endpoint.
 
 ### `/admin/products`
 
-Honest product-management index with create action and direct product ID lookup; do not render a fabricated table. Public `/api/products` returns published products only and cannot stand in for an admin all-status list. Explain that full admin discovery requires an API endpoint if the user wants searchable admin listing.
+The product-management index uses `GET /api/products/admin` with URL-backed search, status/type filters, sorting, and bounded pagination. It does not use the public published-only catalog. See the implementation update at the end of this specification for current behavior and limitations.
 
 ### `/admin/products/new`
 
@@ -240,9 +240,9 @@ Labeled draft form for title, description, product type, price; category selecti
 
 ### `/admin/products/:id` and `/edit`
 
-Load any lifecycle state using `GET /api/products/admin/{id}`. Edit through `PUT /api/products/{id}` with title, description, type, price, categories. Show lifecycle badge, save feedback, assets by type, publish/archive controls, and confirmation dialogs. Publish requires at least one category; archive is only for published product and is not deletion. Existing published product can be read through the public endpoint but admin route must use admin lookup to support drafts/archived.
+Load any lifecycle state using `GET /api/products/admin/{id}`. Edit through `PUT /api/products/{id}` with title, description, type, price, categories; the current domain treats type as immutable after creation. Show lifecycle badge, save feedback, assets by type, publish/archive controls, and confirmation dialogs. Publish requires at least one category; archive is only for published product and is not deletion. Existing published product can be read through the public endpoint but admin route must use admin lookup to support drafts/archived.
 
-Asset workflow uses admin upload `POST /api/products/{productId}/assets/upload` with multipart field `file`; controller responds `{assetId, storageKey}`. Add asset uses `{type, storageKey}` at `POST /api/products/{productId}/assets`; remove via DELETE. **Security/API caveat:** the current upload contract returns storageKey to browser code. Never render, log, send to analytics, or persist it; hold transiently only to complete the add-asset request. If the requirement means the browser must never receive a storage key at all, backend contract change is prerequisite—this design does not conceal that API behavior.
+Asset workflow uses admin upload `POST /api/products/{productId}/assets/upload` with multipart field `file`; controller responds `{assetId, type}`. Asset references can be removed through DELETE. Product and upload responses never expose storage keys. The admin preview endpoint signs only owned IMAGE/AUDIO_PREVIEW assets and never signs protected full-quality downloads.
 
 Product responses derive `coverAssetId` from an IMAGE asset and `previewAssetId` from an AUDIO_PREVIEW asset (mapper returns the first matching type). Update request has no explicit cover/preview fields, reorder endpoint, or assignment endpoint. Admin may show which IDs the server currently returns, but must not promise independent assignment/reordering. Confirm controller mapping behavior as source of truth.
 
@@ -337,7 +337,7 @@ frontend/src/
   assets/       local brand marks and approved static assets
 ```
 
-Current frontend is a Vite React 19.2/TypeScript app with React Router 7, TanStack Query 5, Tailwind CSS 4, and React Compiler already enabled in `vite.config.ts`. Zustand is part of the requested target stack but is **not currently in `frontend/package.json`**; add it only when frontend implementation is authorized. No other dependency is justified by this spec. Existing app remains the Vite starter until implementation approval.
+Current frontend is a Vite React 19.2/TypeScript app with React Router 7, TanStack Query 5, Tailwind CSS 4, Zustand, and React Compiler enabled in `vite.config.ts`. The Production Desk implementation uses these existing dependencies and CSS motion primitives.
 
 ## AD. Implementation order (after design approval)
 
@@ -359,14 +359,27 @@ Current frontend is a Vite React 19.2/TypeScript app with React Router 7, TanSta
 |---|---|
 | UX/UI Pro | Brutalism structural reference; Feature-Rich Showcase hierarchy (with template sequence rejected); Space Grotesk music/culture pairing; E-Ink/Paper texture reference; stagger timing/reduced-motion; editorial/product-story controls; focus, semantic control, touch, responsive, and React performance guidance. Its colored palette values were not adopted. |
 | Graphify | ProductController/ProductResponse and asset relationships; LibraryController/GetCustomerLibraryUseCase/LibraryItemResponse relationship; OrderPaidEvent → payment completion and entitlement listener relationship. Extracted edges were preferred; inferred event execution edge is identified as inferred. |
-| MedTheG brand requirements | Strict black/white/grayscale UI; premium underground music culture; editorial/brutalist/cinematic treatment; no generic ecommerce/SaaS/Spotify clone; audio, product discovery, product detail, and private library as signature experiences; no implementation during design phase. |
+| MedTheG brand requirements | Strict black/white/grayscale UI; premium underground music culture; editorial/brutalist/cinematic treatment; no generic ecommerce/SaaS/Spotify clone; audio, product discovery, product detail, and private library as signature experiences. |
 | Repository/API/backend | Route/API field availability, product/category/type/asset enums, published-only public catalog, preview/download URL expiry, auth responses, order status/history, Stripe redirect query parameters and webhook authority, library DTO fields, admin lifecycle/upload/update constraints, and current frontend dependencies/compiler setup. |
 
 ## API and design caveats to preserve
 
-1. Upload returns `storageKey` to the browser even though the UI must not reveal it. A strict “browser never receives a key” requirement needs an API change before implementation.
-2. `/admin/products` has no all-status product-list API; this specification uses ID lookup and create rather than a fake table.
+1. The current upload response returns only `assetId` and `type`; internal storage keys remain inside backend/storage adapters.
+2. The admin listing is a separate protected paginated endpoint; the public catalog remains published-only.
 3. Product update has no explicit cover/preview selection. Server response derives `coverAssetId` and `previewAssetId` from available IMAGE/AUDIO_PREVIEW assets; expose returned state, not unsupported assignment controls.
 4. Library DTO has no cover asset ID. A text-led vault is valid; published-product enrichment is optional and must degrade when the public product is no longer available.
 5. Success/cancel redirects include `orderId`; only order history status is authoritative. Success must handle delayed webhook confirmation without implying payment from redirect.
 6. Backend product preview supplies temporary preview playback only; purchased assets are accessed through library download URLs. The backend does not provide a protected streaming endpoint or download-progress signal.
+
+## Current implementation update — Production Desk and shared store shell
+
+The implementation supersedes the earlier design-phase admin discovery notes:
+
+- `/admin/products` queries the authenticated `GET /api/products/admin` endpoint. It lists DRAFT, PUBLISHED, and ARCHIVED products in pages of 20 (API maximum 100), with URL-backed search, status/type filters, and sorting. The list displays available cover artwork, category, price/currency, status, and database `updatedAt`; it never uses the public published-only catalog as an admin source.
+- Product detail and edit routes keep the filter, sort, page, and selection parameters. Previous/Next follows the filtered order and crosses page boundaries. Empty/loading/error states and retry are present.
+- The editor changes title, description, price, and categories. Type is fixed after creation and currency is currently EUR. Changes are explicit: Save, Reset to saved, field validation, pending/success/error feedback, stale-data protection, React Router navigation blocking, and a browser unload prompt. The API has no version/ETag write precondition, so stale checks cannot prevent a race after the final refetch.
+- Audio assets list their type and ID. Upload accepts an explicit supported enum, checks basic extension/MIME and a 250 MB limit, and reports pending state. Audio previews use an admin-only 15-minute URL for AUDIO_PREVIEW; protected MP3/WAV/STEMS assets are not played as previews. The browser can report preview duration when media metadata is available. The API does not persist uploaded filename, file size, or duration, and DELETE removes the catalog asset reference without promising deletion of the MinIO object.
+- `GET /api/products/admin/{productId}/assets/{assetId}/preview?type=IMAGE|AUDIO_PREVIEW` is restricted to ADMIN and validates product ownership and asset type. Public cover and preview routes remain limited to published products and their matching asset types. No storage keys are returned.
+- `AppShell` owns one global header/brand treatment for storefront, account, library, and admin pages. Route pages provide context headings without duplicating the brand masthead.
+- Motion uses existing CSS variables and reduced-motion styles. Production Desk result rows have a small stagger and artwork/control transitions. No Motion package is currently installed and no animation dependency was added.
+- Verification for this change consists of frontend lint/build plus the focused `ProductControllerIntegrationTest`; this is not a desktop/mobile browser walkthrough and does not verify hosted Stripe payment.

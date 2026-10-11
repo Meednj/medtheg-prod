@@ -1,5 +1,6 @@
 package com.medthegprod.backend.catalog.domain.model;
 
+import java.time.OffsetDateTime;
 import java.util.Objects;
 import java.util.Set;
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ public class Product {
     private final ProductType type;
     private Money price;
     private ProductStatus status;
+    private OffsetDateTime updatedAt;
     private final List<DigitalAsset> assets = new ArrayList<>();
     private final Set<ProductCategory> categories = new HashSet<>();
     
@@ -30,6 +32,7 @@ public class Product {
         this.type = Objects.requireNonNull(type, "Product type cannot be null");
         this.price = Objects.requireNonNull(price, "Price cannot be null");
         this.status = ProductStatus.DRAFT;
+        this.updatedAt = null;
     }
 
     public void publish() {
@@ -118,6 +121,17 @@ public class Product {
             ProductType type,
             Money price,
             ProductStatus status) {
+        return reconstitute(id, title, description, type, price, status, null);
+    }
+
+    public static Product reconstitute(
+            ProductId id,
+            String title,
+            String description,
+            ProductType type,
+            Money price,
+            ProductStatus status,
+            OffsetDateTime updatedAt) {
         Product product = new Product(
                 id,
                 title,
@@ -128,7 +142,7 @@ public class Product {
         product.status = Objects.requireNonNull(
                 status,
                 "Product status cannot be null");
-
+        product.updatedAt = updatedAt;
         return product;
     }
 
@@ -162,6 +176,10 @@ public class Product {
 
     public ProductStatus getStatus() {
         return status;
+    }
+
+    public OffsetDateTime getUpdatedAt() {
+        return updatedAt;
     }
     
     public List<DigitalAsset> getAssets() {

@@ -405,6 +405,12 @@ The architecture therefore separates business responsibilities without introduci
 
 ## 12. Current Architectural State
 
+The frontend's Production Desk is a route within the shared Vite application
+shell. It reads all catalog lifecycle states through a dedicated authenticated
+paginated query and uses the same catalog use cases and storage port as other
+product operations. Temporary admin preview URLs support artwork and preview
+audio only; protected delivery remains in Library after entitlement checks.
+
 Current modules:
 
 ```text

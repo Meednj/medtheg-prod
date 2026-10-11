@@ -30,6 +30,12 @@ Customer-owned resources perform an additional ownership check in application
 services. A valid JWT alone does not grant access to another customer's orders,
 entitlements, or library assets.
 
+The Production Desk list (`GET /api/products/admin`) is an admin-only,
+paginated query over all product statuses. It is separate from the public
+published-only catalog. Admin asset preview URLs require `ADMIN`, verify that
+the requested asset belongs to the product, and permit only `IMAGE` or
+`AUDIO_PREVIEW`; protected download types remain entitlement-gated by Library.
+
 ## Payment Webhook Security
 
 The Stripe webhook verifies the `Stripe-Signature` header before accepting a

@@ -1,13 +1,15 @@
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useLocation } from "react-router-dom";
 import { Breadcrumbs } from "../components/foundation/Breadcrumbs";
-import { AssetTypeLabel } from "../components/admin/AssetTypeLabel";
 import { AssetUploader } from "../components/admin/AssetUploader";
+import { AdminProductArtwork } from "../components/admin/AdminProductArtwork";
+import { AdminProductNavigation } from "../components/admin/AdminProductNavigation";
 import { getErrorMessage } from "../api/errors";
 import { useAdminProductQuery } from "../features/admin/useAdminProductQuery";
 import { useAdminProductMutations } from "../features/admin/useAdminProductMutations";
 
 export function AdminProductPage() {
   const { id } = useParams();
+  const location = useLocation();
   const query = useAdminProductQuery(id);
   const mutations = useAdminProductMutations(id);
   const product = query.data;
@@ -43,7 +45,7 @@ export function AdminProductPage() {
       <Breadcrumbs
         items={[
           { label: "MedTheG", to: "/" },
-          { label: "Admin", to: "/admin" },
+          { label: "Admin", to: `/admin/products${location.search}` },
           { label: product.title },
         ]}
       />
@@ -57,11 +59,12 @@ export function AdminProductPage() {
         </div>
         <Link
           className="button button--secondary"
-          to={`/admin/products/${product.id}/edit`}
+          to={`/admin/products/${product.id}/edit${location.search}`}
         >
           Edit product
         </Link>
       </div>
+      <AdminProductNavigation product={product} />
       <div className="admin-product-actions">
         <button
           className="button button--primary"
@@ -89,7 +92,8 @@ export function AdminProductPage() {
         </div>
       )}
       <div className="admin-product-grid">
-        <div>
+        <div className="admin-product-overview">
+          <AdminProductArtwork productId={product.id} assetId={product.coverAssetId} title={product.title} />
           <p className="eyebrow">Description</p>
           <p className="admin-description">
             {product.description || "No description provided."}
@@ -99,39 +103,7 @@ export function AdminProductPage() {
             {product.categories.join(" / ") || "No categories assigned"}
           </p>
         </div>
-        <aside className="admin-assets">
-          <div className="admin-assets-heading">
-            <div>
-              <p className="eyebrow">Assets</p>
-              <h2>{product.assets.length} registered</h2>
-            </div>
-            <AssetUploader productId={product.id} />
-          </div>
-          {product.assets.length === 0 && (
-            <p className="admin-muted">
-              No assets registered for this product.
-            </p>
-          )}
-          {product.assets.map((asset) => (
-            <div className="admin-asset-row" key={asset.id}>
-              <div>
-                <AssetTypeLabel type={asset.type} />
-                <span className="admin-asset-id">{asset.id}</span>
-              </div>
-              <button
-                className="button button--ghost"
-                type="button"
-                disabled={mutations.removeAsset.isPending}
-                onClick={() => {
-                  if (window.confirm("Remove this asset record?"))
-                    mutations.removeAsset.mutate(asset.id);
-                }}
-              >
-                Remove
-              </button>
-            </div>
-          ))}
-        </aside>
+        <AssetUploader productId={product.id} assets={product.assets} />
       </div>
     </section>
   );

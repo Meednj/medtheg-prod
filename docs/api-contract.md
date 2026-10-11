@@ -19,7 +19,7 @@ Public endpoints:
 - `GET /api/products/{productId}/assets/{assetId}/cover`
 - `GET /api/products/{productId}/assets/{assetId}/preview`
 
-Public catalog queries return only `PUBLISHED` products. Draft and archived products behave as not found. Product responses include `id`, `title`, `description`, `type`, `price`, `currency`, `status`, `categories`, `coverAssetId`, `previewAssetId`, and asset references containing only `id` and `type`. Storage keys are never included in public product responses.
+Public catalog queries return only `PUBLISHED` products. Draft and archived products behave as not found. Product responses include `id`, `title`, `description`, `type`, `price`, `currency`, `status`, `updatedAt`, `categories`, `coverAssetId`, `previewAssetId`, and asset references containing only `id` and `type`. Storage keys are never included in public product responses.
 
 The preview endpoint returns `{ url }` for a published product's `AUDIO_PREVIEW` asset. The URL is presigned and expires after 15 minutes. It cannot be used to access protected purchased assets.
 
@@ -28,13 +28,19 @@ The cover endpoint returns `{ url }` for a published product's `IMAGE` asset. Th
 Administrator endpoints require `ADMIN`:
 
 - `POST /api/products` creates a draft.
+- `GET /api/products/admin?page=0&size=20&status=&type=&search=&sortBy=updatedAt&direction=desc` returns a paginated list across `DRAFT`, `PUBLISHED`, and `ARCHIVED` states. `status` and `type` are optional enum filters; `search` matches title or description (maximum 100 characters); `size` is bounded to 1–100. Supported sort fields are `updatedAt`, `title`, and `price`.
 - `GET /api/products/admin/{id}` retrieves a product in any lifecycle state.
+- `GET /api/products/admin/{productId}/assets/{assetId}/preview?type=IMAGE|AUDIO_PREVIEW` returns a 15-minute temporary URL for an asset owned by that product. Only IMAGE and AUDIO_PREVIEW are accepted. This authenticated route supports draft artwork and preview review in the Production Desk; it never signs protected full-quality assets.
 - `PUT /api/products/{id}` updates a product.
 - `POST /api/products/{id}/publish` publishes a draft with at least one category.
 - `POST /api/products/{id}/archive` archives a published product.
 - `POST /api/products/{productId}/assets` adds an asset reference.
 - `POST /api/products/{productId}/assets/upload` uploads and registers an asset. Multipart fields: `file` and optional `type` (`DigitalAssetType`). When provided, the server validates the type against the file content type; omitting it preserves MIME-based inference. The response is `{ assetId, type }`; internal storage keys are never returned.
 - `DELETE /api/products/{productId}/assets/{assetId}` removes an asset.
+
+The `updatedAt` field is an ISO-8601 timestamp sourced from the product audit
+column. Product type is accepted in update requests for API compatibility but
+is immutable in the domain after creation. Currency is currently EUR.
 
 Product categories are `BEATS`, `KITS`, `COURSES`, and `BUNDLES`. Asset types include `IMAGE`, `AUDIO_PREVIEW`, `AUDIO_MP3`, `AUDIO_WAV`, `STEMS`, `MIDI`, `PDF`, `VIDEO`, and `OTHER`.
 

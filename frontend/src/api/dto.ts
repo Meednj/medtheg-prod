@@ -30,6 +30,7 @@ export type ProductDto = {
   price: number;
   currency: string;
   status: ProductStatus;
+  updatedAt: string | null;
   categories: ProductCategory[];
   coverAssetId: string | null;
   previewAssetId: string | null;
@@ -51,6 +52,16 @@ export type CatalogQuery = {
   category?: ProductCategory;
   search?: string;
   sortBy?: string;
+  direction?: "asc" | "desc";
+};
+
+export type AdminProductQuery = {
+  page?: number;
+  size?: number;
+  status?: ProductStatus;
+  type?: ProductType;
+  search?: string;
+  sortBy?: "updatedAt" | "title" | "price";
   direction?: "asc" | "desc";
 };
 

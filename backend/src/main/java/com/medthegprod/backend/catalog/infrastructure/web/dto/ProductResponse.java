@@ -4,6 +4,7 @@ import com.medthegprod.backend.catalog.domain.model.ProductStatus;
 import com.medthegprod.backend.catalog.domain.model.ProductType;
 
 import java.math.BigDecimal;
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -16,6 +17,7 @@ public record ProductResponse(
                 BigDecimal price,
                 String currency,
                 ProductStatus status,
+                OffsetDateTime updatedAt,
                 Set<com.medthegprod.backend.catalog.domain.model.ProductCategory> categories,
                 UUID coverAssetId,
                 UUID previewAssetId,

@@ -4,6 +4,9 @@ import type {
   ProductCategory,
   ProductDto,
   ProductType,
+  AdminProductQuery,
+  ProductPageDto,
+  PreviewUrlDto,
 } from "./dto";
 
 export type ProductInput = {
@@ -16,6 +19,19 @@ export type ProductInput = {
 
 export function getAdminProduct(productId: string) {
   return apiRequest<ProductDto>(`/products/admin/${productId}`);
+}
+
+export function getAdminProducts(query: AdminProductQuery) {
+  const params = new URLSearchParams();
+  for (const [key, value] of Object.entries(query)) {
+    if (value !== undefined && value !== "") params.set(key, String(value));
+  }
+  return apiRequest<ProductPageDto>(`/products/admin?${params.toString()}`);
+}
+
+export function getAdminAssetPreview(productId: string, assetId: string, type: "IMAGE" | "AUDIO_PREVIEW") {
+  const params = new URLSearchParams({ type });
+  return apiRequest<PreviewUrlDto>(`/products/admin/${productId}/assets/${assetId}/preview?${params.toString()}`);
 }
 
 export function createProduct(input: ProductInput) {

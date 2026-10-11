@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { createBrowserRouter, createRoutesFromElements, Route } from "react-router-dom";
 import { AppShell } from "../layout/AppShell";
 import { HomePage } from "../pages/HomePage";
 import { CatalogPage } from "../pages/CatalogPage";
@@ -19,9 +19,8 @@ import { AdminEditProductPage } from "../pages/AdminEditProductPage";
 import { OrderDetailPage } from "../pages/OrderDetailPage";
 import { LibraryProductPage } from "../pages/LibraryProductPage";
 
-export function AppRoutes() {
-  return (
-    <Routes>
+export const appRouter = createBrowserRouter(
+  createRoutesFromElements(
       <Route element={<AppShell />}>
         <Route index element={<HomePage />} />
         <Route path="beats" element={<CatalogPage category="BEATS" />} />
@@ -130,6 +129,5 @@ export function AppRoutes() {
         />
         <Route path="*" element={<NotFoundPage />} />
       </Route>
-    </Routes>
-  );
-}
+  ),
+);

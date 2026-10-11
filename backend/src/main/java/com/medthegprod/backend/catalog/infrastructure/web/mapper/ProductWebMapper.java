@@ -40,6 +40,7 @@ public final class ProductWebMapper {
                                 product.getPrice().amount(),
                                 product.getPrice().currency().getCurrencyCode(),
                                 product.getStatus(),
+                                product.getUpdatedAt(),
                                 product.getCategories(),
                                 coverAssetId,
                                 previewAssetId,

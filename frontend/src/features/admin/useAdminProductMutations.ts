@@ -16,6 +16,7 @@ function useInvalidateProductData(productId?: string) {
   return async () => {
     const invalidations = [
       queryClient.invalidateQueries({ queryKey: queryKeys.productsRoot }),
+      queryClient.invalidateQueries({ queryKey: queryKeys.adminProductsListRoot }),
     ];
     if (productId) {
       invalidations.push(
@@ -33,6 +34,7 @@ export function useAdminProductMutations(productId?: string) {
   return {
     create: useMutation({
       mutationFn: (input: ProductInput) => createProduct(input),
+      onSuccess: invalidate,
     }),
     update: useMutation({
       mutationFn: (input: ProductInput) =>

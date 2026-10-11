@@ -10,11 +10,25 @@ Catalog persistence stores products, categories, and typed digital assets in Pos
 
 The product API exposes categories and safe asset references. Cover images use the `IMAGE` asset type and preview audio uses `AUDIO_PREVIEW`. Public product responses do not expose storage keys. A published preview can be requested through a short-lived presigned URL; purchased assets remain behind the authenticated Library entitlement check.
 
+The Production Desk now uses the separate `GET /api/products/admin` endpoint
+to browse DRAFT, PUBLISHED, and ARCHIVED products with bounded pagination,
+search, status/type filters, and update/title/price sorting. Product responses
+include the persisted update timestamp. Admin-only preview signing supports
+IMAGE and AUDIO_PREVIEW on draft products while retaining asset ownership and
+type checks. The frontend editor changes title, description, price (EUR), and
+categories; type remains fixed after creation. Asset upload and asset-reference
+removal use the existing catalog operations.
+
 ## Purchase Boundary
 
 Sales creates orders and Stripe Checkout sessions. Stripe webhook signatures are verified before processing. A paid `checkout.session.completed` event completes the payment and order idempotently, then publishes `OrderPaidEvent`. Entitlement consumes that event in `AFTER_COMMIT` handling and grants a unique customer/product entitlement.
 
 The frontend success redirect is informational only. Backend payment and order state is authoritative.
+
+The admin UI was verified by frontend lint/build and the focused catalog
+integration suite. A full browser walkthrough of admin workflows was not
+performed as part of those checks. The current change does not verify or claim
+the complete hosted Stripe payment lifecycle.
 
 ## Access and Security
 

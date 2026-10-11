@@ -1,6 +1,7 @@
 package com.medthegprod.backend.catalog.infrastructure.persistence;
 
 import com.medthegprod.backend.catalog.application.query.ProductSearchQuery;
+import com.medthegprod.backend.catalog.application.query.AdminProductSearchQuery;
 import com.medthegprod.backend.catalog.domain.model.Product;
 import com.medthegprod.backend.catalog.domain.model.ProductId;
 import com.medthegprod.backend.catalog.domain.repository.ProductPage;
@@ -114,6 +115,31 @@ public class ProductPersistenceAdapter implements ProductRepository {
                                 result.getTotalPages());
         }
 
+        @Override
+        public ProductPage findAdminAll(AdminProductSearchQuery query) {
+                Pageable pageable = PageRequest.of(
+                                query.page(), query.size(), buildAdminSort(query));
+                Specification<ProductEntity> specification =
+                                (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.conjunction();
+
+                if (query.status() != null) {
+                        specification = specification.and(ProductSpecifications.hasStatus(
+                                        ProductStatusEntity.valueOf(query.status().name())));
+                }
+                if (query.type() != null) {
+                        specification = specification.and(ProductSpecifications.hasType(
+                                        ProductTypeEntity.valueOf(query.type().name())));
+                }
+                if (query.search() != null && !query.search().isBlank()) {
+                        specification = specification.and(ProductSpecifications.containsText(query.search()));
+                }
+
+                Page<ProductEntity> result = productJpaRepository.findAll(specification, pageable);
+                return new ProductPage(
+                                result.getContent().stream().map(ProductMapper::toDomain).toList(),
+                                result.getNumber(), result.getSize(), result.getTotalElements(), result.getTotalPages());
+        }
+
         private Sort buildSort(ProductSearchQuery query) {
 
                 String property = switch (query.sortBy()) {
@@ -128,6 +154,19 @@ public class ProductPersistenceAdapter implements ProductRepository {
                                 : Sort.Direction.ASC;
 
                 return Sort.by(direction, property);
+        }
+
+        private Sort buildAdminSort(AdminProductSearchQuery query) {
+                String property = switch (query.sortBy()) {
+                        case "price" -> "price";
+                        case "title" -> "title";
+                        case "updatedAt" -> "updatedAt";
+                        default -> "updatedAt";
+                };
+                Sort.Direction direction = "asc".equalsIgnoreCase(query.direction())
+                                ? Sort.Direction.ASC
+                                : Sort.Direction.DESC;
+                return Sort.by(direction, property).and(Sort.by(Sort.Direction.ASC, "id"));
         }
 
         @Override

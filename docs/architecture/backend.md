@@ -62,7 +62,9 @@ The REST API currently covers:
 
 - `/api/auth/register` and `/api/auth/login`
 - `/api/products` and product asset operations
+- `/api/products/admin` for paginated admin catalog search across all statuses
 - `/api/products/admin/{id}` for administrator lifecycle reads
+- `/api/products/admin/{productId}/assets/{assetId}/preview` for admin-only temporary IMAGE/AUDIO_PREVIEW URLs
 - `/api/products/{productId}/assets/{assetId}/preview` for expiring previews
 - `/api/orders` and payment-session creation
 - `/api/webhooks/stripe`
